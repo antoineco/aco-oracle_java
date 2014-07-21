@@ -34,9 +34,9 @@ class oracle_java ($version = '8', $type = 'jre') {
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u5'
+    $version_real = '8u11'
   } elsif $version == '7' {
-    $version_real = '7u60'
+    $version_real = '7u65'
   } else {
     $version_real = $version
   }
@@ -50,6 +50,7 @@ class oracle_java ($version = '8', $type = 'jre') {
   case $maj_version {
     8       : {
       case $min_version {
+        '11'    : { $build = '-b12' }
         '5'     : { $build = '-b13' }
         '0'     : { $build = '-b132' }
         default : { fail("Unexisting update number ${min_version}") }
@@ -57,6 +58,7 @@ class oracle_java ($version = '8', $type = 'jre') {
     }
     7       : {
       case $min_version {
+        '65'    : { $build = '-b17' }
         '60'    : { $build = '-b19' }
         '55'    : { $build = '-b13' }
         '51'    : { $build = '-b13' }

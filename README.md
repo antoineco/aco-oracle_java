@@ -12,11 +12,11 @@
 
 ##Overview
 
-The oracle_java module allows you to install the Oracle JRE or JDK of your choice from the official RPM archives provided by Oracle. It is especially intended for systems which do not need to have several Java versions installed in parallel.
+The oracle_java module allows you to install the Oracle JRE or JDK of your choice from the official RPM archives provided by Oracle.
 
 ##Module description
 
-Oracle provides a RPM version of both its JRE and JDK for every Java release. These packages are available from the [Oracle Java Archive](http://www.oracle.com/technetwork/java/archive-139210.html). This module simply downloads the desired Java version and installs it on the target system.
+Oracle provides a RPM version of both its JRE and JDK for every Java release. These packages are available from the [Oracle Java Archive](http://www.oracle.com/technetwork/java/archive-139210.html). This module simply downloads the desired Java version and installs it on the target system. It is especially intended for systems which do not need to have several Java versions installed in parallel and for users looking for an easy way to update their Java environment.
 
 ##Setup
 
@@ -84,7 +84,7 @@ What envionment type to install. Valid values are 'jre' and 'jdk'. Defaults to '
 
 This module relies almost entirely on all the nice information found on [Ivan Dyedov's Blog](https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/)
 
-##To DO
+##To Do
 
 * Allow the manipulation of Java related environment variables
 * Propose an alternative based on tar.gz archives, also available from Oracle's archives
