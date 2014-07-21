@@ -37,6 +37,8 @@ class oracle_java ($version = '8', $type = 'jre') {
     $version_real = '8u11'
   } elsif $version == '7' {
     $version_real = '7u65'
+  } elsif $version == '6' {
+    $version_real = '6u45'
   } else {
     $version_real = $version
   }
@@ -79,6 +81,50 @@ class oracle_java ($version = '8', $type = 'jre') {
         '3'     : { $build = '-b04' }
         '2'     : { $build = '-b13' }
         '1'     : { $build = '-b08' }
+        '0'     : { $build = '' }
+        default : { fail("Unexisting update number ${min_version}") }
+      }
+    }
+    6       : {
+      case $min_version {
+        '45'    : { $build = '-b06' }
+        '43'    : { $build = '-b01' }
+        '41'    : { $build = '-b02' }
+        '39'    : { $build = '-b04' }
+        '38'    : { $build = '-b05' }
+        '37'    : { $build = '-b06' }
+        '35'    : { $build = '-b10' }
+        '34'    : { $build = '-b04' }
+        '33'    : { $build = '-b04' }
+        '32'    : { $build = '-b05' }
+        '31'    : { $build = '-b04' }
+        '30'    : { $build = '-b12' }
+        '29'    : { $build = '-b11' }
+        '27'    : { $build = '-b07' }
+        '26'    : { $build = '-b03' }
+        '25'    : { $build = '-b06' }
+        '24'    : { $build = '-b07' }
+        '23'    : { $build = '-b05' }
+        '22'    : { $build = '-b04' }
+        '21'    : { $build = '-b07' }
+        '20'    : { $build = '-b02' }
+        '19'    : { $build = '-b04' }
+        '18'    : { $build = '-b07' }
+        '17'    : { $build = '-b04' }
+        '16'    : { $build = '-b01' }
+        '15'    : { $build = '-b03' }
+        '14'    : { $build = '-b08' }
+        '13'    : { $build = '-b03' }
+        '12'    : { $build = '-b04' }
+        '11'    : { $build = '-b03' }
+        '10'    : { $build = '' }
+        '7'     : { $build = '' }
+        '6'     : { $build = '' }
+        '5'     : { $build = 'b' }
+        '4'     : { $build = '-b12' }
+        '3'     : { $build = '' }
+        '2'     : { $build = '' }
+        '1'     : { $build = '' }
         '0'     : { $build = '' }
         default : { fail("Unexisting update number ${min_version}") }
       }

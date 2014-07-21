@@ -1,5 +1,5 @@
 name    'aco-oracle_java'
-version '1.0.1'
+version '1.0.2'
 source 'git://github.com/tOnI0/aco-oracle_java.git'
 author 'Antoine Cotten'
 license 'Apache License, Version 2.0'
