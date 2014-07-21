@@ -138,8 +138,16 @@ class oracle_java ($version = '8', $type = 'jre') {
   $version_final = delete($version_real, 'u0')
 
   # define installer filename and download URL
-  $filename = "${type}-${version_final}-linux-${arch}.rpm"
+  $filename = $maj_version ? {
+    '6'     => "${type}-${version_final}-linux-${arch}-rpm.bin",
+    default => "${type}-${version_final}-linux-${arch}.rpm"
+  }
   $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build}/${filename}"
+
+  # required packages
+  if !defined(Package['wget']) {
+    package { 'wget': ensure => present }
+  }
 
   # make sure install/download directory exists
   file { '/usr/java':
@@ -154,12 +162,52 @@ class oracle_java ($version = '8', $type = 'jre') {
     cwd     => '/usr/java',
     creates => "/usr/java/${filename}",
     command => "wget --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie\" \"${downloadurl}\"",
-    timeout => 0
-  } ->
+    timeout => 0,
+    require => Package['wget']
+  }
+
   # install package
-  package { $type:
-    ensure   => latest,
-    source   => "/usr/java/${filename}",
-    provider => rpm
+  if $maj_version >= 7 {
+    package { $type:
+      ensure   => latest,
+      source   => "/usr/java/${filename}",
+      provider => rpm,
+      require  => Exec['downloadRPM']
+    }
+  }
+  # the procedure is a bit more complicated for older versions...
+  # RPM files are packaged into a BIN archive which needs to be extracted
+   else {
+    # sed is required
+    if !defined(Package['sed']) {
+      package { 'sed': ensure => present }
+    }
+
+    # translate system architecture one more time
+    $arch_final = $::architecture ? {
+      'x86_64' => 'amd64',
+      default  => $arch
+    }
+    # the extracted file includes the 'new' arch string
+    $filename_extract = "${type}-${version_final}-linux-${arch_final}.rpm"
+
+    exec { 'unpackRPM':
+      path    => '/bin',
+      cwd     => '/usr/java',
+      creates => "/usr/java/${filename_extract}",
+      command => "sed -ni '/exit 0/,\${//!p}' ${filename}; chmod +x ${filename}; ./${filename}",
+      require => [Package['sed'], Exec['downloadRPM']]
+    } ->
+    package { $type:
+      ensure   => latest,
+      source   => "/usr/java/${filename_extract}",
+      provider => rpm
+    } ~>
+    exec { 'cleanupRPM':
+      path        => '/bin',
+      cwd         => '/usr/java',
+      refreshonly => true,
+      command     => 'rm -f sun-javadb-*.rpm'
+    }
   }
 }

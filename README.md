@@ -77,7 +77,7 @@ What envionment type to install. Valid values are 'jre' and 'jdk'. Defaults to '
 
 ##Limitations
 
-* 2 different versions of Oracle Java can not cohabit on the same system when installed from RPM. Each new version will override the previous one.
+* 2 different releases of the same Java series can not cohabit on the same system when installed from RPM. Each new version will override the previous one.
 * Works only on [RPM-based distributions](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RPM-based)
 
 ##Credits
