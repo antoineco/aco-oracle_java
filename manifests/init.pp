@@ -16,6 +16,7 @@
 # === Requires
 #
 # - puppetlabs/stdlib module
+# - 'wget' and 'sed' packages
 #
 # === Sample Usage:
 #
@@ -25,12 +26,9 @@
 # }
 #
 class oracle_java ($version = '8', $type = 'jre') {
-  # translate system architecture to expected value
-  case $::architecture {
-    'x86_64' : { $arch = 'x64' }
-    'x86'    : { $arch = 'i586' }
-    default  : { fail("Unsupported architecture ${arch}") }
-  }
+  # parameters validation
+  validate_re($version, '^([0-9]|[0-9]u[0-9][0-9])$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
+  validate_re($type, '^(jre|jdk)$', '$type must be either \'jre\' or \'jdk\'')
 
   # set to latest release if no minor version was provided
   if $version == '8' {
@@ -55,7 +53,7 @@ class oracle_java ($version = '8', $type = 'jre') {
         '11'    : { $build = '-b12' }
         '5'     : { $build = '-b13' }
         '0'     : { $build = '-b132' }
-        default : { fail("Unexisting update number ${min_version}") }
+        default : { fail("Unexisting Java SE ${maj_version} update number ${min_version}") }
       }
     }
     7       : {
@@ -82,7 +80,7 @@ class oracle_java ($version = '8', $type = 'jre') {
         '2'     : { $build = '-b13' }
         '1'     : { $build = '-b08' }
         '0'     : { $build = '' }
-        default : { fail("Unexisting update number ${min_version}") }
+        default : { fail("Unexisting Java SE ${maj_version} update number ${min_version}") }
       }
     }
     6       : {
@@ -126,16 +124,23 @@ class oracle_java ($version = '8', $type = 'jre') {
         '2'     : { $build = '' }
         '1'     : { $build = '' }
         '0'     : { $build = '' }
-        default : { fail("Unexisting update number ${min_version}") }
+        default : { fail("Unexisting Java SE ${maj_version} update number ${min_version}") }
       }
     }
     default : {
-      fail("Unsupported or unexisting version ${version}")
+      fail("oracle_java module does not support Java SE version ${maj_version} (yet)")
     }
   }
 
   # remove extra particle if minor version is 0
   $version_final = delete($version_real, 'u0')
+
+  # translate system architecture to expected value
+  case $::architecture {
+    'x86_64' : { $arch = 'x64' }
+    'x86'    : { $arch = 'i586' }
+    default  : { fail("oracle_java does not support architecture ${arch} (yet)") }
+  }
 
   # define installer filename and download URL
   $filename = $maj_version ? {
@@ -143,11 +148,6 @@ class oracle_java ($version = '8', $type = 'jre') {
     default => "${type}-${version_final}-linux-${arch}.rpm"
   }
   $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build}/${filename}"
-
-  # required packages
-  if !defined(Package['wget']) {
-    package { 'wget': ensure => present }
-  }
 
   # make sure install/download directory exists
   file { '/usr/java':
@@ -177,17 +177,13 @@ class oracle_java ($version = '8', $type = 'jre') {
   }
   # the procedure is a bit more complicated for older versions...
   # RPM files are packaged into a BIN archive which needs to be extracted
-   else {
-    # sed is required
-    if !defined(Package['sed']) {
-      package { 'sed': ensure => present }
-    }
-
+  else {
     # translate system architecture one more time
     $arch_final = $::architecture ? {
       'x86_64' => 'amd64',
       default  => $arch
     }
+
     # the extracted file includes the 'new' arch string
     $filename_extract = "${type}-${version_final}-linux-${arch_final}.rpm"
 
@@ -197,17 +193,28 @@ class oracle_java ($version = '8', $type = 'jre') {
       creates => "/usr/java/${filename_extract}",
       command => "sed -ni '/exit 0/,\${//!p}' ${filename}; chmod +x ${filename}; ./${filename}",
       require => [Package['sed'], Exec['downloadRPM']]
-    } ->
-    package { $type:
-      ensure   => latest,
-      source   => "/usr/java/${filename_extract}",
-      provider => rpm
     } ~>
+    # remove undesired extra RPMs
     exec { 'cleanupRPM':
       path        => '/bin',
       cwd         => '/usr/java',
       refreshonly => true,
       command     => 'rm -f sun-javadb-*.rpm'
+    } ->
+    package { $type:
+      ensure   => latest,
+      source   => "/usr/java/${filename_extract}",
+      provider => rpm
+    }
+  }
+  
+  # define required packages, they are be required by exec resources
+  if !defined(Package['wget']) {
+    package { 'wget': ensure => present }
+  }
+  if $maj_version < 7 {
+    if !defined(Package['sed']) {
+      package { 'sed': ensure => present }
     }
   }
 }
