@@ -1,0 +1,16 @@
+{
+  "author": "Antoine Cotten",
+  "license": "Apache License, Version 2.0",
+  "name": "aco-oracle_java",
+  "project_page": "https://github.com/tOnI0/aco-oracle_java",
+  "source": "git://github.com/tOnI0/aco-oracle_java.git",
+  "summary": "Puppet module to install Oracle Java on RPM-based Linux systems",
+  "version": "1.1.1",
+  "tags": ["rpm","jre","jdk","oracle","java"],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    }
+  ]
+}
