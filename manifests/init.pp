@@ -1,29 +1,29 @@
-# === Class: oracle_java
+# == Class: oracle_java
 #
 # This module installs Oracle Java from official RPM packages
 #
-# == Parameters
+# === Parameters:
 #
-# $version:
+# [*version*]
 #   Java SE version to install (valid format: 'major'u'minor' or just 'major')
-# $type:
+# [*type*]
 #   envionment type to install (valid: 'jre'|'jdk')
 #
-# === Actions
+# === Actions:
 #
 # - Install Oracle jre/jdk
 #
-# === Requires
+# === Requires:
 #
-# - puppetlabs/stdlib module
-# - 'wget' and 'sed' packages
+# * puppetlabs/stdlib module
+# * 'wget' and 'sed' packages
 #
 # === Sample Usage:
 #
-# class { '::oracle_java':
-#   version => '8u5',
-#   type    => 'jdk'
-# }
+#  class { '::oracle_java':
+#    version => '8u5',
+#    type    => 'jdk'
+#  }
 #
 class oracle_java ($version = '8', $type = 'jre') {
   # parameters validation

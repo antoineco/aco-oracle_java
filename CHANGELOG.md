@@ -1,3 +1,7 @@
+###1.1.2
+
+* Make Puppet Doc compliant with RDoc markup language
+
 ###1.1.1
 
 * Add parameters validation
