@@ -12,5 +12,56 @@
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 3.2.0"
     }
+  ],
+  "requirements": [
+    {
+      "version_requirement": ">= 3.0.0",
+      "name": "pe"
+    },
+    {
+      "version_requirement": ">= 2.7.0",
+      "name": "puppet"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat"
+    },
+    {
+      "operatingsystem": "CentOS"
+    },
+    {
+      "operatingsystem": "OracleLinux"
+    },
+    {
+      "operatingsystem": "Scientific"
+    },
+    {
+      "operatingsystem": "Amazon"
+    },
+    {
+      "operatingsystem": "Fedora"
+    },
+    {
+      "operatingsystem": "SuSE"
+    },
+    {
+      "operatingsystem": "OpenSuSE"
+    },
+    {
+      "operatingsystem": "SLES"
+    },
+    {
+      "operatingsystem": "SLED"
+    },
+    {
+      "operatingsystem": "Mageia"
+    },
+    {
+      "operatingsystem": "Mandriva"
+    },
+    {
+      "operatingsystem": "Mandrake"
+    }
   ]
 }
