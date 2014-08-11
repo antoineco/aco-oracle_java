@@ -1,5 +1,6 @@
 ###1.1.2
 
+* Add support for Java '7u67'
 * Make Puppet Doc compliant with RDoc markup language
 
 ###1.1.1

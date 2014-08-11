@@ -34,7 +34,7 @@ class oracle_java ($version = '8', $type = 'jre') {
   if $version == '8' {
     $version_real = '8u11'
   } elsif $version == '7' {
-    $version_real = '7u65'
+    $version_real = '7u67'
   } elsif $version == '6' {
     $version_real = '6u45'
   } else {
@@ -58,6 +58,7 @@ class oracle_java ($version = '8', $type = 'jre') {
     }
     7       : {
       case $min_version {
+        '67'    : { $build = '-b01' }
         '65'    : { $build = '-b17' }
         '60'    : { $build = '-b19' }
         '55'    : { $build = '-b13' }
