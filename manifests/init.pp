@@ -32,7 +32,7 @@ class oracle_java ($version = '8', $type = 'jre') {
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u11'
+    $version_real = '8u20'
   } elsif $version == '7' {
     $version_real = '7u67'
   } elsif $version == '6' {
@@ -50,6 +50,7 @@ class oracle_java ($version = '8', $type = 'jre') {
   case $maj_version {
     8       : {
       case $min_version {
+        '20'    : { $build = '-b26' }
         '11'    : { $build = '-b12' }
         '5'     : { $build = '-b13' }
         '0'     : { $build = '-b132' }

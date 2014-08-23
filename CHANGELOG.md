@@ -1,3 +1,7 @@
+###1.1.3
+
+* Add support for Java '8u20'
+
 ###1.1.2
 
 * Add support for Java '7u67'
