@@ -173,7 +173,7 @@ class oracle_java ($version = '8', $type = 'jre') {
     timeout => 0,
     require => Package['wget']
   }
-  
+
   # install package
   if $maj_version >= 7 {
     package { $packagename:
@@ -215,7 +215,7 @@ class oracle_java ($version = '8', $type = 'jre') {
       provider => rpm
     }
   }
-  
+
   # define required packages, they are be required by exec resources
   if !defined(Package['wget']) {
     package { 'wget': ensure => present }
