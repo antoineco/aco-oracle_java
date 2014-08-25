@@ -151,6 +151,12 @@ class oracle_java ($version = '8', $type = 'jre') {
   }
   $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build}/${filename}"
 
+  # define package name
+  $packagename = $version_real ? {
+    '8u20'  => "${type}1.${maj_version}.0_${min_version}",
+    default => $type
+  }
+
   # make sure install/download directory exists
   file { '/usr/java':
     ensure => directory,
@@ -159,7 +165,7 @@ class oracle_java ($version = '8', $type = 'jre') {
     group  => 'root'
   } ->
   # download RPM
-  exec { 'downloadRPM':
+  exec { 'download java RPM':
     path    => '/usr/bin',
     cwd     => '/usr/java',
     creates => "/usr/java/${filename}",
@@ -167,14 +173,14 @@ class oracle_java ($version = '8', $type = 'jre') {
     timeout => 0,
     require => Package['wget']
   }
-
+  
   # install package
   if $maj_version >= 7 {
-    package { $type:
+    package { $packagename:
       ensure   => latest,
       source   => "/usr/java/${filename}",
       provider => rpm,
-      require  => Exec['downloadRPM']
+      require  => Exec['download java RPM']
     }
   }
   # the procedure is a bit more complicated for older versions...
@@ -189,21 +195,21 @@ class oracle_java ($version = '8', $type = 'jre') {
     # the extracted file includes the 'new' arch string
     $filename_extract = "${type}-${version_final}-linux-${arch_final}.rpm"
 
-    exec { 'unpackRPM':
+    exec { 'unpack java RPM':
       path    => '/bin',
       cwd     => '/usr/java',
       creates => "/usr/java/${filename_extract}",
       command => "sed -ni '/exit 0/,\${//!p}' ${filename}; chmod +x ${filename}; ./${filename}",
-      require => [Package['sed'], Exec['downloadRPM']]
+      require => [Package['sed'], Exec['download java RPM']]
     } ~>
     # remove undesired extra RPMs
-    exec { 'cleanupRPM':
+    exec { 'cleanup java RPM':
       path        => '/bin',
       cwd         => '/usr/java',
       refreshonly => true,
       command     => 'rm -f sun-javadb-*.rpm'
     } ->
-    package { $type:
+    package { $packagename:
       ensure   => latest,
       source   => "/usr/java/${filename_extract}",
       provider => rpm

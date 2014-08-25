@@ -1,3 +1,8 @@
+###1.1.4
+
+* Fix bug in package name for Java 8u20
+* Renamed exec resources to something less generic (avoid conflicts)
+
 ###1.1.3
 
 * Add support for Java '8u20'
