@@ -5,7 +5,7 @@
   "project_page": "https://github.com/tOnI0/aco-oracle_java",
   "source": "git://github.com/tOnI0/aco-oracle_java.git",
   "summary": "Puppet module to install Oracle Java on RPM-based Linux systems",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "tags": ["rpm","jre","jdk","oracle","java"],
   "dependencies": [
     {

@@ -82,16 +82,16 @@ What envionment type to install. Valid values are 'jre' and 'jdk'. Defaults to '
 
 ##Limitations
 
-* 2 different releases of the same Java series can not cohabit on the same system when installed from RPM. Each new version will override the previous one.
+* Prior to Java 8u20, two different releases of the same Java series could not cohabit on the same system when installed from RPM. Each new version overrides the previous one.
 * Works only on [RPM-based distributions](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RPM-based)
 
 ##Credits
 
-This module relies almost entirely on all the nice information found on [Ivan Dyedov's Blog](https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/)
+The method used by this module to retrieve its installation packages relies on the useful information found on [Ivan Dyedov's Blog](https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/)
 
 ##To Do
 
-* Add Oracle Java as a 'java' alternative (will craft a dedicated module for that purpose)
+* Add Oracle Java as a 'java' alternative (waiting for an official release of [this module](https://github.com/adrienthebo/puppet-alternatives))
 * Allow the manipulation of Java related environment variables
 * Propose an alternative based on tar.gz archives, also available from Oracle's archives
 

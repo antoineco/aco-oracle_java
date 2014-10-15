@@ -1,3 +1,7 @@
+###1.1.5
+
+* Add support for Java '7u71', '7u72' and '8u25'
+
 ###1.1.4
 
 * Fix bug in package name for Java 8u20

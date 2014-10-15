@@ -32,9 +32,9 @@ class oracle_java ($version = '8', $type = 'jre') {
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u20'
+    $version_real = '8u25'
   } elsif $version == '7' {
-    $version_real = '7u67'
+    $version_real = '7u72'
   } elsif $version == '6' {
     $version_real = '6u45'
   } else {
@@ -50,6 +50,7 @@ class oracle_java ($version = '8', $type = 'jre') {
   case $maj_version {
     8       : {
       case $min_version {
+        '25'    : { $build = '-b17' }
         '20'    : { $build = '-b26' }
         '11'    : { $build = '-b12' }
         '5'     : { $build = '-b13' }
@@ -59,6 +60,8 @@ class oracle_java ($version = '8', $type = 'jre') {
     }
     7       : {
       case $min_version {
+        '72'    : { $build = '-b14' }
+        '71'    : { $build = '-b14' }
         '67'    : { $build = '-b01' }
         '65'    : { $build = '-b17' }
         '60'    : { $build = '-b19' }
@@ -152,9 +155,11 @@ class oracle_java ($version = '8', $type = 'jre') {
   $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build}/${filename}"
 
   # define package name
-  $packagename = $version_real ? {
-    '8u20'  => "${type}1.${maj_version}.0_${min_version}",
-    default => $type
+  if $maj_version == '8' and $min_version >= '20' {
+    $packagename = "${type}1.${maj_version}.0_${min_version}" 
+  }
+  else {
+    $packagename = $type
   }
 
   # make sure install/download directory exists
