@@ -1,3 +1,9 @@
+###2.0.0
+
+* Major refactoring
+* Use nanliu/archive for download and extraction
+* Minor fixes 
+
 ###1.1.5
 
 * Add support for Java '7u71', '7u72' and '8u25'

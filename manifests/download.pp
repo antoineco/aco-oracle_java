@@ -5,9 +5,11 @@ class oracle_java::download {
     fail('You must include the oracle_java base class before using any oracle_java sub class')
   }
 
-  # define packages required by the exec resources
-  if !defined(Package['wget']) {
-    package { 'wget': ensure => present }
+  include ::archive
+
+  $require_extraction = $oracle_java::type ? {
+    'tar.gz' => true,
+    default  => false
   }
 
   # make sure install/download directory exists
@@ -17,13 +19,15 @@ class oracle_java::download {
     owner  => 'root',
     group  => 'root'
   } ->
-  # download RPM
-  exec { 'download java RPM':
-    path    => '/usr/bin',
-    cwd     => '/usr/java',
-    creates => "/usr/java/${oracle_java::filename}",
-    command => "wget --no-cookies --no-check-certificate --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${oracle_java::downloadurl}\"",
-    timeout => 0, # Oracle's servers can sometimes be (very) slow
-    require => Package['wget']
+  # download archive
+  archive { 'java archive':
+    ensure       => present,
+    path         => '/usr/java',
+    cookie       => "oraclelicense=accept-securebackup-cookie",
+    source       => $oracle_java::downloadurl,
+    extract      => $require_extraction,
+    extract_path => '/usr/java',
+    creates      => "/usr/java/${oracle_java::longversion}",
+    cleanup      => true,
   }
 }

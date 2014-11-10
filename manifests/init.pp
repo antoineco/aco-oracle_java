@@ -8,6 +8,8 @@
 #   Java SE version to install (valid format: 'major'u'minor' or just 'major')
 # [*type*]
 #   envionment type to install (valid: 'jre'|'jdk')
+# [*format*]
+#   archive format (valid: 'rpm'|'tar.gz')
 #
 # === Actions:
 #
@@ -16,19 +18,22 @@
 # === Requires:
 #
 # * puppetlabs/stdlib module
-# * 'wget' and 'sed' packages
+# * nanliu/archive module
+# * 'sed' package
 #
 # === Sample Usage:
 #
 #  class { '::oracle_java':
 #    version => '8u5',
-#    type    => 'jdk'
+#    type    => 'jdk',
+#    format  => 'rpm'
 #  }
 #
-class oracle_java ($version = '8', $type = 'jre') {
+class oracle_java ($version = '8', $type = 'jre', $format = 'rpm') {
   # parameters validation
   validate_re($version, '^([0-9]|[0-9]u[0-9]{1,2})$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
   validate_re($type, '^(jre|jdk)$', '$type must be either \'jre\' or \'jdk\'')
+  validate_re($format, '^(rpm|tar.gz)$', '$format must be either \'rpm\' or \'tar.gz\'')
 
   # set to latest release if no minor version was provided
   if $version == '8' {
@@ -139,6 +144,10 @@ class oracle_java ($version = '8', $type = 'jre') {
 
   # remove extra particle if minor version is 0
   $version_final = delete($version_real, 'u0')
+  $longversion = $min_version ? {
+    '0'     => "${type}1.${maj_version}.0",
+    default => "${type}1.${maj_version}.0_${min_version}"
+  }
 
   # translate system architecture to expected value
   case $::architecture {
@@ -163,6 +172,7 @@ class oracle_java ($version = '8', $type = 'jre') {
     default => "${type}-${version_final}-linux-${arch}.rpm"
   }
   $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build}/${filename}"
+
   # used for installing Java 6
   # translate system architecture one more time
   $arch_extracted = $::architecture ? {
@@ -173,7 +183,7 @@ class oracle_java ($version = '8', $type = 'jre') {
 
   # define package name
   if $maj_version == '8' and $min_version >= '20' {
-    $packagename = "${type}1.${maj_version}.0_${min_version}"
+    $packagename = $longversion
   } else {
     $packagename = $type
   }
