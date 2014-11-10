@@ -5,9 +5,11 @@ class oracle_java::download {
     fail('You must include the oracle_java base class before using any oracle_java sub class')
   }
 
-  include ::archive
+  if !defined(Class['archive']) {
+    include archive
+  }
 
-  $require_extraction = $oracle_java::type ? {
+  $require_extraction = $oracle_java::format ? {
     'tar.gz' => true,
     default  => false
   }
@@ -28,6 +30,6 @@ class oracle_java::download {
     extract      => $require_extraction,
     extract_path => '/usr/java',
     creates      => "/usr/java/${oracle_java::longversion}",
-    cleanup      => true,
+    cleanup      => true
   }
 }

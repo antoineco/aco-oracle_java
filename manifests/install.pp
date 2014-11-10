@@ -17,8 +17,7 @@ class oracle_java::install {
     package { $oracle_java::packagename:
       ensure   => latest,
       source   => "/usr/java/${oracle_java::filename}",
-      provider => rpm,
-      require  => Exec['download java RPM']
+      provider => rpm
     }
   }
   # the procedure is a bit more complicated for Java 6...
@@ -29,7 +28,7 @@ class oracle_java::install {
       cwd     => '/usr/java',
       creates => "/usr/java/${oracle_java::filename_extracted}",
       command => "sed -ni '/exit 0/,\${//!p}' ${oracle_java::filename}; chmod +x ${oracle_java::filename}; ./${oracle_java::filename}",
-      require => [Package['sed'], Exec['download java RPM']]
+      require => Package['sed']
     } ~>
     # remove undesired extra RPMs
     exec { 'cleanup java RPM':

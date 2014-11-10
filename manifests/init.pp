@@ -190,4 +190,5 @@ class oracle_java ($version = '8', $type = 'jre', $format = 'rpm') {
 
   include oracle_java::download
   include oracle_java::install
+  Class['oracle_java::download'] -> Class['oracle_java::install']
 }
