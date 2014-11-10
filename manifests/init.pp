@@ -27,7 +27,7 @@
 #
 class oracle_java ($version = '8', $type = 'jre') {
   # parameters validation
-  validate_re($version, '^([0-9]|[0-9]u[0-9][0-9])$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
+  validate_re($version, '^([0-9]|[0-9]u[0-9]{1,2})$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
   validate_re($type, '^(jre|jdk)$', '$type must be either \'jre\' or \'jdk\'')
 
   # set to latest release if no minor version was provided
@@ -142,9 +142,19 @@ class oracle_java ($version = '8', $type = 'jre') {
 
   # translate system architecture to expected value
   case $::architecture {
-    'x86_64' : { $arch = 'x64' }
-    'x86'    : { $arch = 'i586' }
-    default  : { fail("oracle_java does not support architecture ${arch} (yet)") }
+    'x86_64' : {
+      if $maj_version == '6' and $min_version < '4' {
+        $arch = 'amd64'
+      } else {
+        $arch = 'x64'
+      }
+    }
+    'x86'    : {
+      $arch = 'i586'
+    }
+    default  : {
+      fail("oracle_java does not support architecture ${arch} (yet)")
+    }
   }
 
   # define installer filename and download URL
@@ -153,81 +163,21 @@ class oracle_java ($version = '8', $type = 'jre') {
     default => "${type}-${version_final}-linux-${arch}.rpm"
   }
   $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build}/${filename}"
+  # used for installing Java 6
+  # translate system architecture one more time
+  $arch_extracted = $::architecture ? {
+    'x86_64' => 'amd64',
+    default  => $arch
+  }
+  $filename_extracted = "${type}-${version_final}-linux-${arch_extracted}.rpm"
 
   # define package name
   if $maj_version == '8' and $min_version >= '20' {
-    $packagename = "${type}1.${maj_version}.0_${min_version}" 
-  }
-  else {
+    $packagename = "${type}1.${maj_version}.0_${min_version}"
+  } else {
     $packagename = $type
   }
 
-  # make sure install/download directory exists
-  file { '/usr/java':
-    ensure => directory,
-    mode   => '0755',
-    owner  => 'root',
-    group  => 'root'
-  } ->
-  # download RPM
-  exec { 'download java RPM':
-    path    => '/usr/bin',
-    cwd     => '/usr/java',
-    creates => "/usr/java/${filename}",
-    command => "wget --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie\" \"${downloadurl}\"",
-    timeout => 0,
-    require => Package['wget']
-  }
-
-  # install package
-  if $maj_version >= 7 {
-    package { $packagename:
-      ensure   => latest,
-      source   => "/usr/java/${filename}",
-      provider => rpm,
-      require  => Exec['download java RPM']
-    }
-  }
-  # the procedure is a bit more complicated for older versions...
-  # RPM files are packaged into a BIN archive which needs to be extracted
-  else {
-    # translate system architecture one more time
-    $arch_final = $::architecture ? {
-      'x86_64' => 'amd64',
-      default  => $arch
-    }
-
-    # the extracted file includes the 'new' arch string
-    $filename_extract = "${type}-${version_final}-linux-${arch_final}.rpm"
-
-    exec { 'unpack java RPM':
-      path    => '/bin',
-      cwd     => '/usr/java',
-      creates => "/usr/java/${filename_extract}",
-      command => "sed -ni '/exit 0/,\${//!p}' ${filename}; chmod +x ${filename}; ./${filename}",
-      require => [Package['sed'], Exec['download java RPM']]
-    } ~>
-    # remove undesired extra RPMs
-    exec { 'cleanup java RPM':
-      path        => '/bin',
-      cwd         => '/usr/java',
-      refreshonly => true,
-      command     => 'rm -f sun-javadb-*.rpm'
-    } ->
-    package { $packagename:
-      ensure   => latest,
-      source   => "/usr/java/${filename_extract}",
-      provider => rpm
-    }
-  }
-
-  # define required packages, they are be required by exec resources
-  if !defined(Package['wget']) {
-    package { 'wget': ensure => present }
-  }
-  if $maj_version < 7 {
-    if !defined(Package['sed']) {
-      package { 'sed': ensure => present }
-    }
-  }
+  include oracle_java::download
+  include oracle_java::install
 }
