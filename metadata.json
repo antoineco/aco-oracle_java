@@ -4,7 +4,7 @@
   "name": "aco-oracle_java",
   "project_page": "https://github.com/tOnI0/aco-oracle_java",
   "source": "git://github.com/tOnI0/aco-oracle_java.git",
-  "summary": "Puppet module to install Oracle Java on RPM-based Linux systems",
+  "summary": "Puppet module to install Oracle Java on Linux systems",
   "version": "2.0.0",
   "tags": ["rpm","jre","jdk","oracle","java"],
   "dependencies": [
@@ -14,49 +14,115 @@
     },
     {
       "name": "nanliu/archive",
-      "version_requirement": ">= 0.1.2"
+      "version_requirement": ">= 0.1.7"
     }
   ],
   "requirements": [
     {
-      "version_requirement": ">= 3.0.0",
+      "version_requirement": ">= 3.2.0",
       "name": "pe"
     },
     {
-      "version_requirement": ">= 2.7.0",
+      "version_requirement": ">= 3.4.0",
       "name": "puppet"
     }
   ],
   "operatingsystem_support": [
     {
-      "operatingsystem": "RedHat"
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+      	"5",
+        "6",
+        "7"
+      ]
     },
     {
-      "operatingsystem": "CentOS"
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+      	"5",
+        "6",
+        "7"
+      ]
     },
     {
-      "operatingsystem": "OracleLinux"
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+      	"5",
+        "6",
+        "7"
+      ]
     },
     {
-      "operatingsystem": "Scientific"
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+      	"5",
+        "6",
+        "7"
+      ]
     },
     {
-      "operatingsystem": "Amazon"
+      "operatingsystem": "Amazon",
+      "operatingsystemrelease": [
+      	"5",
+        "6",
+        "7"
+      ]
     },
     {
-      "operatingsystem": "Fedora"
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21"
+      ]
     },
     {
-      "operatingsystem": "SuSE"
+      "operatingsystem": "SuSE",
+      "operatingsystemrelease": [
+        "11",
+        "12"
+      ]
     },
     {
-      "operatingsystem": "OpenSuSE"
+      "operatingsystem": "OpenSuSE",
+      "operatingsystemrelease": [
+        "12",
+        "13"
+      ]
     },
     {
-      "operatingsystem": "SLES"
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11",
+        "12"
+      ]
     },
     {
-      "operatingsystem": "SLED"
+      "operatingsystem": "SLED",
+      "operatingsystemrelease": [
+        "11",
+        "12"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "10.04",
+        "10.10",
+        "12.04",
+        "12.10"
+      ]
     },
     {
       "operatingsystem": "Mageia"

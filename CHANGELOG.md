@@ -1,8 +1,14 @@
 ###2.0.0
 
+* Support tar.gz format
+  * now multiplatform!
+* Dropped support for Java 6
+  * it relied on dirty hacks to work properly, and that's not the direction I want this module to take
+  * nobody uses JSE6 anymore ... right?
 * Major refactoring
+  * splitted the old bulky init class
 * Use nanliu/archive for download and extraction
-* Minor fixes 
+  * reliable module, multiplatform, well supported
 
 ###1.1.5
 

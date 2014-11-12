@@ -1,0 +1,14 @@
+# == Class: oracle_java::install::rpm
+class oracle_java::install::rpm {
+  # The base class must be included first
+  if !defined(Class['oracle_java']) {
+    fail('You must include the oracle_java base class before using any oracle_java sub class')
+  }
+
+  # install package
+  package { $oracle_java::packagename:
+    ensure   => latest,
+    source   => "/usr/java/${oracle_java::filename}",
+    provider => rpm
+  }
+}
