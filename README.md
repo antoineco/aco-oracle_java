@@ -68,6 +68,7 @@ class { '::oracle_java':
   …
   format => 'tar.gz'
 }
+```
 
 ##Usage
 
