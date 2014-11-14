@@ -10,6 +10,8 @@
 #   envionment type to install (valid: 'jre'|'jdk')
 # [*format*]
 #   archive format (valid: 'rpm'|'tar.gz')
+# [*check_checksum*]
+#   enable checksum validation on downloaded archives (boolean)
 #
 # === Actions:
 #
@@ -29,11 +31,12 @@
 #    format  => 'rpm'
 #  }
 #
-class oracle_java ($version = '8', $type = 'jre', $format = undef) {
+class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checksum = true) {
   if !$format {
-    case $::osfamily {
-      /RedHat|Suse/ : { $format_real = 'rpm' }
-      default       : { $format_real = 'tar.gz' }
+    if $::osfamily =~ /RedHat|Suse/ or $::operatingsystem == 'Mageia' {
+      $format_real = 'rpm'
+    } else {
+      $format_real = 'tar.gz'
     }
   } else {
     $format_real = $format
@@ -43,6 +46,7 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef) {
   validate_re($version, '^([0-9]|[0-9]u[0-9]{1,2})$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
   validate_re($type, '^(jre|jdk)$', '$type must be either \'jre\' or \'jdk\'')
   validate_re($format_real, '^(rpm|tar\.gz)$', '$format must be either \'rpm\' or \'tar.gz\'')
+  validate_bool($check_checksum)
 
   # set to latest release if no minor version was provided
   if $version == '8' {
@@ -52,7 +56,7 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef) {
   } else {
     $version_real = $version
   }
-  
+
   # translate system architecture to expected value
   case $::architecture {
     /x86_64|amd64/ : { $arch = 'x64' }
@@ -60,25 +64,34 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef) {
     default        : { fail("oracle_java does not support architecture ${::architecture} (yet)") }
   }
 
-  # determine build numbers, checksums, etc.
-  include oracle_java::javalist
+  # get major/minor version numbers
+  $array_version = split($version_real, 'u')
+  $maj_version = $array_version[0]
+  $min_version = $array_version[1]
 
-  # define installer filename and download URL
-  $filename = "${type}-${oracle_java::javalist::version_final}-linux-${arch}.${format_real}"
-  $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${oracle_java::javalist::version_final}${oracle_java::javalist::build}/${filename}"
+  # remove extra particle if minor version is 0
+  $version_final = delete($oracle_java::version_real, 'u0')
+  $longversion = $min_version ? {
+    '0'       => "${oracle_java::type}1.${maj_version}.0",
+    /^[0-9]$/ => "${oracle_java::type}1.${maj_version}.0_0${min_version}",
+    default   => "${oracle_java::type}1.${maj_version}.0_${min_version}"
+  }
+
+  # define installer filename
+  $filename = "${type}-${version_final}-linux-${arch}.${format_real}"
+
+  # define download URL
+  include oracle_java::javalist
+  $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${oracle_java::javalist::build}/${filename}"
 
   # define package name
-  if $oracle_java::javalist::maj_version == '8' and $oracle_java::javalist::min_version >= '20' {
-    $packagename = $oracle_java::javalist::longversion
+  if $maj_version == '8' and $min_version >= '20' {
+    $packagename = $longversion
   } else {
     $packagename = $type
   }
 
-  # include classes as required
-  if !defined(Class['archive']) {
-    include archive
-  }
-
+  # annnnd... let's go
   include oracle_java::download
   include oracle_java::install
   Class['oracle_java::download'] ~> Class['oracle_java::install']

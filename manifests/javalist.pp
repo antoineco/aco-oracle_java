@@ -1,14 +1,12 @@
 # == Class: oracle_java::javalist
+#
+# This class associates a Java version number with its build number
+#
 class oracle_java::javalist {
-  # get major/minor version numbers
-  $array_version = split($oracle_java::version_real, 'u')
-  $maj_version = $array_version[0]
-  $min_version = $array_version[1]
-
   # associate build number to release version
-  case $maj_version {
+  case $oracle_java::maj_version {
     8       : {
-      case $min_version {
+      case $oracle_java::min_version {
         '25'    : { $build = '-b17' }
         '20'    : { $build = '-b26' }
         '11'    : { $build = '-b12' }
@@ -18,7 +16,7 @@ class oracle_java::javalist {
       }
     }
     7       : {
-      case $min_version {
+      case $oracle_java::min_version {
         '72'    : { $build = '-b14' }
         '71'    : { $build = '-b14' }
         '67'    : { $build = '-b01' }
@@ -48,15 +46,7 @@ class oracle_java::javalist {
       }
     }
     default : {
-      fail("oracle_java module does not support Java SE version ${maj_version} (yet)")
+      fail("oracle_java module does not support Java SE version ${oracle_java::maj_version} (yet)")
     }
-  }
-
-  # remove extra particle if minor version is 0
-  $version_final = delete($oracle_java::version_real, 'u0')
-  $longversion = $min_version ? {
-    '0'       => "${oracle_java::type}1.${maj_version}.0",
-    /^[0-9]$/ => "${oracle_java::type}1.${maj_version}.0_0${min_version}",
-    default   => "${oracle_java::type}1.${maj_version}.0_${min_version}"
   }
 }

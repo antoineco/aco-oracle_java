@@ -1,4 +1,7 @@
 # == Class: oracle_java::install::rpm
+#
+# This class is used to install the RPM version of Java
+#
 class oracle_java::install::rpm {
   # The base class must be included first
   if !defined(Class['oracle_java']) {

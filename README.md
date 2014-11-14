@@ -20,7 +20,7 @@ This module downloads the desired Java version from Oracle's website and install
 
 Java SE archives are available from the Oracle [Java SE Downloads](http://www.oracle.com/technetwork/java/javase/downloads/index.html) and Oracle [Java Archive](http://www.oracle.com/technetwork/java/archive-139210.html) pages.
 
-This module is suitable for pretty much any Linux system. It currently supports all released versions from Java SE 7 on.
+This module is suitable for pretty much any Linux system. It currently supports all released Java SE versions from JSE 7 on.
 
 ##Setup
 
@@ -70,6 +70,15 @@ class { '::oracle_java':
 }
 ```
 
+Disable checksum validation
+
+```puppet
+class { '::oracle_java':
+  …
+  check_checksum => false
+}
+```
+
 ##Usage
 
 ####Class: `oracle_java`
@@ -92,9 +101,12 @@ What envionment type to install. Valid values are 'jre' and 'jdk'. Defaults to '
 
 What format of installation archive to retrieve. Valid values are 'rpm' and 'tar.gz'. Default depends on the platform
 
+#####`check_checksum`
+Enable checksum validation on downloaded archives. Boolean value. Defaults to 'true'
+
 ##Limitations
 
-* Prior to Java 8u20, two different releases of the same Java series could not cohabit on the same system when installed from RPM. Each new version would override the previous one. This does not happen with tar.gz archives.
+* Prior to Java 8u20, two different releases of the same Java series could not cohabit on the same system when installed from RPM. Each new version would override the previous one. This does not happen with tar.gz archives however.
 
 ##Credits
 

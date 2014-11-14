@@ -1,4 +1,7 @@
 # == Class: oracle_java::install::targz
+#
+# This class is used to extract the tar.gz version of Java
+#
 class oracle_java::install::targz {
   # The base class must be included first
   if !defined(Class['oracle_java']) {
