@@ -5,6 +5,9 @@ class oracle_java::download {
     fail('You must include the oracle_java base class before using any oracle_java sub class')
   }
 
+  # get checksums list
+  include oracle_java::checksums
+
   # make sure install/download directory exists
   file { '/usr/java':
     ensure => directory,
@@ -14,7 +17,10 @@ class oracle_java::download {
   } ->
   # download archive
   archive { "/usr/java/${oracle_java::filename}":
-    cookie  => "oraclelicense=accept-securebackup-cookie",
-    source  => $oracle_java::downloadurl
+    cookie        => "oraclelicense=accept-securebackup-cookie",
+    source        => $oracle_java::downloadurl,
+    checksum      => $oracle_java::checksums::checksum,
+    checksum_type => 'md5',
+    cleanup       => false
   }
 }

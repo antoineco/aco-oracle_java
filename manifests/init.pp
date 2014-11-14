@@ -52,67 +52,7 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef) {
   } else {
     $version_real = $version
   }
-
-  # get major/minor version numbers
-  $array_version = split($version_real, 'u')
-  $maj_version = $array_version[0]
-  $min_version = $array_version[1]
-
-  # associate build number to release version
-  case $maj_version {
-    8       : {
-      case $min_version {
-        '25'    : { $build = '-b17' }
-        '20'    : { $build = '-b26' }
-        '11'    : { $build = '-b12' }
-        '5'     : { $build = '-b13' }
-        '0'     : { $build = '-b132' }
-        default : { fail("Unreleased Java SE version ${version_real}") }
-      }
-    }
-    7       : {
-      case $min_version {
-        '72'    : { $build = '-b14' }
-        '71'    : { $build = '-b14' }
-        '67'    : { $build = '-b01' }
-        '65'    : { $build = '-b17' }
-        '60'    : { $build = '-b19' }
-        '55'    : { $build = '-b13' }
-        '51'    : { $build = '-b13' }
-        '45'    : { $build = '-b18' }
-        '40'    : { $build = '-b43' }
-        '25'    : { $build = '-b15' }
-        '21'    : { $build = '-b11' }
-        '17'    : { $build = '-b02' }
-        '15'    : { $build = '-b03' }
-        '13'    : { $build = '-b20' }
-        '11'    : { $build = '-b21' }
-        '10'    : { $build = '-b18' }
-        '9'     : { $build = '-b05' }
-        '7'     : { $build = '-b10' }
-        '6'     : { $build = '-b24' }
-        '5'     : { $build = '-b06' }
-        '4'     : { $build = '-b20' }
-        '3'     : { $build = '-b04' }
-        '2'     : { $build = '-b13' }
-        '1'     : { $build = '-b08' }
-        '0'     : { $build = '' }
-        default : { fail("Unreleased Java SE version ${version_real}") }
-      }
-    }
-    default : {
-      fail("oracle_java module does not support Java SE version ${maj_version} (yet)")
-    }
-  }
-
-  # remove extra particle if minor version is 0
-  $version_final = delete($version_real, 'u0')
-  $longversion = $min_version ? {
-    '0'       => "${type}1.${maj_version}.0",
-    /^[0-9]$/ => "${type}1.${maj_version}.0_0${min_version}",
-    default   => "${type}1.${maj_version}.0_${min_version}"
-  }
-
+  
   # translate system architecture to expected value
   case $::architecture {
     /x86_64|amd64/ : { $arch = 'x64' }
@@ -120,13 +60,16 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef) {
     default        : { fail("oracle_java does not support architecture ${::architecture} (yet)") }
   }
 
+  # determine build numbers, checksums, etc.
+  include oracle_java::javalist
+
   # define installer filename and download URL
-  $filename = "${type}-${version_final}-linux-${arch}.${format_real}"
-  $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build}/${filename}"
+  $filename = "${type}-${oracle_java::javalist::version_final}-linux-${arch}.${format_real}"
+  $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${oracle_java::javalist::version_final}${oracle_java::javalist::build}/${filename}"
 
   # define package name
-  if $maj_version == '8' and $min_version >= '20' {
-    $packagename = $longversion
+  if $oracle_java::javalist::maj_version == '8' and $oracle_java::javalist::min_version >= '20' {
+    $packagename = $oracle_java::javalist::longversion
   } else {
     $packagename = $type
   }
@@ -138,5 +81,5 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef) {
 
   include oracle_java::download
   include oracle_java::install
-  Class['oracle_java::download'] -> Class['oracle_java::install']
+  Class['oracle_java::download'] ~> Class['oracle_java::install']
 }
