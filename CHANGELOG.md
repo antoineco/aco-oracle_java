@@ -1,22 +1,22 @@
+###2.2.0
+
+* Support for adding Oracle Java as a java alternative
+* New `add_alternative` parameter
+* List of checksums now complete
+
 ###2.1.0
 
 * Added checksum check on downloaded archive
-  * Java 7u60+ only for now. Contact me if you want to **HELP** me supporting older versions :)
 * New `check_checksum` parameter
 * Refactoring
 * Better support of Mageia Linux
 
 ###2.0.0
 
-* Support tar.gz format
-  * now multiplatform!
-* Dropped support for Java 6
-  * it relied on dirty hacks to work properly, and that's not the direction I want this module to take
-  * nobody uses JSE6 anymore ... right?
+* Support tar.gz format - now multiplatform!
+* Dropped support for Java 6 (too hacky)
 * Major refactoring
-  * splitted the old bulky init class
-* Use nanliu/archive for download and extraction
-  * reliable module, multiplatform, well supported
+* Use `nanliu/archive` module for download and extraction
 
 ###1.1.5
 

@@ -3,6 +3,11 @@
 # This class associates a Java version number with its build number
 #
 class oracle_java::javalist {
+  # The base class must be included first
+  if !defined(Class['oracle_java']) {
+    fail('You must include the oracle_java base class before using any oracle_java sub class')
+  }
+
   # associate build number to release version
   case $oracle_java::maj_version {
     8       : {
