@@ -27,6 +27,7 @@ This module is suitable for pretty much any Linux system. It currently supports 
 oracle_java will affect the following parts of your system:
 
 * jre/jdk package
+* java alternative +slaves
 
 Including the main class is enough to install the latest version of the Oracle JRE.
 
@@ -70,12 +71,13 @@ class { '::oracle_java':
 }
 ```
 
-Disable checksum validation
+Disable checksum validation and add java alternative
 
 ```puppet
 class { '::oracle_java':
   …
-  check_checksum => false
+  check_checksum  => false,
+  add_alternative => true
 }
 ```
 
@@ -102,7 +104,14 @@ What envionment type to install. Valid values are 'jre' and 'jdk'. Defaults to '
 What format of installation archive to retrieve. Valid values are 'rpm' and 'tar.gz'. Default depends on the platform
 
 #####`check_checksum`
+
 Enable checksum validation on downloaded archives. Boolean value. Defaults to 'true'
+
+#####`add_alternative`
+
+Add Oracle Java to the system alternatives on compatible platforms*. Boolean value. Defaults to 'false'
+
+(*Debian/RHEL/SuSE-like)
 
 ##Limitations
 
@@ -114,7 +123,6 @@ The cookie manipulation used by this module to download its installation package
 
 ##To Do
 
-* Add Oracle Java as a 'java' alternative (waiting for an official release of [this module](https://github.com/adrienthebo/puppet-alternatives))
 * Allow the manipulation of Java related environment variables
 
 Features request and contributions are always welcome!
