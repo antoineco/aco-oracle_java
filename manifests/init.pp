@@ -12,6 +12,8 @@
 #   archive format (valid: 'rpm'|'tar.gz')
 # [*check_checksum*]
 #   enable checksum validation on downloaded archives (boolean)
+# [*add_alternative*]
+#   add java alternative (boolean)
 #
 # === Actions:
 #
@@ -31,7 +33,7 @@
 #    format  => 'rpm'
 #  }
 #
-class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checksum = true) {
+class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checksum = true, $add_alternative = false) {
   if !$format {
     if $::osfamily =~ /RedHat|Suse/ or $::operatingsystem == 'Mageia' {
       $format_real = 'rpm'
@@ -46,7 +48,7 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checks
   validate_re($version, '^([0-9]|[0-9]u[0-9]{1,2})$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
   validate_re($type, '^(jre|jdk)$', '$type must be either \'jre\' or \'jdk\'')
   validate_re($format_real, '^(rpm|tar\.gz)$', '$format must be either \'rpm\' or \'tar.gz\'')
-  validate_bool($check_checksum)
+  validate_bool($check_checksum, $add_alternative)
 
   # set to latest release if no minor version was provided
   if $version == '8' {
@@ -95,4 +97,9 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checks
   include oracle_java::download
   include oracle_java::install
   Class['oracle_java::download'] ~> Class['oracle_java::install']
+
+  if $add_alternative {
+    include oracle_java::alternative
+    Class['oracle_java::install'] -> Class['oracle_java::alternative']
+  }
 }
