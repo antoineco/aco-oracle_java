@@ -20,33 +20,21 @@ class oracle_java::download {
   include oracle_java::checksums
 
   # download archive
+  Archive {
+    cookie  => "oraclelicense=accept-securebackup-cookie",
+    source  => $oracle_java::downloadurl,
+    cleanup => false,
+    require => File['/usr/java']
+  }
+
   # WITH checksum check
   if $oracle_java::check_checksum {
-    # TEMPORARY CONDITIONAL BLOCK, until I finally gather checksums for all supported Java versions
-    if $oracle_java::maj_version == '8' or ($oracle_java::maj_version == '7' and $oracle_java::min_version >= '60') {
-      archive { "/usr/java/${oracle_java::filename}":
-        cookie        => "oraclelicense=accept-securebackup-cookie",
-        source        => $oracle_java::downloadurl,
-        checksum      => $oracle_java::checksums::checksum,
-        checksum_type => 'md5',
-        cleanup       => false,
-        require       => File['/usr/java']
-      }
-    } else {
-      archive { "/usr/java/${oracle_java::filename}":
-        cookie  => "oraclelicense=accept-securebackup-cookie",
-        source  => $oracle_java::downloadurl,
-        cleanup => false,
-        require => File['/usr/java']
-      }
+    archive { "/usr/java/${oracle_java::filename}":
+      checksum      => $oracle_java::checksums::checksum,
+      checksum_type => 'md5'
     }
   } else {
     # WITHOUT checksum check
-    archive { "/usr/java/${oracle_java::filename}":
-      cookie  => "oraclelicense=accept-securebackup-cookie",
-      source  => $oracle_java::downloadurl,
-      cleanup => false,
-      require => File['/usr/java']
-    }
+    archive { "/usr/java/${oracle_java::filename}": }
   }
 }
