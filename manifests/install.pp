@@ -14,7 +14,7 @@ class oracle_java::install {
   }
 
   case $oracle_java::format_real {
-    'rpm'    : { contain oracle_java::install::rpm }
-    'tar.gz' : { contain oracle_java::install::targz }
+    'rpm'   : { contain oracle_java::install::rpm }
+    default : { contain oracle_java::install::targz }
   }
 }

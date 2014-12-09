@@ -21,7 +21,7 @@ class oracle_java::download {
 
   # download archive
   Archive {
-    cookie  => "oraclelicense=accept-securebackup-cookie",
+    cookie  => 'oraclelicense=accept-securebackup-cookie',
     source  => $oracle_java::downloadurl,
     cleanup => false,
     require => File['/usr/java']

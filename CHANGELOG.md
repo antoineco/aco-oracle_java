@@ -1,6 +1,6 @@
 ###2.2.0
 
-* Support for adding Oracle Java as a java alternative
+* Support adding Oracle Java as a java alternative
 * New `add_alternative` parameter
 * List of checksums now complete
 
