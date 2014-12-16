@@ -1,3 +1,7 @@
+###2.2.1
+
+Improve code quality, doc and metadata
+
 ###2.2.0
 
 * Support adding Oracle Java as a java alternative
