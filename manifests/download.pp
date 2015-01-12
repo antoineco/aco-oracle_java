@@ -8,6 +8,11 @@ class oracle_java::download {
     fail('You must include the oracle_java base class before using any oracle_java sub class')
   }
 
+  # dependency
+  if !defined(Class['archive']) {
+    include archive
+  }
+
   # make sure install/download directory exists
   file { '/usr/java':
     ensure => directory,
