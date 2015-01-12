@@ -8,11 +8,6 @@ class oracle_java::install {
     fail('You must include the oracle_java base class before using any oracle_java sub class')
   }
 
-  # dependency
-  if !defined(Class['archive']) {
-    include archive
-  }
-
   case $oracle_java::format_real {
     'rpm'   : { contain oracle_java::install::rpm }
     default : { contain oracle_java::install::targz }
