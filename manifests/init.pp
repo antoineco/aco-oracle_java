@@ -23,7 +23,6 @@
 #
 # * puppetlabs/stdlib module
 # * nanliu/archive module
-# * 'sed' package
 #
 # === Sample Usage:
 #
