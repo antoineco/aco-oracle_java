@@ -27,7 +27,7 @@ This module is suitable for pretty much any Linux system. It currently supports 
 oracle_java will affect the following parts of your system:
 
 * jre/jdk package
-* java alternative +slaves
+* java alternative (and slaves)
 
 Including the main class is enough to install the latest version of the Oracle JRE.
 
@@ -91,31 +91,28 @@ Primary class and entry point of the module.
 
 #####`version`
 
-Java version to install, formated as 'major_version'u'minor_version' or simply 'major_version' for the latest available release in the selected Java SE series. Defaults to '8'
-
-Note: a minor version of '0' (for example '8u0') matches the initial release of the selected Java SE series. 
+Java version to install, formatted as '*major_version*'u'*minor_version*' or simply '*major_version*' for the latest available release in the selected Java SE series. Defaults to `8`  
+*Note*: a minor version of '0' (for example `8u0`) matches the initial release of the selected Java SE series. 
 
 #####`type`
 
-What envionment type to install. Valid values are 'jre' and 'jdk'. Defaults to 'jre'
+What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `jre`
 
 #####`format`
 
-What format of installation archive to retrieve. Valid values are 'rpm' and 'tar.gz'. Default depends on the platform
+What format of installation archive to retrieve. Valid values are `rpm` and `tar.gz`. Default depends on the platform
 
 #####`check_checksum`
 
-Enable checksum validation on downloaded archives. Boolean value. Defaults to 'true'
+Enable checksum validation on downloaded archives. Boolean value. Defaults to `true`
 
 #####`add_alternative`
 
-Add Oracle Java to the system alternatives on compatible platforms*. Boolean value. Defaults to 'false'
-
-(*Debian/RHEL/SuSE-like)
+Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/SuSE families). Boolean value. Defaults to `false`
 
 ##Limitations
 
-* Prior to Java 8u20, two different releases of the same Java series could not cohabit on the same system when installed from RPM. Each new version would override the previous one. This does not happen with tar.gz archives however.
+Prior to Java 8u20, two different releases of the same Java series could not cohabit on the same system when installed from RPM. Each new version would override the previous one. This does not happen with tar.gz archives however.
 
 ##Credits
 
