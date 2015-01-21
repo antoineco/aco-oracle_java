@@ -1,3 +1,7 @@
+###2.2.2
+
+Add support for Java '7u75', '7u76' and '8u31'
+
 ###2.2.1
 
 Improve code quality, doc and metadata
@@ -18,13 +22,13 @@ Improve code quality, doc and metadata
 ###2.0.0
 
 * Support tar.gz format - now multiplatform!
-* Dropped support for Java 6 (too hacky)
+* Dropped support for Java 6
 * Major refactoring
 * Use `nanliu/archive` module for download and extraction
 
 ###1.1.5
 
-* Add support for Java '7u71', '7u72' and '8u25'
+Add support for Java '7u71', '7u72' and '8u25'
 
 ###1.1.4
 
@@ -33,7 +37,7 @@ Improve code quality, doc and metadata
 
 ###1.1.3
 
-* Add support for Java '8u20'
+Add support for Java '8u20'
 
 ###1.1.2
 
@@ -48,11 +52,11 @@ Improve code quality, doc and metadata
 
 ###1.1.0
 
-* Add support for Java SE 6 series
+Add support for Java SE 6 series
 
 ###1.0.1
 
-* Add support for Java '7u65' and '8u11'
+Add support for Java '7u65' and '8u11'
 
 ###1.0.0
 

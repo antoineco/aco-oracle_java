@@ -21,9 +21,6 @@ class oracle_java::download {
     group  => 'root'
   }
 
-  # get checksums list
-  include oracle_java::checksums
-
   # download archive
   Archive {
     cookie  => 'oraclelicense=accept-securebackup-cookie',
@@ -34,6 +31,7 @@ class oracle_java::download {
 
   # WITH checksum check
   if $oracle_java::check_checksum {
+    include oracle_java::checksums # get checksums list
     archive { "/usr/java/${oracle_java::filename}":
       checksum      => $oracle_java::checksums::checksum,
       checksum_type => 'md5'

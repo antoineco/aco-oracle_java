@@ -9,6 +9,15 @@ class oracle_java::checksums {
   }
 
   case $oracle_java::filename {
+    # 8u31
+    'jdk-8u31-linux-i586.rpm'    : { $checksum = '0676136c154c3e0a6f3c3c9ebeb2a47d' }
+    'jdk-8u31-linux-i586.tar.gz' : { $checksum = '4e9aec24367672412c7d10105a2a2bbb' }
+    'jdk-8u31-linux-x64.rpm'     : { $checksum = 'be6abc353ef797755c1c9260c27422e9' }
+    'jdk-8u31-linux-x64.tar.gz'  : { $checksum = '173e24bc2d5d5ca3469b8e34864a80da' }
+    'jre-8u31-linux-i586.rpm'    : { $checksum = 'ba6a68f0bbf350040d7d75b92cedae55' }
+    'jre-8u31-linux-i586.tar.gz' : { $checksum = '6cb48241523ad39862c05d8cf791ce92' }
+    'jre-8u31-linux-x64.rpm'     : { $checksum = '4d6a99aa7f2addde8f6ad714e788ff61' }
+    'jre-8u31-linux-x64.tar.gz'  : { $checksum = 'c81a3cdabe4a12439dae08d4311670ff' }
     # 8u25
     'jdk-8u25-linux-i586.rpm'    : { $checksum = '86c47648337ab32477f52f8b303c4fca' }
     'jdk-8u25-linux-i586.tar.gz' : { $checksum = 'b5b16247f66643727d9b6d4bc7c5efda' }
@@ -54,15 +63,33 @@ class oracle_java::checksums {
     'jre-8-linux-i586.tar.gz'    : { $checksum = '045a0309585e546fa2da2316309c09ea' }
     'jre-8-linux-x64.rpm'        : { $checksum = 'aa776b85d53202a385e7894b5b64c91e' }
     'jre-8-linux-x64.tar.gz'     : { $checksum = '1e024eb9b0f7f61722e10fc08c873543' }
+    # 7u76
+    'jdk-7u76-linux-i586.rpm'    : { $checksum = '75a1a5873014e18683b48fbf6e9990f9' }
+    'jdk-7u76-linux-i586.tar.gz' : { $checksum = '566dcbcedbb9ec5a26f08bd65b14746b' }
+    'jdk-7u76-linux-x64.rpm'     : { $checksum = '993d0d6425951d2a3fe39d8ad2e550fc' }
+    'jdk-7u76-linux-x64.tar.gz'  : { $checksum = '5a98b1a3e4c48363d03f664f173bbb9a' }
+    'jre-7u76-linux-i586.rpm'    : { $checksum = '2d19d0aafa8e3684616803977e3cc364' }
+    'jre-7u76-linux-i586.tar.gz' : { $checksum = 'e7eb5d65eab8f57cbf0d5da804327f75' }
+    'jre-7u76-linux-x64.rpm'     : { $checksum = '02ec5613512692c3d0c41fde4484d4e3' }
+    'jre-7u76-linux-x64.tar.gz'  : { $checksum = 'a5ee5fd266453e0209e45fb8bb5acd6d' }
+    # 7u75
+    'jdk-7u75-linux-i586.rpm'    : { $checksum = 'c8b7d39c1c6bf750750e51d39e6b72fe' }
+    'jdk-7u75-linux-i586.tar.gz' : { $checksum = 'e4371a4fddc049eca3bfef293d812b8e' }
+    'jdk-7u75-linux-x64.rpm'     : { $checksum = '53b8513548ae527d79899902524a06e1' }
+    'jdk-7u75-linux-x64.tar.gz'  : { $checksum = '6f1f81030a34f7a9c987f8b68a24d139' }
+    'jre-7u75-linux-i586.rpm'    : { $checksum = '89f718c7850f3089753da03202087205' }
+    'jre-7u75-linux-i586.tar.gz' : { $checksum = '3a2a94b9cd76fa1323dd9a5aaf48383b' }
+    'jre-7u75-linux-x64.rpm'     : { $checksum = '302813994fe51f5177e8f7717d71e13c' }
+    'jre-7u75-linux-x64.tar.gz'  : { $checksum = '1869f0d2dac96372e3c345105543ba3e' }
     # 7u72
-    'jdk-7u72-linux-x64.rpm'     : { $checksum = 'c55acf3c04e149c0b91f57758f6b63ce' }
     'jdk-7u72-linux-i586.rpm'    : { $checksum = 'bc6d383794f5baca63568fbbb663d0b5' }
-    'jdk-7u72-linux-x64.tar.gz'  : { $checksum = 'cfa44b49e50ea06e5c6ab95ff79e5b2a' }
     'jdk-7u72-linux-i586.tar.gz' : { $checksum = '4a942a47a700e63e050dd66e8ca08a1f' }
-    'jre-7u72-linux-x64.rpm'     : { $checksum = 'e48cdd20ee993726005dbaea26ec0dcc' }
+    'jdk-7u72-linux-x64.rpm'     : { $checksum = 'c55acf3c04e149c0b91f57758f6b63ce' }
+    'jdk-7u72-linux-x64.tar.gz'  : { $checksum = 'cfa44b49e50ea06e5c6ab95ff79e5b2a' }
     'jre-7u72-linux-i586.rpm'    : { $checksum = 'c31b755e808633bb0ec3102cee67179e' }
-    'jre-7u72-linux-x64.tar.gz'  : { $checksum = '4ae2ef732dfd309e86a182ca0f7681fe' }
     'jre-7u72-linux-i586.tar.gz' : { $checksum = 'a66052322c1a26c33bf6078cb4040dfb' }
+    'jre-7u72-linux-x64.rpm'     : { $checksum = 'e48cdd20ee993726005dbaea26ec0dcc' }
+    'jre-7u72-linux-x64.tar.gz'  : { $checksum = '4ae2ef732dfd309e86a182ca0f7681fe' }
     # 7u71
     'jdk-7u71-linux-i586.rpm'    : { $checksum = 'ca000c4668d4ffb4958474776ceddf8b' }
     'jdk-7u71-linux-i586.tar.gz' : { $checksum = '54899d0733d9a8697da59de79a02cc8f' }

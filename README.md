@@ -32,7 +32,7 @@ oracle_java will affect the following parts of your system:
 Including the main class is enough to install the latest version of the Oracle JRE.
 
 ```puppet
-include ::oracle_java
+include oracle_java
 ```
 
 ####A couple of examples
@@ -40,7 +40,7 @@ include ::oracle_java
 Install the latest release of the Java 7 SE JRE
 
 ```puppet
-class { '::oracle_java':
+class { 'oracle_java':
   version => 7
 }
 ```
@@ -48,7 +48,7 @@ class { '::oracle_java':
 Install the latest available JDK
 
 ```puppet
-class { '::oracle_java':
+class { 'oracle_java':
   type => 'jdk'
 }
 ```
@@ -56,7 +56,7 @@ class { '::oracle_java':
 Install a specific version of the JDK
 
 ```puppet
-class { '::oracle_java':
+class { 'oracle_java':
   version => '7u45',
   type    => 'jdk'
 }
@@ -65,7 +65,7 @@ class { '::oracle_java':
 Force installation from standard tar.gz archive
 
 ```puppet
-class { '::oracle_java':
+class { 'oracle_java':
   …
   format => 'tar.gz'
 }
@@ -74,7 +74,7 @@ class { '::oracle_java':
 Disable checksum validation and add java alternative
 
 ```puppet
-class { '::oracle_java':
+class { 'oracle_java':
   …
   check_checksum  => false,
   add_alternative => true

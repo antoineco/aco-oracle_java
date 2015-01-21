@@ -26,7 +26,7 @@
 #
 # === Sample Usage:
 #
-#  class { '::oracle_java':
+#  class { 'oracle_java':
 #    version => '8u5',
 #    type    => 'jdk',
 #    format  => 'rpm'
@@ -51,9 +51,9 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checks
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u25'
+    $version_real = '8u31'
   } elsif $version == '7' {
-    $version_real = '7u72'
+    $version_real = '7u76'
   } else {
     $version_real = $version
   }
