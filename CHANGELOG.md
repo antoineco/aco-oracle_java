@@ -1,3 +1,8 @@
+###2.2.4
+
+* Add support for Java '7u79', '7u80' and '8u45'
+* Minor Puppet 4.0 compatibility fix
+
 ###2.2.3
 
 Add support for Java '8u40'

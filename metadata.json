@@ -2,10 +2,10 @@
   "author": "Antoine Cotten",
   "license": "Apache-2.0",
   "name": "aco-oracle_java",
-  "project_page": "https://github.com/tOnI0/aco-oracle_java",
-  "source": "git://github.com/tOnI0/aco-oracle_java.git",
+  "project_page": "https://github.com/antoineco/aco-oracle_java",
+  "source": "git://github.com/antoineco/aco-oracle_java.git",
   "summary": "Puppet module to install Oracle Java on Linux systems",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "tags": ["jre","jdk","oracle","java"],
   "dependencies": [
     {
@@ -77,7 +77,8 @@
         "18",
         "19",
         "20",
-        "21"
+        "21",
+        "22"
       ]
     },
     {
