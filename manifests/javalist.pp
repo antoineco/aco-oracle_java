@@ -10,8 +10,9 @@ class oracle_java::javalist {
 
   # associate build number to release version
   case $oracle_java::maj_version {
-    8       : {
+    '8'     : {
       case $oracle_java::min_version {
+        '45'    : { $build = '-b14' }
         '40'    : { $build = '-b25' }
         '31'    : { $build = '-b13' }
         '25'    : { $build = '-b17' }
@@ -22,8 +23,10 @@ class oracle_java::javalist {
         default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
       }
     }
-    7       : {
+    '7'     : {
       case $oracle_java::min_version {
+        '80'    : { $build = '-b15' }
+        '79'    : { $build = '-b15' }
         '76'    : { $build = '-b13' }
         '75'    : { $build = '-b13' }
         '72'    : { $build = '-b14' }
