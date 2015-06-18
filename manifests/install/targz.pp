@@ -8,18 +8,6 @@ class oracle_java::install::targz {
     fail('You must include the oracle_java base class before using any oracle_java sub class')
   }
 
-  # dependency
-  if !defined(Class['archive']) {
-    include archive
-  }
-
-  # extract archive
-  archive { 'extract java archive':
-    path         => "/usr/java/${oracle_java::filename}",
-    extract      => true,
-    extract_path => '/usr/java',
-    creates      => "/usr/java/${oracle_java::longversion}"
-  } ->
   # fix permissions
   file { "/usr/java/${oracle_java::longversion}":
     recurse  => true,

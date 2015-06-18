@@ -21,23 +21,33 @@ class oracle_java::download {
     group  => 'root'
   }
 
-  # download archive
-  Archive {
-    cookie  => 'oraclelicense=accept-securebackup-cookie',
-    source  => $oracle_java::downloadurl,
-    cleanup => false,
-    require => File['/usr/java']
-  }
-
-  # WITH checksum check
+  # with checksum check
   if $oracle_java::check_checksum {
     include oracle_java::checksums # get checksums list
-    archive { "/usr/java/${oracle_java::filename}":
+    Archive {
       checksum      => $oracle_java::checksums::checksum,
       checksum_type => 'md5'
     }
+  }
+
+  # download archive
+  if $oracle_java::format == 'rpm' {
+    archive { "/usr/java/${oracle_java::filename}":
+      cookie  => 'oraclelicense=accept-securebackup-cookie',
+      source  => $oracle_java::downloadurl,
+      cleanup => false,
+      require => File['/usr/java'],
+    }
   } else {
-    # WITHOUT checksum check
-    archive { "/usr/java/${oracle_java::filename}": }
+    # also extract if tar.gz
+    archive { "/usr/java/${oracle_java::filename}":
+      cookie       => 'oraclelicense=accept-securebackup-cookie',
+      source       => $oracle_java::downloadurl,
+      cleanup      => false,
+      require      => File['/usr/java'],
+      extract      => true,
+      extract_path => '/usr/java',
+      creates      => "/usr/java/${oracle_java::longversion}"
+    }
   }
 }

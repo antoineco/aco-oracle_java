@@ -27,9 +27,10 @@
 # === Sample Usage:
 #
 #  class { 'oracle_java':
-#    version => '8u5',
-#    type    => 'jdk',
-#    format  => 'rpm'
+#    version         => '8u5',
+#    type            => 'jdk',
+#    format          => 'rpm',
+#    add_alternative => true
 #  }
 #
 class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checksum = true, $add_alternative = false) {
