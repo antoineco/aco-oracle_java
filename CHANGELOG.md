@@ -1,4 +1,4 @@
-###2.2.5
+###2.2.6
 
 Fix conflict introduced by [nanliu-archive](https://forge.puppetlabs.com/nanliu/archive/changelog) v0.3.0
 

@@ -31,7 +31,7 @@ class oracle_java::download {
   }
 
   # download archive
-  if $oracle_java::format == 'rpm' {
+  if $oracle_java::format_real == 'rpm' {
     archive { "/usr/java/${oracle_java::filename}":
       cookie  => 'oraclelicense=accept-securebackup-cookie',
       source  => $oracle_java::downloadurl,
