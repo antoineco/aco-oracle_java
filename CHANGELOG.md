@@ -1,3 +1,7 @@
+###2.2.5
+
+Fix conflict introduced by [nanliu-archive](https://forge.puppetlabs.com/nanliu/archive/changelog) v0.3.0
+
 ###2.2.4
 
 * Add support for Java '7u79', '7u80' and '8u45'
