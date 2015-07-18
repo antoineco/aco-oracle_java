@@ -5,7 +5,7 @@
 # === Parameters:
 #
 # [*version*]
-#   Java SE version to install (valid format: 'major'u'minor' or just 'major')
+#   Java SE version to install (valid format: 'major'u'minor' or just 'major'). Namevar
 # [*type*]
 #   envionment type to install (valid: 'jre'|'jdk')
 # [*check_checksum*]
@@ -23,13 +23,12 @@
 #
 # === Sample Usage:
 #
-#  oracle_java::installation { 'legacy_jre':
-#    version         => '7',
+#  oracle_java::installation { '7u65':
 #    type            => 'jre',
 #    add_alternative => true
 #  }
 #
-define oracle_java::installation ($version, $type = 'jre', $check_checksum = true, $add_alternative = false) {
+define oracle_java::installation ($version = $name, $type = 'jre', $check_checksum = true, $add_alternative = false) {
   # The base class must be included first
   if !defined(Class['oracle_java']) {
     fail('You must include the oracle_java base class before using any oracle_java defined resources')
