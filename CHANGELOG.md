@@ -1,3 +1,7 @@
+###2.2.7
+
+Add support for Java '8u51'
+
 ###2.2.6
 
 Fix conflict introduced by [nanliu-archive](https://forge.puppetlabs.com/nanliu/archive/changelog) v0.3.0

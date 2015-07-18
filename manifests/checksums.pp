@@ -9,6 +9,15 @@ class oracle_java::checksums {
   }
 
   case $oracle_java::filename {
+    # 8u51
+    'jdk-8u51-linux-i586.rpm'    : { $checksum = 'f851040e139d391c47c815e035ea8a16' }
+    'jdk-8u51-linux-i586.tar.gz' : { $checksum = '742b9151d9190a9ae7d8ed05c7d39850' }
+    'jdk-8u51-linux-x64.rpm'     : { $checksum = 'e539d132c3d98480217554b8f0da2480' }
+    'jdk-8u51-linux-x64.tar.gz'  : { $checksum = 'b34ff02c5d98b6f372288c17e96c51cf' }
+    'jre-8u51-linux-i586.rpm'    : { $checksum = '8d9d82697cbcbb2ffcf940632d02f731' }
+    'jre-8u51-linux-i586.tar.gz' : { $checksum = 'f234dacdff97e6ac5ff3e85d58f2d158' }
+    'jre-8u51-linux-x64.rpm'     : { $checksum = '0f200e6ca52ef4f52f3c7b0f1e55ebe3' }
+    'jre-8u51-linux-x64.tar.gz'  : { $checksum = '3c4e3ed6b1c61fe18b9a88ea8b2d9384' }
     # 8u45
     'jdk-8u45-linux-i586.rpm'    : { $checksum = '60be5b761d8dd1fd298b3c02d78857bd' }
     'jdk-8u45-linux-i586.tar.gz' : { $checksum = 'e68241caf30cb81ae4e985be7218bb6d' }
