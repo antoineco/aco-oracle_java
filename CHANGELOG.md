@@ -1,3 +1,7 @@
+###2.3.0
+
+Support multiple installations of Oracle Java with a new defined type: `oracle_java::installation`
+
 ###2.2.7
 
 Add support for Java '8u51'
