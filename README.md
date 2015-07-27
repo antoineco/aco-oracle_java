@@ -6,6 +6,9 @@
 2. [Module Description](#module-description)
 3. [Setup](#setup)
 4. [Usage](#usage)
+  * [Classes and Defined Types](#classes-and-defined-types)
+    * [Class: oracle_java](#class-oracle_java)
+    * [Define: oracle_java::installation](#define-oracle_javainstallation)
 5. [Limitations](#limitations)
 6. [Credits](#credits)
 7. [To Do](#to-do)
@@ -16,7 +19,7 @@ The oracle_java module allows you to install the Oracle JRE or JDK of your choic
 
 ##Module description
 
-This module downloads the desired Java version from Oracle's website and installs it on the target system. On [RPM-based distributions](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RPM-based) the RPM version will be used by default. On all other platforms a tar.gz archive will be retrieved and extracted.
+This module downloads the desired Java version from Oracle's website and installs it on the target system. On [RPM-based distributions](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RPM-based) the RPM version will be used by default. On all other platforms a tar.gz archive will be retrieved and extracted. Multiple versions of Oracle Java can be installed on the same system using a defined type.
 
 Java SE archives are available from the Oracle [Java SE Downloads](http://www.oracle.com/technetwork/java/javase/downloads/index.html) and Oracle [Java Archive](http://www.oracle.com/technetwork/java/archive-139210.html) pages.
 
@@ -26,8 +29,8 @@ This module is suitable for pretty much any Linux system. It currently supports 
 
 oracle_java will affect the following parts of your system:
 
-* jre/jdk package
-* java alternative (and slaves)
+* jre/jdk packages and/or archives
+* java alternatives (and slaves)
 
 Including the main class is enough to install the latest version of the Oracle JRE.
 
@@ -62,6 +65,18 @@ class { 'oracle_java':
 }
 ```
 
+Install multiple Java versions
+
+```puppet
+class { 'oracle_java':
+  version => '8u45',
+  type    => 'jdk'
+} ->
+oracle_java::installation { '7u65':
+  type => 'jdk'
+}
+```
+
 Force installation from standard tar.gz archive
 
 ```puppet
@@ -83,9 +98,11 @@ class { 'oracle_java':
 
 ##Usage
 
+###Classes and Defined Types
+
 ####Class: `oracle_java`
 
-Primary class and entry point of the module.
+Primary class and entry point of the module. Installs Java in `/usr/java`
 
 **Parameters within `oracle_java`:**
 
@@ -109,6 +126,28 @@ Enable checksum validation on downloaded archives. Boolean value. Defaults to `t
 #####`add_alternative`
 
 Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/SuSE families). Boolean value. Defaults to `false`
+
+####Define: `oracle_java::installation`
+
+Installs an extra version of Oracle Java in `/usr/java`
+
+**Parameters within `oracle_java::installation`:**
+
+#####`version`
+
+Namevar. See [oracle_java::version](#version)
+
+#####`type`
+
+See [oracle_java::type](#type)
+
+#####`check_checksum`
+
+See [oracle_java::check_checksum](#check_checksum)
+
+#####`add_alternative`
+
+See [oracle_java::add_alternative](#add_alternative)
 
 ##Limitations
 
