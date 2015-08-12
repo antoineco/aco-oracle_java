@@ -39,11 +39,11 @@ class oracle_java::download {
       require => File['/usr/java'],
     }
   } else {
-    # also extract if tar.gz
+    # also extract and clean up if tar.gz
     archive { "/usr/java/${oracle_java::filename}":
       cookie       => 'oraclelicense=accept-securebackup-cookie',
       source       => $oracle_java::downloadurl,
-      cleanup      => false,
+      cleanup      => true,
       require      => File['/usr/java'],
       extract      => true,
       extract_path => '/usr/java',
