@@ -41,7 +41,7 @@ define oracle_java::installation ($version = $name, $type = 'jre', $check_checks
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u45'
+    $version_real = '8u51'
   } elsif $version == '7' {
     $version_real = '7u80'
   } else {
@@ -77,6 +77,7 @@ define oracle_java::installation ($version = $name, $type = 'jre', $check_checks
   case $maj_version {
     '8'     : {
       case $min_version {
+        '51'    : { $build = '-b16' }
         '45'    : { $build = '-b14' }
         '40'    : { $build = '-b25' }
         '31'    : { $build = '-b13' }
@@ -149,6 +150,15 @@ define oracle_java::installation ($version = $name, $type = 'jre', $check_checks
   if $check_checksum {
     #-- start checksum --#
     case $filename {
+      # 8u51
+      'jdk-8u51-linux-i586.rpm'    : { $checksum = 'f851040e139d391c47c815e035ea8a16' }
+      'jdk-8u51-linux-i586.tar.gz' : { $checksum = '742b9151d9190a9ae7d8ed05c7d39850' }
+      'jdk-8u51-linux-x64.rpm'     : { $checksum = 'e539d132c3d98480217554b8f0da2480' }
+      'jdk-8u51-linux-x64.tar.gz'  : { $checksum = 'b34ff02c5d98b6f372288c17e96c51cf' }
+      'jre-8u51-linux-i586.rpm'    : { $checksum = '8d9d82697cbcbb2ffcf940632d02f731' }
+      'jre-8u51-linux-i586.tar.gz' : { $checksum = 'f234dacdff97e6ac5ff3e85d58f2d158' }
+      'jre-8u51-linux-x64.rpm'     : { $checksum = '0f200e6ca52ef4f52f3c7b0f1e55ebe3' }
+      'jre-8u51-linux-x64.tar.gz'  : { $checksum = '3c4e3ed6b1c61fe18b9a88ea8b2d9384' }
       # 8u45
       'jdk-8u45-linux-i586.rpm'    : { $checksum = '60be5b761d8dd1fd298b3c02d78857bd' }
       'jdk-8u45-linux-i586.tar.gz' : { $checksum = 'e68241caf30cb81ae4e985be7218bb6d' }
@@ -491,11 +501,11 @@ define oracle_java::installation ($version = $name, $type = 'jre', $check_checks
     }
   }
 
-  # download and extract archive
+  # download, extract and cleanup archive
   archive { "/usr/java/${filename}":
     cookie       => 'oraclelicense=accept-securebackup-cookie',
     source       => $downloadurl,
-    cleanup      => false,
+    cleanup      => true,
     require      => File['/usr/java'],
     extract      => true,
     extract_path => '/usr/java',
