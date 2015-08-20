@@ -14,6 +14,8 @@
 #   enable checksum validation on downloaded archives (boolean)
 # [*add_alternative*]
 #   add java alternative (boolean)
+# [*add_system_env*]
+#   add system-wide java environment variables (boolean)
 #
 # === Actions:
 #
@@ -33,7 +35,14 @@
 #    add_alternative => true
 #  }
 #
-class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checksum = true, $add_alternative = false) {
+class oracle_java (
+  $version = '8',
+  $type = 'jre',
+  $format = undef,
+  $check_checksum = true,
+  $add_alternative = false,
+  $add_system_env = false
+  ) {
   if !$format {
     if $::osfamily =~ /RedHat|Suse/ or $::operatingsystem == 'Mageia' {
       $format_real = 'rpm'
@@ -101,5 +110,9 @@ class oracle_java ($version = '8', $type = 'jre', $format = undef, $check_checks
   if $add_alternative {
     include oracle_java::alternative
     Class['oracle_java::install'] -> Class['oracle_java::alternative']
+  }
+
+  if $add_system_env {
+    include oracle_java::env
   }
 }
