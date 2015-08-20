@@ -1,3 +1,9 @@
+###2.4.0
+
+* New parameter `add_system_env` to set `JAVA_HOME` as system-wide environment variable 
+* Fix dependency issue when installing multiple Java alternatives
+* Merge missing changes to `installation` defined type
+
 ###2.3.0
 
 Support multiple installations of Oracle Java with a new defined type: `oracle_java::installation`
