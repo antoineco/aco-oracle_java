@@ -529,8 +529,9 @@ define oracle_java::installation ($version = $name, $type = 'jre', $check_checks
     $priority = 1000000 + $maj_version * 100000 + $min_version
 
     Exec {
-      path   => '/bin:/sbin:/usr/bin:/usr/sbin',
-      unless => "update-alternatives --display java | grep -e /usr/java/${longversion}/bin/java.*${priority}\$"
+      path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+      require => File["/usr/java/${longversion}"],
+      unless  => "update-alternatives --display java | grep -e /usr/java/${longversion}/bin/java.*${priority}\$"
     }
 
     case $::osfamily {
