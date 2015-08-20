@@ -127,6 +127,10 @@ Enable checksum validation on downloaded archives. Boolean value. Defaults to `t
 
 Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/SuSE families). Boolean value. Defaults to `false`
 
+#####`add_system_env`
+
+Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`
+
 ####Define: `oracle_java::installation`
 
 Installs an extra version of Oracle Java in `/usr/java`
