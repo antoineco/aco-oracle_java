@@ -41,7 +41,7 @@ define oracle_java::installation ($version = $name, $type = 'jre', $check_checks
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u51'
+    $version_real = '8u60'
   } elsif $version == '7' {
     $version_real = '7u80'
   } else {
@@ -77,6 +77,7 @@ define oracle_java::installation ($version = $name, $type = 'jre', $check_checks
   case $maj_version {
     '8'     : {
       case $min_version {
+        '60'    : { $build = '-b27' }
         '51'    : { $build = '-b16' }
         '45'    : { $build = '-b14' }
         '40'    : { $build = '-b25' }
@@ -150,6 +151,15 @@ define oracle_java::installation ($version = $name, $type = 'jre', $check_checks
   if $check_checksum {
     #-- start checksum --#
     case $filename {
+      # 8u60
+      'jdk-8u60-linux-i586.rpm'    : { $checksum = 'b341d458867e7d5ba24bcffeb6d1d32c' }
+      'jdk-8u60-linux-i586.tar.gz' : { $checksum = 'a46d706babbd63f459d7ca6d4057d80f' }
+      'jdk-8u60-linux-x64.rpm'     : { $checksum = '6c9adca7ba0f89fe755653d2a62cdbd3' }
+      'jdk-8u60-linux-x64.tar.gz'  : { $checksum = 'b8ca513d4f439782c019cb78cd7fd101' }
+      'jre-8u60-linux-i586.rpm'    : { $checksum = 'e9530e29fb3fc6767a801687d895af7c' }
+      'jre-8u60-linux-i586.tar.gz' : { $checksum = '51512cfe055125570b5215a48a553d83' }
+      'jre-8u60-linux-x64.rpm'     : { $checksum = '2b5e57b4590184af8ea61cf73506f9eb' }
+      'jre-8u60-linux-x64.tar.gz'  : { $checksum = 'e6e44f44b67c1a412f06694c9c30b77f' }
       # 8u51
       'jdk-8u51-linux-i586.rpm'    : { $checksum = 'f851040e139d391c47c815e035ea8a16' }
       'jdk-8u51-linux-i586.tar.gz' : { $checksum = '742b9151d9190a9ae7d8ed05c7d39850' }

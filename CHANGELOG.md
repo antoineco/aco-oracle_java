@@ -1,3 +1,7 @@
+###2.4.1
+
+Add support for Java '8u60'
+
 ###2.4.0
 
 * New parameter `add_system_env` to set `JAVA_HOME` as system-wide environment variable 
