@@ -1,2 +1,9 @@
 # Geppetto .project file
 .project
+# Puppet build folder
+pkg/
+# Bundler
+.bundle/
+Gemfile.lock
+# RSpec fixtures
+spec/fixtures/
