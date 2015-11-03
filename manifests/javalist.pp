@@ -12,6 +12,8 @@ class oracle_java::javalist {
   case $oracle_java::maj_version {
     '8'     : {
       case $oracle_java::min_version {
+        '66'    : { $build = '-b17' }
+        '65'    : { $build = '-b17' }
         '60'    : { $build = '-b27' }
         '51'    : { $build = '-b16' }
         '45'    : { $build = '-b14' }
