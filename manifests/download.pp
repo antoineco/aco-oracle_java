@@ -14,7 +14,7 @@ class oracle_java::download {
   }
 
   # make sure install/download directory exists
-  file { '/usr/java':
+  file { $::oracle_java::custom_archive_path:
     ensure => directory,
     mode   => '0755',
     owner  => 'root',
@@ -32,22 +32,22 @@ class oracle_java::download {
 
   # download archive
   if $oracle_java::format_real == 'rpm' {
-    archive { "/usr/java/${oracle_java::filename}":
+    archive { "${::oracle_java::custom_archive_path}/${oracle_java::filename}":
       cookie  => 'oraclelicense=accept-securebackup-cookie',
       source  => $oracle_java::downloadurl,
       cleanup => false,
-      require => File['/usr/java'],
+      require => File[$::oracle_java::custom_archive_path],
     }
   } else {
     # also extract and clean up if tar.gz
-    archive { "/usr/java/${oracle_java::filename}":
+    archive { "${::oracle_java::custom_archive_path}/${oracle_java::filename}":
       cookie       => 'oraclelicense=accept-securebackup-cookie',
       source       => $oracle_java::downloadurl,
       cleanup      => true,
-      require      => File['/usr/java'],
+      require      => File[$::oracle_java::custom_archive_path],
       extract      => true,
-      extract_path => '/usr/java',
-      creates      => "/usr/java/${oracle_java::longversion}"
+      extract_path => $::oracle_java::custom_archive_path,
+      creates      => "${::oracle_java::custom_archive_path}/${oracle_java::longversion}"
     }
   }
 }
