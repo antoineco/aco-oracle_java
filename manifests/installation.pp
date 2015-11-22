@@ -13,9 +13,9 @@
 # [*add_alternative*]
 #   add java alternative (boolean)
 # [*custom_download_url*]
-#   fetch the package from an alternative url. works only with format tar.gz
+#   fetch the package from an alternative URL
 # [*custom_checksum*]
-#   use a custom checksum to check the package
+#   use a custom checksum to verify the archive integrity
 #
 # === Actions:
 #
