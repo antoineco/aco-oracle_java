@@ -10,6 +10,8 @@
 #   envionment type to install (valid: 'jre'|'jdk')
 # [*format*]
 #   archive format (valid: 'rpm'|'tar.gz')
+# [*custom_archive_path*]
+#   defines the root path where the java archives are extracted. Requires 'tar.gz' format
 # [*check_checksum*]
 #   enable checksum validation on downloaded archives (boolean)
 # [*add_alternative*]
@@ -17,11 +19,9 @@
 # [*add_system_env*]
 #   add system-wide java environment variables (boolean)
 # [*custom_download_url*]
-#   fetch the package from an alternative url. works only with format tar.gz
-# [*custom_archive_path*]
-#   defines the path where the java package will be unpacked. works only with format tar.gz
+#   fetch the package from an alternative URL. Requires 'tar.gz' format
 # [*custom_checksum*]
-#   use a custom checksum to check the package
+#   use a custom checksum to verify the archive integrity
 #
 # === Actions:
 #

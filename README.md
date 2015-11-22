@@ -10,8 +10,8 @@
     * [Class: oracle_java](#class-oracle_java)
     * [Define: oracle_java::installation](#define-oracle_javainstallation)
 5. [Limitations](#limitations)
-6. [Credits](#credits)
-7. [To Do](#to-do)
+6. [Contributors](#contributors)
+7. [Credits](#credits)
 
 ##Overview
 
@@ -77,12 +77,13 @@ oracle_java::installation { '7u65':
 }
 ```
 
-Force installation from standard tar.gz archive
+Force installation from standard tar.gz archive and in a custom location
 
 ```puppet
 class { 'oracle_java':
   …
-  format => 'tar.gz'
+  format              => 'tar.gz',
+  custom_archive_path => '/opt/java'
 }
 ```
 
@@ -119,6 +120,10 @@ What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `
 
 What format of installation archive to retrieve. Valid values are `rpm` and `tar.gz`. Default depends on the platform
 
+#####`custom_archive_path`
+
+Absolute root path where the Oracle Java archives are extracted. Requires `format` set to `tar.gz`. Defaults to `/usr/java`
+
 #####`check_checksum`
 
 Enable checksum validation on downloaded archives. Boolean value. Defaults to `true`
@@ -131,25 +136,17 @@ Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/
 
 Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`
 
-#####`check_checksum`
+#####`custom_download_url`
 
-See [oracle_java::check_checksum](#check_checksum)
+Do not download the Oracle Java archive from Oracle servers, instead use an alternative URL (example: `http://repo.mycompany.com/jdk-8u66-linux-x64.tar.gz`). Requires `format` set to `tar.gz`
 
 #####`custom_checksum`
 
-Checks against a custom MD5 checksum
-
-#####`custom_archive_path`
-
-Use an alternative path as target for the untarred Oracle Java package. Needs `format` set to `tar.gz`
-
-#####`custom_download_url`
-
-Do not download the Oracle Java package from java, instead use a alternative URL (example: `http://repo.mycompany.com/jdk-8u66-linux-x64.tar.gz`). Needs `format` set to `tar.gz`
+Custom MD5 checksum used to verify the archive integrity. Optional. Defaults to the checksum provided by Oracle
 
 ####Define: `oracle_java::installation`
 
-Installs an extra version of Oracle Java in `/usr/java`
+Installs an extra version of Oracle Java in `custom_archive_path`
 
 **Parameters within `oracle_java::installation`:**
 
@@ -161,28 +158,32 @@ Namevar. See [oracle_java::version](#version)
 
 See [oracle_java::type](#type)
 
-#####`custom_checksum`
+#####`check_checksum`
 
-Checks against a custom MD5 checksum
-
-#####`custom_download_url`
-
-Do not download the Oracle Java package from java, instead use a alternative URL (example: `http://repo.mycompany.com/jdk-8u66-linux-x64.tar.gz`). Needs `format` set to `tar.gz`
+See [oracle_java::check_checksum](#check_checksum)
 
 #####`add_alternative`
 
 See [oracle_java::add_alternative](#add_alternative)
 
+#####`custom_download_url`
+
+See [oracle_java::custom_download_url](#custom_download_url)
+
+#####`custom_checksum`
+
+See [oracle_java::custom_checksum](#custom_checksum)
+
 ##Limitations
 
-Prior to Java 8u20, two different releases of the same Java series could not cohabit on the same system when installed from RPM. Each new version would override the previous one. This does not happen with tar.gz archives however.
+Prior to Java 8u20, two different releases of the same Java series could not cohabit on the same system when installed from RPM. Each new version would override the previous one. This does not happen with tar.gz archives.
+
+##Contributors
+
+* [Martin Zehetmayer](https://github.com/angrox)
 
 ##Credits
 
-The cookie manipulation used by this module to download its installation packages directly from Oracle's page was found on [Ivan Dyedov's Blog](https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/)
-
-##To Do
-
-* Allow the manipulation of Java related environment variables
+The cookie manipulation used by this module to download installation packages directly from Oracle's page was found on [Ivan Dyedov's Blog](https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/)
 
 Features request and contributions are always welcome!
