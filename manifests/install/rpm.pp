@@ -11,7 +11,7 @@ class oracle_java::install::rpm {
   # install package
   package { $oracle_java::packagename:
     ensure   => latest,
-    source   => "/usr/java/${oracle_java::filename}",
+    source   => "$::oracle_java::custom_archive_path/${oracle_java::filename}",
     provider => rpm
   }
 }
