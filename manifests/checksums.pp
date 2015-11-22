@@ -382,6 +382,6 @@ class oracle_java::checksums {
       default : { fail("Unknown checksum for file ${oracle_java::filename}") }
     }
   } else {
-    $checksum = $::oracle_java::custom_checksum
+    $checksum = $oracle_java::custom_checksum
   }
 }
