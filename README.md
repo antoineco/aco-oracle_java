@@ -131,6 +131,22 @@ Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/
 
 Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`
 
+#####`check_checksum`
+
+See [oracle_java::check_checksum](#check_checksum)
+
+#####`custom_checksum`
+
+Checks against a custom MD5 checksum
+
+#####`custom_archive_path`
+
+Use an alternative path as target for the untarred Oracle Java package. Needs `format` set to `tar.gz`
+
+#####`custom_download_url`
+
+Do not download the Oracle Java package from java, instead use a alternative URL (example: `http://repo.mycompany.com/jdk-8u66-linux-x64.tar.gz`). Needs `format` set to `tar.gz`
+
 ####Define: `oracle_java::installation`
 
 Installs an extra version of Oracle Java in `/usr/java`
@@ -145,9 +161,13 @@ Namevar. See [oracle_java::version](#version)
 
 See [oracle_java::type](#type)
 
-#####`check_checksum`
+#####`custom_checksum`
 
-See [oracle_java::check_checksum](#check_checksum)
+Checks against a custom MD5 checksum
+
+#####`custom_download_url`
+
+Do not download the Oracle Java package from java, instead use a alternative URL (example: `http://repo.mycompany.com/jdk-8u66-linux-x64.tar.gz`). Needs `format` set to `tar.gz`
 
 #####`add_alternative`
 
