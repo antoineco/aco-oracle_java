@@ -10,6 +10,6 @@ class oracle_java::env {
 
   augeas { 'environment':
     context => '/files/etc/environment',
-    changes => [ "set JAVA_HOME ${oracle_java::custom_archive_path}/${oracle_java::longversion}" ]
+    changes => [ "set JAVA_HOME ${oracle_java::install_path}/${oracle_java::longversion}" ]
   }
 }
