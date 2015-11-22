@@ -9,7 +9,7 @@ class oracle_java::install::targz {
   }
 
   # fix permissions
-  file { "${oracle_java::custom_archive_path}/${oracle_java::longversion}":
+  file { "${oracle_java::install_path}/${oracle_java::longversion}":
     recurse  => true,
     owner    => 'root',
     group    => 'root',
@@ -17,8 +17,8 @@ class oracle_java::install::targz {
   }
 
   # mimic RPM behaviour
-  file { "${oracle_java::custom_archive_path}/default":
+  file { "${oracle_java::install_path}/default":
     ensure => link,
-    target => "${oracle_java::custom_archive_path}/${oracle_java::longversion}"
+    target => "${oracle_java::install_path}/${oracle_java::longversion}"
   }
 }

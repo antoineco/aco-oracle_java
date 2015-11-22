@@ -10,14 +10,14 @@
 #   envionment type to install (valid: 'jre'|'jdk')
 # [*format*]
 #   archive format (valid: 'rpm'|'tar.gz')
-# [*custom_archive_path*]
-#   defines the root path where the java archives are extracted. Requires 'tar.gz' format
+# [*install_path*]
+#   defines the root path where the Java archives are extracted. Requires 'tar.gz' format
 # [*check_checksum*]
 #   enable checksum validation on downloaded archives (boolean)
 # [*add_alternative*]
 #   add java alternative (boolean)
 # [*add_system_env*]
-#   add system-wide java environment variables (boolean)
+#   add system-wide Java environment variables (boolean)
 # [*custom_download_url*]
 #   fetch the package from an alternative URL. Requires 'tar.gz' format
 # [*custom_checksum*]
@@ -48,7 +48,7 @@ class oracle_java (
   $check_checksum      = true,
   $add_alternative     = false,
   $add_system_env      = false,
-  $custom_archive_path = '/usr/java',
+  $install_path        = '/usr/java',
   $custom_download_url = undef,
   $custom_checksum     = undef
   ) {

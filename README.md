@@ -82,8 +82,8 @@ Force installation from standard tar.gz archive and in a custom location
 ```puppet
 class { 'oracle_java':
   …
-  format              => 'tar.gz',
-  custom_archive_path => '/opt/java'
+  format       => 'tar.gz',
+  install_path => '/opt/java'
 }
 ```
 
@@ -120,7 +120,7 @@ What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `
 
 What format of installation archive to retrieve. Valid values are `rpm` and `tar.gz`. Default depends on the platform
 
-#####`custom_archive_path`
+#####`install_path`
 
 Absolute root path where the Oracle Java archives are extracted. Requires `format` set to `tar.gz`. Defaults to `/usr/java`
 
@@ -146,7 +146,7 @@ Custom MD5 checksum used to verify the archive integrity. Optional. Defaults to 
 
 ####Define: `oracle_java::installation`
 
-Installs an extra version of Oracle Java in `custom_archive_path`
+Installs an extra version of Oracle Java in `install_path`
 
 **Parameters within `oracle_java::installation`:**
 
