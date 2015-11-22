@@ -16,6 +16,12 @@
 #   add java alternative (boolean)
 # [*add_system_env*]
 #   add system-wide java environment variables (boolean)
+# [*custom_download_url*]
+#   fetch the package from an alternative url. works only with format tar.gz
+# [*custom_archive_path*]
+#   defines the path where the java package will be unpacked. works only with format tar.gz
+# [*custom_checksum*]
+#   use a custom checksum to check the package
 #
 # === Actions:
 #
@@ -36,12 +42,15 @@
 #  }
 #
 class oracle_java (
-  $version = '8',
-  $type = 'jre',
-  $format = undef,
-  $check_checksum = true,
-  $add_alternative = false,
-  $add_system_env = false
+  $version             = '8',
+  $type                = 'jre',
+  $format              = undef,
+  $check_checksum      = true,
+  $add_alternative     = false,
+  $add_system_env      = false,
+  $custom_archive_path = '/usr/java',
+  $custom_download_url = undef,
+  $custom_checksum     = undef
   ) {
   if !$format {
     if $::osfamily =~ /RedHat|Suse/ or $::operatingsystem == 'Mageia' {
@@ -93,7 +102,11 @@ class oracle_java (
 
   # define download URL
   include oracle_java::javalist
-  $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${oracle_java::javalist::build}/${filename}"
+  if $custom_download_url == undef {
+    $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${oracle_java::javalist::build}/${filename}"
+  } else {
+    $downloadurl = $custom_download_url
+  }
 
   # define package name
   if $maj_version == '8' and $min_version >= '20' {
