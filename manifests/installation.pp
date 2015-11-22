@@ -47,7 +47,7 @@ define oracle_java::installation (
   }
 
   # The custom_archive_path is taken from the main class
-  $custom_archive_path = $::oracle_java::custom_archive_path
+  $custom_archive_path = $oracle_java::custom_archive_path
 
   # parameters validation
   validate_re($version, '^([0-9]|[0-9]u[0-9]{1,2})$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
