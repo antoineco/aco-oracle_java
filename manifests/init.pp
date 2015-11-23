@@ -19,7 +19,7 @@
 # [*add_system_env*]
 #   add system-wide Java environment variables (boolean)
 # [*custom_download_url*]
-#   fetch the package from an alternative URL. Requires 'tar.gz' format
+#   fetch the package from an alternative URL
 # [*custom_checksum*]
 #   use a custom checksum to verify the archive integrity
 #
@@ -54,9 +54,13 @@ class oracle_java (
   ) {
   if !$format {
     if $::osfamily =~ /RedHat|Suse/ or $::operatingsystem == 'Mageia' {
-      $format_real = 'rpm'
-    } else {
-      $format_real = 'tar.gz'
+      case $install_path {
+        '/usr/java' : { $format_real = 'rpm' }
+        default     : {
+          notice("'install_path' set to custom location on RPM platform, falling back to tar.gz installation")
+          $format_real = 'tar.gz'
+        }
+      }
     }
   } else {
     $format_real = $format
@@ -67,6 +71,7 @@ class oracle_java (
   validate_re($type, '^(jre|jdk)$', '$type must be either \'jre\' or \'jdk\'')
   validate_re($format_real, '^(rpm|tar\.gz)$', '$format must be either \'rpm\' or \'tar.gz\'')
   validate_bool($check_checksum, $add_alternative)
+  validate_absolute_path($install_path)
 
   # set to latest release if no minor version was provided
   if $version == '8' {

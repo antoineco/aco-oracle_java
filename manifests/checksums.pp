@@ -8,7 +8,7 @@ class oracle_java::checksums {
     fail('You must include the oracle_java base class before using any oracle_java sub class')
   }
 
-  if $oracle_java::custom_checksum == undef {
+  if !$oracle_java::custom_checksum {
     case $oracle_java::filename {
       # 8u66
       'jdk-8u66-linux-i586.rpm'    : { $checksum = 'a35792c4d9ae325404148b90ce632076' }

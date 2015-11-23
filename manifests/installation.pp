@@ -146,7 +146,7 @@ define oracle_java::installation (
     }
   }
   #-- end javalist --#
-  if $custom_download_url == undef {
+  if !$custom_download_url {
     $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build}/${filename}"
   } else {
     $downloadurl = $custom_download_url
@@ -171,7 +171,7 @@ define oracle_java::installation (
   # with checksum check
   if $check_checksum {
     #-- start checksum --#
-    if $custom_checksum == undef {
+    if !$custom_checksum {
       case $filename {
         # 8u66
         'jdk-8u66-linux-i586.rpm'    : { $checksum = 'a35792c4d9ae325404148b90ce632076' }

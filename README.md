@@ -77,7 +77,7 @@ oracle_java::installation { '7u65':
 }
 ```
 
-Force installation from standard tar.gz archive and in a custom location
+Force installation from standard tar.gz archive, in a custom location
 
 ```puppet
 class { 'oracle_java':
@@ -138,7 +138,7 @@ Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean val
 
 #####`custom_download_url`
 
-Do not download the Oracle Java archive from Oracle servers, instead use an alternative URL (example: `http://repo.mycompany.com/jdk-8u66-linux-x64.tar.gz`). Requires `format` set to `tar.gz`
+Do not download the Oracle Java archive from Oracle servers, instead use an alternative URL (example: `http://myrepo.com/jdk-8u66-linux-x64.tar.gz`)
 
 #####`custom_checksum`
 
