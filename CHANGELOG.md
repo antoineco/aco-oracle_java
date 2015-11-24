@@ -1,3 +1,10 @@
+###2.5.0
+
+* New parameters ([angrox](https://github.com/angrox)):
+  * `install_path`: set Java installation path
+  * `custom_download_url`: download the Java package/achive from a custom URL
+  * `custom_checksum`: custom MD5 checksum for package/archive integrity verification
+
 ###2.4.2
 
 Add support for Java '8u65'/'8u66'

@@ -40,22 +40,6 @@ include oracle_java
 
 ####A couple of examples
 
-Install the latest release of the Java 7 SE JRE
-
-```puppet
-class { 'oracle_java':
-  version => 7
-}
-```
-
-Install the latest available JDK
-
-```puppet
-class { 'oracle_java':
-  type => 'jdk'
-}
-```
-
 Install a specific version of the JDK
 
 ```puppet
@@ -94,6 +78,16 @@ class { 'oracle_java':
   …
   check_checksum  => false,
   add_alternative => true
+}
+```
+
+Install from custom archive and URL
+
+```puppet
+class { 'oracle_java':
+  …
+  custom_download_url => 'http://myrepo.com/jdk-8u66-linux-x64.tar.gz',
+  custom_checksum     => 'abcdef0123456789abcdef0123456789'
 }
 ```
 
@@ -138,7 +132,7 @@ Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean val
 
 #####`custom_download_url`
 
-Do not download the Oracle Java archive from Oracle servers, instead use an alternative URL (example: `http://myrepo.com/jdk-8u66-linux-x64.tar.gz`)
+Do not download the Oracle Java archive from Oracle servers, instead use an alternative URL. Must but the full URL to the archive file or RPM package
 
 #####`custom_checksum`
 
