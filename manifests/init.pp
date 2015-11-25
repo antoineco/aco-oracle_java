@@ -61,6 +61,8 @@ class oracle_java (
           $format_real = 'tar.gz'
         }
       }
+    } else {
+      $format_real = 'tar.gz'
     }
   } else {
     $format_real = $format
