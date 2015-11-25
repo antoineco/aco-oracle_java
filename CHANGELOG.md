@@ -1,3 +1,7 @@
+###2.5.1
+
+Fix regression that forced `format` to be set manually on non-RPM OS
+
 ###2.5.0
 
 New parameters ([angrox](https://github.com/angrox)):
