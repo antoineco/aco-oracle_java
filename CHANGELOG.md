@@ -1,3 +1,8 @@
+###2.6.0
+
+* Replace deprecated module dependency [nanliu-archive](https://forge.puppetlabs.com/nanliu/archive) by [puppet-archive](https://forge.puppetlabs.com/puppet/archive)
+* Use *curl* as download provider instead of *faraday*
+
 ###2.5.1
 
 Fix regression that forced `format` to be set manually on non-RPM OS
@@ -19,7 +24,7 @@ Add support for Java '8u60'
 
 ###2.4.0
 
-* New parameter `add_system_env` to set `JAVA_HOME` as system-wide environment variable 
+* New parameter `add_system_env` to set `JAVA_HOME` as system-wide environment variable
 * Fix dependency issue when installing multiple Java alternatives
 * Merge missing changes to `installation` defined type
 
