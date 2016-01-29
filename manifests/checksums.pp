@@ -10,6 +10,15 @@ class oracle_java::checksums {
 
   if !$oracle_java::custom_checksum {
     case $oracle_java::filename {
+      # 8u72
+      'jdk-8u72-linux-i586.rpm'    : { $checksum = 'e5bc5ad8a59f343265d5493fe0004ace' }
+      'jdk-8u72-linux-i586.tar.gz' : { $checksum = '19e3ad9a6c8dc6d4ff042f459c06b6c4' }
+      'jdk-8u72-linux-x64.rpm'     : { $checksum = '09a5aab308ff5a6a9d42cf6a5e34c688' }
+      'jdk-8u72-linux-x64.tar.gz'  : { $checksum = '54cde24fc0596f0f05b5d0d8f329053d' }
+      'jre-8u72-linux-i586.rpm'    : { $checksum = 'ca219876a0428cb724834bf026eee997' }
+      'jre-8u72-linux-i586.tar.gz' : { $checksum = '625a5caea29984d36640aa0e59e5e52c' }
+      'jre-8u72-linux-x64.rpm'     : { $checksum = '927987581899d7a5e64920c134bab073' }
+      'jre-8u72-linux-x64.tar.gz'  : { $checksum = 'f45932f9a3a9c38e47a60504d21449f8' }
       # 8u71
       'jdk-8u71-linux-i586.rpm'    : { $checksum = 'b76b5f195cd2349ab37ebbaa22f84255' }
       'jdk-8u71-linux-i586.tar.gz' : { $checksum = 'b794964aa840745235bac1409c90a9ac' }
