@@ -56,7 +56,7 @@ define oracle_java::installation (
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u66'
+    $version_real = '8u72'
   } elsif $version == '7' {
     $version_real = '7u80'
   } else {
@@ -92,6 +92,8 @@ define oracle_java::installation (
   case $maj_version {
     '8'     : {
       case $min_version {
+        '72'    : { $build = '-b15' }
+        '71'    : { $build = '-b15' }
         '66'    : { $build = '-b17' }
         '65'    : { $build = '-b17' }
         '60'    : { $build = '-b27' }
@@ -173,6 +175,24 @@ define oracle_java::installation (
     #-- start checksum --#
     if !$custom_checksum {
       case $filename {
+        # 8u72
+        'jdk-8u72-linux-i586.rpm'    : { $checksum = 'e5bc5ad8a59f343265d5493fe0004ace' }
+        'jdk-8u72-linux-i586.tar.gz' : { $checksum = '19e3ad9a6c8dc6d4ff042f459c06b6c4' }
+        'jdk-8u72-linux-x64.rpm'     : { $checksum = '09a5aab308ff5a6a9d42cf6a5e34c688' }
+        'jdk-8u72-linux-x64.tar.gz'  : { $checksum = '54cde24fc0596f0f05b5d0d8f329053d' }
+        'jre-8u72-linux-i586.rpm'    : { $checksum = 'ca219876a0428cb724834bf026eee997' }
+        'jre-8u72-linux-i586.tar.gz' : { $checksum = '625a5caea29984d36640aa0e59e5e52c' }
+        'jre-8u72-linux-x64.rpm'     : { $checksum = '927987581899d7a5e64920c134bab073' }
+        'jre-8u72-linux-x64.tar.gz'  : { $checksum = 'f45932f9a3a9c38e47a60504d21449f8' }
+        # 8u71
+        'jdk-8u71-linux-i586.rpm'    : { $checksum = 'b76b5f195cd2349ab37ebbaa22f84255' }
+        'jdk-8u71-linux-i586.tar.gz' : { $checksum = 'b794964aa840745235bac1409c90a9ac' }
+        'jdk-8u71-linux-x64.rpm'     : { $checksum = '43a9271b9e9d99dea8af289f9d931984' }
+        'jdk-8u71-linux-x64.tar.gz'  : { $checksum = '12db05061f8816d01bb234bbdc40fefa' }
+        'jre-8u71-linux-i586.rpm'    : { $checksum = '881756340b2614f4cb8ba38f5ba5e1c1' }
+        'jre-8u71-linux-i586.tar.gz' : { $checksum = '9991e271ec34395c60eed9ee0b393a7c' }
+        'jre-8u71-linux-x64.rpm'     : { $checksum = '8f6a8da3b7431bf82391fff2c908ad08' }
+        'jre-8u71-linux-x64.tar.gz'  : { $checksum = '345029226fff96c52ac300c5e01b32f8' }
         # 8u66
         'jdk-8u66-linux-i586.rpm'    : { $checksum = 'a35792c4d9ae325404148b90ce632076' }
         'jdk-8u66-linux-i586.tar.gz' : { $checksum = '8a1f36b29152856a5dd2c3953a4c24a1' }
