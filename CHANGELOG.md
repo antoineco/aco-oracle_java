@@ -1,3 +1,7 @@
+###2.6.1
+
+Add support for Java '8u71'/'8u72'
+
 ###2.6.0
 
 * Replace deprecated module dependency [nanliu-archive](https://forge.puppetlabs.com/nanliu/archive) by [puppet-archive](https://forge.puppetlabs.com/puppet/archive)
