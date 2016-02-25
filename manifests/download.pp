@@ -33,7 +33,6 @@ class oracle_java::download {
   # download archive
   if $oracle_java::format_real == 'rpm' {
     archive { "${oracle_java::install_path}/${oracle_java::filename}":
-      provider => 'curl',
       cookie   => 'oraclelicense=accept-securebackup-cookie',
       source   => $oracle_java::downloadurl,
       cleanup  => false,
@@ -42,7 +41,6 @@ class oracle_java::download {
   } else {
     # also extract and clean up if tar.gz
     archive { "${oracle_java::install_path}/${oracle_java::filename}":
-      provider     => 'curl',
       cookie       => 'oraclelicense=accept-securebackup-cookie',
       source       => $oracle_java::downloadurl,
       cleanup      => true,

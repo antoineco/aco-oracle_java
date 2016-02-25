@@ -576,7 +576,6 @@ define oracle_java::installation (
 
   # download, extract and cleanup archive
   archive { "${install_path}/${filename}":
-    provider     => 'curl',
     cookie       => 'oraclelicense=accept-securebackup-cookie',
     source       => $downloadurl,
     cleanup      => true,
