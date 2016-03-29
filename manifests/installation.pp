@@ -56,7 +56,7 @@ define oracle_java::installation (
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u72'
+    $version_real = '8u77'
   } elsif $version == '7' {
     $version_real = '7u80'
   } else {
@@ -92,6 +92,7 @@ define oracle_java::installation (
   case $maj_version {
     '8'     : {
       case $min_version {
+        '77'    : { $build = '-b03' }
         '72'    : { $build = '-b15' }
         '71'    : { $build = '-b15' }
         '66'    : { $build = '-b17' }
@@ -175,6 +176,15 @@ define oracle_java::installation (
     #-- start checksum --#
     if !$custom_checksum {
       case $filename {
+        # 8u77
+        'jdk-8u77-linux-i586.rpm'    : { $checksum = '466a2bb2b48011b51620aeb115a3d6ae' }
+        'jdk-8u77-linux-i586.tar.gz' : { $checksum = 'e5bac32e2a7ab5cf9068ba92ba084472' }
+        'jdk-8u77-linux-x64.rpm'     : { $checksum = 'a1db6aa94d2617c28d8120a789989f72' }
+        'jdk-8u77-linux-x64.tar.gz'  : { $checksum = 'ee501bef73ba7fac255f0593e595d8eb' }
+        'jre-8u77-linux-i586.rpm'    : { $checksum = 'e98301955a62e7f0bf44c9c22e0cb9fb' }
+        'jre-8u77-linux-i586.tar.gz' : { $checksum = '2a92cc0efa5e087230b0b77cef8a569e' }
+        'jre-8u77-linux-x64.rpm'     : { $checksum = '5559c78c9d8c0bdbfb89d49aa502b56e' }
+        'jre-8u77-linux-x64.tar.gz'  : { $checksum = '7e7d8d0918b4f81f6adde9fcb853a036' }
         # 8u72
         'jdk-8u72-linux-i586.rpm'    : { $checksum = 'e5bc5ad8a59f343265d5493fe0004ace' }
         'jdk-8u72-linux-i586.tar.gz' : { $checksum = '19e3ad9a6c8dc6d4ff042f459c06b6c4' }
