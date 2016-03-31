@@ -31,7 +31,7 @@ class oracle_java::download {
   }
 
   # download archive
-  if $oracle_java::format_real == 'rpm' {
+  if $oracle_java::format_real == 'rpm' or $oracle_java::maj_version == '6' {
     archive { "${oracle_java::install_path}/${oracle_java::filename}":
       provider => 'curl',
       cookie   => 'oraclelicense=accept-securebackup-cookie',

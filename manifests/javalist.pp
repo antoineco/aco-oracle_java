@@ -66,6 +66,12 @@ class oracle_java::javalist {
         default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
       }
     }
+    '6'     : {
+      case $oracle_java::min_version {
+        '45'    : { $build = '-b06' }
+        default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
+      }
+    }
     default : {
       fail("oracle_java module does not support Java SE version ${oracle_java::maj_version} (yet)")
     }
