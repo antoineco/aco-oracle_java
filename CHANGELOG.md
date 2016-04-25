@@ -1,3 +1,7 @@
+###2.6.3
+
+Add support for Java '8u91'/'8u92'
+
 ###2.6.2
 
 Add support for Java '8u77'
