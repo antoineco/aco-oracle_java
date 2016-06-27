@@ -8,6 +8,17 @@ class oracle_java::install::targz {
     fail('You must include the oracle_java base class before using any oracle_java sub class')
   }
 
+  # the procedure is a bit more complicated for Java 6...
+  # files are packaged into an unzipsfx archive which has to be extracted
+  if $oracle_java::maj_version == '6' {
+    exec { 'unpack java files':
+      path    => '/bin',
+      cwd     => "${oracle_java::install_path}",
+      creates => "${oracle_java::install_path}/${oracle_java::longversion}",
+      command => "chmod +x ${oracle_java::filename}; ./${oracle_java::filename}"
+    }
+  }
+
   # fix permissions
   file { "${oracle_java::install_path}/${oracle_java::longversion}":
     recurse  => true,

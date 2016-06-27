@@ -80,6 +80,8 @@ class oracle_java (
     $version_real = '8u92'
   } elsif $version == '7' {
     $version_real = '7u80'
+  } elsif $version == '6' {
+    $version_real = '6u45'
   } else {
     $version_real = $version
   }
@@ -105,7 +107,24 @@ class oracle_java (
   }
 
   # define installer filename
-  $filename = "${type}-${version_final}-linux-${arch}.${format_real}"
+  case $maj_version {
+    '6'     : {
+      case $format_real {
+        'rpm'   : { $filename = "${type}-${version_final}-linux-${arch}-rpm.bin" }
+        default : { $filename = "${type}-${version_final}-linux-${arch}.bin" }
+      }
+    }
+    default : { $filename = "${type}-${version_final}-linux-${arch}.${format_real}" }
+  }
+
+  # used for installing Java 6 RPM only
+  # determine filename once .bin is extracted
+  if $maj_version == '6' and $format_real == 'rpm' {
+    case $arch {
+      'x64'   : { $filename_extracted = "${type}-${version_final}-linux-amd64.rpm" }
+      default : { $filename_extracted = "${type}-${version_final}-linux-${arch}.rpm" }
+    }
+  }
 
   # define download URL
   include oracle_java::javalist
