@@ -21,7 +21,7 @@ class oracle_java::install::rpm {
   else {
     exec { 'unpack java RPM':
       path    => '/bin',
-      cwd     => "${oracle_java::install_path}",
+      cwd     => $oracle_java::install_path,
       creates => "${oracle_java::install_path}/${oracle_java::filename_extracted}",
       command => "chmod +x ${oracle_java::filename}; ./${oracle_java::filename}"
     } ->

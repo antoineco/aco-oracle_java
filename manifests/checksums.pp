@@ -10,6 +10,24 @@ class oracle_java::checksums {
 
   if !$oracle_java::custom_checksum {
     case $oracle_java::filename {
+      # 8u102
+      'jdk-8u102-linux-i586.rpm'    : { $checksum = 'e1faeb8e847f77c3a842571d605ffaa0' }
+      'jdk-8u102-linux-i586.tar.gz' : { $checksum = '13ca2f1c15a71dde4e57436d5ce671f8' }
+      'jdk-8u102-linux-x64.rpm'     : { $checksum = '1ffe998845b594c66db2703dd5f60d88' }
+      'jdk-8u102-linux-x64.tar.gz'  : { $checksum = 'bac58dcec9bb85859810a2a6acba740b' }
+      'jre-8u102-linux-i586.rpm'    : { $checksum = '712b5b9376feed70893a7ba899e90748' }
+      'jre-8u102-linux-i586.tar.gz' : { $checksum = '77199a65cc3dd11e6a5dbb3144fad968' }
+      'jre-8u102-linux-x64.rpm'     : { $checksum = '95fb6160ad3878ed3ca0a1772e0f421d' }
+      'jre-8u102-linux-x64.tar.gz'  : { $checksum = '18f4cfa3ad7b10dea718e74fd06e5f19' }
+      # 8u101
+      'jdk-8u101-linux-i586.rpm'    : { $checksum = 'fa4561cef6f02e05e3339a122115658b' }
+      'jdk-8u101-linux-i586.tar.gz' : { $checksum = '4f4600815aa1adb5294278d471e890e3' }
+      'jdk-8u101-linux-x64.rpm'     : { $checksum = '353403dbc633d70e527f7a8fc9cb708e' }
+      'jdk-8u101-linux-x64.tar.gz'  : { $checksum = 'a7ab8014716b0dac3adcaf5342167699' }
+      'jre-8u101-linux-i586.rpm'    : { $checksum = 'f14d8a0c04105752d47590c7d38abd96' }
+      'jre-8u101-linux-i586.tar.gz' : { $checksum = '70b99858124b1de5fe7b9bf484f1c735' }
+      'jre-8u101-linux-x64.rpm'     : { $checksum = '8eeed2ea9f48b688cd01b888d3c72bec' }
+      'jre-8u101-linux-x64.tar.gz'  : { $checksum = '967b7a0c51be657ec79ca27c559943d1' }
       # 8u92
       'jdk-8u92-linux-i586.rpm'     : { $checksum = 'ac93a9f5b9a24cf2243e70fe4b45821d' }
       'jdk-8u92-linux-i586.tar.gz'  : { $checksum = '0f2839ff1066438123dac3404702a3ef' }
@@ -433,7 +451,7 @@ class oracle_java::checksums {
       'jre-6u45-linux-i586.bin'     : { $checksum = '1d8001ef61a2e3a11fe7b9eec9f08948' }
       'jre-6u45-linux-x64-rpm.bin'  : { $checksum = '3711f2bea7520a31356a4a266c2dbc3f' }
       'jre-6u45-linux-x64.bin'      : { $checksum = '4a4569126f05f525f48bacf761f7185c' }
-      default : { fail("Unknown checksum for file ${oracle_java::filename}") }
+      default                       : { fail("Unknown checksum for file ${oracle_java::filename}") }
     }
   } else {
     $checksum = $oracle_java::custom_checksum

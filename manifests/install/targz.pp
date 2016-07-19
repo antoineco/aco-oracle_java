@@ -13,7 +13,7 @@ class oracle_java::install::targz {
   if $oracle_java::maj_version == '6' {
     exec { 'unpack java files':
       path    => '/bin',
-      cwd     => "${oracle_java::install_path}",
+      cwd     => $oracle_java::install_path,
       creates => "${oracle_java::install_path}/${oracle_java::longversion}",
       command => "chmod +x ${oracle_java::filename}; ./${oracle_java::filename}"
     }

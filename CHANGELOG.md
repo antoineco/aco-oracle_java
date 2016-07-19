@@ -1,3 +1,9 @@
+###2.7.0
+
+* Add support for Java '8u101'/'8u102'
+* Restore support for Java '6u45' (main installation only)
+* Tested on Fedora 24, OpenSUSE 42.1/42.2, Mageia 5
+
 ###2.6.3
 
 Add support for Java '8u91'/'8u92'
