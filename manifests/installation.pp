@@ -50,7 +50,7 @@ define oracle_java::installation (
   $install_path = $oracle_java::install_path
 
   # parameters validation
-  validate_re($version, '^([0-9]|[0-9]u[0-9]{1,2})$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
+  validate_re($version, '^([0-9]|[0-9]u[0-9]{1,3})$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
   validate_re($type, '^(jre|jdk)$', '$type must be either \'jre\' or \'jdk\'')
   validate_bool($check_checksum, $add_alternative)
 
