@@ -37,7 +37,7 @@ class oracle_java::download {
       cookie   => 'oraclelicense=accept-securebackup-cookie',
       source   => $oracle_java::downloadurl,
       cleanup  => false,
-      require  => File[$oracle_java::install_path],
+      require  => File[$oracle_java::install_path]
     }
   } else {
     # also extract and clean up if tar.gz
