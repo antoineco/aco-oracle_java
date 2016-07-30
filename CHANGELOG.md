@@ -1,3 +1,7 @@
+###2.7.1
+
+Support Java 6 as extra installation
+
 ###2.7.0
 
 * Add support for Java '8u101'/'8u102'
