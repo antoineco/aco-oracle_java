@@ -1,4 +1,5 @@
 #oracle_java
+[![Build Status](https://travis-ci.org/antoineco/aco-oracle_java.svg?branch=master)](https://travis-ci.org/antoineco/aco-oracle_java)
 
 ####Table of Contents
 
