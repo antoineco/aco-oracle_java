@@ -127,7 +127,7 @@ class oracle_java (
   }
 
   # define download URL
-  include oracle_java::javalist
+  contain oracle_java::javalist
   if $custom_download_url == undef {
     $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${oracle_java::javalist::build}/${filename}"
   } else {
@@ -142,16 +142,16 @@ class oracle_java (
   }
 
   # annnnd... let's go
-  include oracle_java::download
-  include oracle_java::install
+  contain oracle_java::download
+  contain oracle_java::install
   Class['oracle_java::download'] ~> Class['oracle_java::install']
 
   if $add_alternative {
-    include oracle_java::alternative
+    contain oracle_java::alternative
     Class['oracle_java::install'] -> Class['oracle_java::alternative']
   }
 
   if $add_system_env {
-    include oracle_java::env
+    contain oracle_java::env
   }
 }
