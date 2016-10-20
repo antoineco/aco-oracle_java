@@ -1,3 +1,8 @@
+###2.7.2
+
+* Add support for Java '8u111'/'8u112' ([mtron](https://github.com/mtron))
+* Tested on Ubuntu 16.10
+
 ###2.7.1
 
 Support Java 6 as extra installation
