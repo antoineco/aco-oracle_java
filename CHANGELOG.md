@@ -1,6 +1,14 @@
+###2.7.3
+
+* Unset `provider` parameter on all `archive` resources (from `puppet-archive` module)
+ - quick and dirty workaround until [SERVER-94](https://tickets.puppetlabs.com/browse/SERVER-94) gets fixed
+ - **Warning:** may break behind a HTTP proxy (untested)
+* Tested on Fedora 25, Amazon Linux 2016.09
+
 ###2.7.2
 
 * Add support for Java '8u111'/'8u112' ([mtron](https://github.com/mtron))
+* Contain included classes ([claytononeill](https://github.com/claytononeill))
 * Tested on Ubuntu 16.10
 
 ###2.7.1
@@ -27,7 +35,7 @@ Add support for Java '8u71'/'8u72'
 
 ###2.6.0
 
-* Replace deprecated module dependency [nanliu-archive](https://forge.puppetlabs.com/nanliu/archive) by [puppet-archive](https://forge.puppetlabs.com/puppet/archive)
+* Replace deprecated module dependency [nanliu-archive](https://forge.puppetlabs.com/nanliu/archive) with [puppet-archive](https://forge.puppetlabs.com/puppet/archive)
 * Use *curl* as download provider instead of *faraday*
 
 ###2.5.1

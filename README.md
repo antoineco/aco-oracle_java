@@ -176,6 +176,7 @@ Prior to Java 8u20, two different releases of the same Java series could not coh
 ##Contributors
 
 * [Martin Zehetmayer](https://github.com/angrox)
+* [Clayton O'Neill](https://github.com/claytononeill)
 * [Michael Hoertnagl](https://github.com/mtron)
 
 ##Credits

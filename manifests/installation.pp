@@ -463,16 +463,16 @@ define oracle_java::installation (
   # download archive
   if $maj_version == '6' {
     archive { "${install_path}/${filename}":
-      provider => 'curl',
-      cookie   => 'oraclelicense=accept-securebackup-cookie',
-      source   => $downloadurl,
-      cleanup  => false,
-      require  => File[$install_path]
+      #provider => 'curl',
+      cookie  => 'oraclelicense=accept-securebackup-cookie',
+      source  => $downloadurl,
+      cleanup => false,
+      require => File[$install_path]
     }
   } else {
     # also extract and clean up if tar.gz
     archive { "${install_path}/${filename}":
-      provider     => 'curl',
+      #provider     => 'curl',
       cookie       => 'oraclelicense=accept-securebackup-cookie',
       source       => $downloadurl,
       cleanup      => true,
