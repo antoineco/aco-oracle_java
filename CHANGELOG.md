@@ -1,3 +1,8 @@
+###2.7.4
+
+* Add proxy support via new parameters `proxy_server` and `proxy_type`
+* Replace or remove calls to deprecated `validate_*` stdlib functions
+
 ###2.7.3
 
 * Unset `provider` parameter on all `archive` resources (from `puppet-archive` module)
