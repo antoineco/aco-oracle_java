@@ -22,6 +22,10 @@
 #   fetch the package from an alternative URL
 # [*custom_checksum*]
 #   use a custom checksum to verify the archive integrity
+# [*proxy_server*]
+#   proxy server url
+# [*proxy_type*]
+#   proxy server type (valid: 'none'|'http'|'https'|'ftp')
 #
 # === Actions:
 #
@@ -50,7 +54,9 @@ class oracle_java (
   $add_system_env      = false,
   $install_path        = '/usr/java',
   $custom_download_url = undef,
-  $custom_checksum     = undef
+  $custom_checksum     = undef,
+  $proxy_server        = undef,
+  $proxy_type          = undef
   ) {
   if !$format {
     if $::osfamily =~ /RedHat|Suse/ or $::operatingsystem == 'Mageia' {

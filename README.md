@@ -92,6 +92,15 @@ class { 'oracle_java':
 }
 ```
 
+Download Java archives behind a proxy server
+
+```puppet
+class { 'oracle_java':
+  …
+  proxy_server => 'http://user:password@proxy.example.com:8080'
+}
+```
+
 ##Usage
 
 ###Classes and Defined Types
@@ -138,6 +147,14 @@ Do not download the Oracle Java archive from Oracle servers, instead use an alte
 #####`custom_checksum`
 
 Custom MD5 checksum used to verify the archive integrity. Optional. Defaults to the checksum provided by Oracle
+
+#####`proxy_server`
+
+URL of a proxy server used for downloading Java archives
+
+#####`proxy_type`
+
+Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Optional. Default determined by the scheme used in `proxy_server`
 
 ####Define: `oracle_java::installation`
 

@@ -21,6 +21,14 @@ class oracle_java::download {
     group  => 'root'
   }
 
+  Archive {
+    cookie       => 'oraclelicense=accept-securebackup-cookie',
+    source       => $oracle_java::downloadurl,
+    proxy_server => $oracle_java::proxy_server,
+    proxy_type   => $oracle_java::proxy_type,
+    require      => File[$oracle_java::install_path]
+  }
+
   # with checksum check
   if $oracle_java::check_checksum {
     include oracle_java::checksums # get checksums list
@@ -33,20 +41,13 @@ class oracle_java::download {
   # download archive
   if $oracle_java::format_real == 'rpm' or $oracle_java::maj_version == '6' {
     archive { "${oracle_java::install_path}/${oracle_java::filename}":
-      #provider => 'curl',
-      cookie  => 'oraclelicense=accept-securebackup-cookie',
-      source  => $oracle_java::downloadurl,
       cleanup => false,
-      require => File[$oracle_java::install_path]
+      extract => false
     }
   } else {
     # also extract and clean up if tar.gz
     archive { "${oracle_java::install_path}/${oracle_java::filename}":
-      #provider     => 'curl',
-      cookie       => 'oraclelicense=accept-securebackup-cookie',
-      source       => $oracle_java::downloadurl,
       cleanup      => true,
-      require      => File[$oracle_java::install_path],
       extract      => true,
       extract_path => $oracle_java::install_path,
       creates      => "${oracle_java::install_path}/${oracle_java::longversion}"

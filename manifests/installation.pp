@@ -16,6 +16,10 @@
 #   fetch the package from an alternative URL
 # [*custom_checksum*]
 #   use a custom checksum to verify the archive integrity
+# [*proxy_server*]
+#   proxy server url
+# [*proxy_type*]
+#   proxy server type (valid: 'none'|'http'|'https'|'ftp')
 #
 # === Actions:
 #
@@ -38,7 +42,9 @@ define oracle_java::installation (
   $check_checksum      = true,
   $add_alternative     = false,
   $custom_download_url = undef,
-  $custom_checksum     = undef
+  $custom_checksum     = undef,
+  $proxy_server        = undef,
+  $proxy_type          = undef
   ) {
 
   # The base class must be included first
@@ -460,23 +466,24 @@ define oracle_java::installation (
     }
   }
 
+  Archive {
+    cookie       => 'oraclelicense=accept-securebackup-cookie',
+    source       => $downloadurl,
+    proxy_server => $proxy_server,
+    proxy_type   => $proxy_type,
+    require      => File[$install_path]
+  }
+
   # download archive
   if $maj_version == '6' {
     archive { "${install_path}/${filename}":
-      #provider => 'curl',
-      cookie  => 'oraclelicense=accept-securebackup-cookie',
-      source  => $downloadurl,
       cleanup => false,
-      require => File[$install_path]
+      extract => false
     }
   } else {
     # also extract and clean up if tar.gz
     archive { "${install_path}/${filename}":
-      #provider     => 'curl',
-      cookie       => 'oraclelicense=accept-securebackup-cookie',
-      source       => $downloadurl,
       cleanup      => true,
-      require      => File[$install_path],
       extract      => true,
       extract_path => $install_path,
       creates      => "${install_path}/${longversion}"
