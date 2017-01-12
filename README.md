@@ -10,6 +10,7 @@
   * [Classes and Defined Types](#classes-and-defined-types)
     * [Class: oracle_java](#class-oracle_java)
     * [Define: oracle_java::installation](#define-oracle_javainstallation)
+    * [Common parameters](#common-parameters)
 5. [Limitations](#limitations)
 6. [Contributors](#contributors)
 7. [Credits](#credits)
@@ -116,10 +117,6 @@ Primary class and entry point of the module. Installs Java in `/usr/java`
 Java version to install, formatted as '*major_version*'u'*minor_version*' or simply '*major_version*' for the latest available release in the selected Java SE series. Defaults to `8`  
 *Note*: a minor version of '0' (for example `8u0`) matches the initial release of the selected Java SE series. 
 
-#####`type`
-
-What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `jre`
-
 #####`format`
 
 What format of installation archive to retrieve. Valid values are `rpm` and `tar.gz`. Default depends on the platform
@@ -128,6 +125,32 @@ What format of installation archive to retrieve. Valid values are `rpm` and `tar
 
 Absolute root path where the Oracle Java archives are extracted. Requires `format` set to `tar.gz`. Defaults to `/usr/java`
 
+#####`add_system_env`
+
+Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`
+
+See also [Common parameters](#common-parameters)
+
+####Define: `oracle_java::installation`
+
+Installs an extra version of Oracle Java in `install_path`
+
+**Parameters within `oracle_java::installation`:**
+
+#####`version`
+
+Namevar. See [oracle_java::version](#version)
+
+See also [Common parameters](#common-parameters)
+
+####Common parameters
+
+Parameters common to both `oracle_java` and `oracle_java::installation`
+
+#####`type`
+
+What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `jre`
+
 #####`check_checksum`
 
 Enable checksum validation on downloaded archives. Boolean value. Defaults to `true`
@@ -135,10 +158,6 @@ Enable checksum validation on downloaded archives. Boolean value. Defaults to `t
 #####`add_alternative`
 
 Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/SuSE families). Boolean value. Defaults to `false`
-
-#####`add_system_env`
-
-Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`
 
 #####`custom_download_url`
 
@@ -155,36 +174,6 @@ URL of a proxy server used for downloading Java archives
 #####`proxy_type`
 
 Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Optional. Default determined by the scheme used in `proxy_server`
-
-####Define: `oracle_java::installation`
-
-Installs an extra version of Oracle Java in `install_path`
-
-**Parameters within `oracle_java::installation`:**
-
-#####`version`
-
-Namevar. See [oracle_java::version](#version)
-
-#####`type`
-
-See [oracle_java::type](#type)
-
-#####`check_checksum`
-
-See [oracle_java::check_checksum](#check_checksum)
-
-#####`add_alternative`
-
-See [oracle_java::add_alternative](#add_alternative)
-
-#####`custom_download_url`
-
-See [oracle_java::custom_download_url](#custom_download_url)
-
-#####`custom_checksum`
-
-See [oracle_java::custom_checksum](#custom_checksum)
 
 ##Limitations
 
