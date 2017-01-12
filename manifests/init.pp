@@ -75,11 +75,15 @@ class oracle_java (
   }
 
   # parameters validation
-  validate_re($version, '^([0-9]|[0-9]u[0-9]{1,3})$', '$version must be formated as \'major\'u\'minor\' or just \'major\'')
-  validate_re($type, '^(jre|jdk)$', '$type must be either \'jre\' or \'jdk\'')
-  validate_re($format_real, '^(rpm|tar\.gz)$', '$format must be either \'rpm\' or \'tar.gz\'')
-  validate_bool($check_checksum, $add_alternative)
-  validate_absolute_path($install_path)
+  if $version !~ /^([0-9]|[0-9]u[0-9]{1,3})$/ {
+    fail('$version must be formated as \'major\'u\'minor\' or just \'major\'')
+  }
+  if $type !~ /^(jre|jdk)$/ {
+    fail('$type must be either \'jre\' or \'jdk\'')
+  }
+  if $format_real !~ /^(rpm|tar\.gz)$/ {
+    fail('$format must be either \'rpm\' or \'tar.gz\'')
+  }
 
   # set to latest release if no minor version was provided
   if $version == '8' {
