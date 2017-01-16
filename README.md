@@ -1,6 +1,8 @@
 #oracle_java
 [![Build Status](https://travis-ci.org/antoineco/aco-oracle_java.svg?branch=master)](https://travis-ci.org/antoineco/aco-oracle_java)
 
+*By using this module you acknowledge that you have read and accepted the terms of the [Oracle Binary Code License Agreement for Java SE](http://www.oracle.com/technetwork/java/javase/terms/license/)*
+
 ####Table of Contents
 
 1. [Overview](#overview)
