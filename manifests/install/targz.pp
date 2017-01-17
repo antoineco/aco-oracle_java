@@ -15,7 +15,7 @@ class oracle_java::install::targz {
       path    => '/bin',
       cwd     => $oracle_java::install_path,
       creates => "${oracle_java::install_path}/${oracle_java::longversion}",
-      command => "chmod +x ${oracle_java::filename}; ./${oracle_java::filename}"
+      command => "chmod +x ${oracle_java::filename_real}; ./${oracle_java::filename_real}"
     }
   }
 

@@ -6,6 +6,8 @@
 #
 # [*version*]
 #   Java SE version to install (valid format: 'major'u'minor' or just 'major')
+# [*build*]
+#   build number associated to the requested Java SE version (valid format: '-b###')
 # [*type*]
 #   envionment type to install (valid: 'jre'|'jdk')
 # [*format*]
@@ -14,14 +16,16 @@
 #   defines the root path where the Java archives are extracted. Requires 'tar.gz' format
 # [*check_checksum*]
 #   enable checksum validation on downloaded archives (boolean)
+# [*checksum*]
+#   use a custom checksum to verify the archive integrity
 # [*add_alternative*]
 #   add java alternative (boolean)
 # [*add_system_env*]
 #   add system-wide Java environment variables (boolean)
-# [*custom_download_url*]
-#   fetch the package from an alternative URL
-# [*custom_checksum*]
-#   use a custom checksum to verify the archive integrity
+# [*download_url*]
+#   base url of a custom location to fetch the installation package from
+# [*filename*]
+#   custom file name to use when downloading the installation package
 # [*proxy_server*]
 #   proxy server url
 # [*proxy_type*]
@@ -34,7 +38,7 @@
 # === Requires:
 #
 # * puppetlabs/stdlib module
-# * nanliu/archive module
+# * puppet/archive module
 #
 # === Sample Usage:
 #
@@ -46,17 +50,19 @@
 #  }
 #
 class oracle_java (
-  $version             = '8',
-  $type                = 'jre',
-  $format              = undef,
-  $check_checksum      = true,
-  $add_alternative     = false,
-  $add_system_env      = false,
-  $install_path        = '/usr/java',
-  $custom_download_url = undef,
-  $custom_checksum     = undef,
-  $proxy_server        = undef,
-  $proxy_type          = undef
+  $version         = '8',
+  $build           = undef,
+  $type            = 'jre',
+  $format          = undef,
+  $check_checksum  = true,
+  $checksum        = undef,
+  $add_alternative = false,
+  $add_system_env  = false,
+  $install_path    = '/usr/java',
+  $download_url    = undef,
+  $filename        = undef,
+  $proxy_server    = undef,
+  $proxy_type      = undef
   ) {
   if !$format {
     if $::osfamily =~ /RedHat|Suse/ or $::operatingsystem == 'Mageia' {
@@ -117,14 +123,18 @@ class oracle_java (
   }
 
   # define installer filename
-  case $maj_version {
-    '6'     : {
-      case $format_real {
-        'rpm'   : { $filename = "${type}-${version_final}-linux-${arch}-rpm.bin" }
-        default : { $filename = "${type}-${version_final}-linux-${arch}.bin" }
+  if !$filename {
+    case $maj_version {
+      '6'     : {
+        case $format_real {
+          'rpm'   : { $filename_real = "${type}-${version_final}-linux-${arch}-rpm.bin" }
+          default : { $filename_real = "${type}-${version_final}-linux-${arch}.bin" }
+        }
       }
+      default : { $filename_real = "${type}-${version_final}-linux-${arch}.${format_real}" }
     }
-    default : { $filename = "${type}-${version_final}-linux-${arch}.${format_real}" }
+  } else {
+    $filename_real = $filename
   }
 
   # used for installing Java 6 RPM only
@@ -136,16 +146,33 @@ class oracle_java (
     }
   }
 
-  # define download URL
-  contain oracle_java::javalist
-  if $custom_download_url == undef {
-    $downloadurl = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${oracle_java::javalist::build}/${filename}"
+  # define build number
+  if !$build {
+    contain oracle_java::javalist # get build numbers
+    $build_real = $oracle_java::javalist::buildnumber
   } else {
-    $downloadurl = $custom_download_url
+    $build_real = $build
+  }
+
+  # define checksum
+  if $check_checksum {
+    if !$checksum {
+      contain oracle_java::checksums # get checksums list
+      $checksum_real = $oracle_java::checksums::md5checksum
+    } else {
+      $checksum_real = $checksum
+    }
+  }
+
+  # define download URL
+  if !$download_url {
+    $download_url_real = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build_real}"
+  } else {
+    $download_url_real = $download_url
   }
 
   # define package name
-  if $maj_version == '8' and $min_version >= '20' {
+  if versioncmp("$version_final", '8u20') >= 0 {
     $packagename = $longversion
   } else {
     $packagename = $type

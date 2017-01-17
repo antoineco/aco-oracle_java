@@ -12,7 +12,7 @@ class oracle_java::install::rpm {
   if $oracle_java::maj_version >= '7' {
     package { $oracle_java::packagename:
       ensure   => latest,
-      source   => "${oracle_java::install_path}/${oracle_java::filename}",
+      source   => "${oracle_java::install_path}/${oracle_java::filename_real}",
       provider => rpm
     }
   }
@@ -23,7 +23,7 @@ class oracle_java::install::rpm {
       path    => '/bin',
       cwd     => $oracle_java::install_path,
       creates => "${oracle_java::install_path}/${oracle_java::filename_extracted}",
-      command => "chmod +x ${oracle_java::filename}; ./${oracle_java::filename}"
+      command => "chmod +x ${oracle_java::filename_real}; ./${oracle_java::filename_real}"
     } ->
     package { $oracle_java::packagename:
       ensure   => latest,

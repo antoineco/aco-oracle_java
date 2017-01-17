@@ -85,13 +85,25 @@ class { 'oracle_java':
 }
 ```
 
+Install a Java version not (yet) supported by this module
+
+```puppet
+class { 'oracle_java':
+  …
+  version  => '8u122',
+  build    => '-b04',
+  checksum => '436fc6772eb961b07b7b3414ab111857'
+}
+```
+
 Install from custom archive and URL
 
 ```puppet
 class { 'oracle_java':
   …
-  custom_download_url => 'http://myrepo.com/jdk-8u66-linux-x64.tar.gz',
-  custom_checksum     => 'abcdef0123456789abcdef0123456789'
+  download_url => 'http://myrepo.com',
+  filename     => 'my-jdk-8u66.tar.gz',
+  checksum     => '380e6d224f5c8c8eba37c97439f09eb4'
 }
 ```
 
@@ -115,26 +127,21 @@ Primary class and entry point of the module. Installs Java in `/usr/java`
 **Parameters within `oracle_java`:**
 
 #####`version`
-
 Java version to install, formatted as '*major_version*'u'*minor_version*' or simply '*major_version*' for the latest available release in the selected Java SE series. Defaults to `8`  
 *Note*: a minor version of '0' (for example `8u0`) matches the initial release of the selected Java SE series. 
 
 #####`format`
-
 What format of installation archive to retrieve. Valid values are `rpm` and `tar.gz`. Default depends on the platform
 
 #####`install_path`
-
 Absolute root path where the Oracle Java archives are extracted. Requires `format` set to `tar.gz`. Defaults to `/usr/java`
 
 #####`add_system_env`
-
 Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`
 
 See also [Common parameters](#common-parameters)
 
 ####Define: `oracle_java::installation`
-
 Installs an extra version of Oracle Java in `install_path`
 
 **Parameters within `oracle_java::installation`:**
@@ -149,33 +156,32 @@ See also [Common parameters](#common-parameters)
 
 Parameters common to both `oracle_java` and `oracle_java::installation`
 
-#####`type`
+#####`build`
+Build number associated to the requested Java SE version, formatted as `-b##`. Default determined automatically.
 
+#####`type`
 What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `jre`
 
 #####`check_checksum`
-
 Enable checksum validation on downloaded archives. Boolean value. Defaults to `true`
 
-#####`add_alternative`
+#####`checksum`
+MD5 checksum used to verify the archive integrity. Defaults to the checksum provided by Oracle.
 
+#####`add_alternative`
 Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/SuSE families). Boolean value. Defaults to `false`
 
-#####`custom_download_url`
+#####`download_url`
+Base URL of an alternative location to download the Java archive from. Defaults to Oracle servers.
 
-Do not download the Oracle Java archive from Oracle servers, instead use an alternative URL. Must but the full URL to the archive file or RPM package
-
-#####`custom_checksum`
-
-Custom MD5 checksum used to verify the archive integrity. Optional. Defaults to the checksum provided by Oracle
+#####`filename`
+File name of the installation package to retrieve at `${download_url}`. Defaults to the file name provided by Oracle.
 
 #####`proxy_server`
-
-URL of a proxy server used for downloading Java archives
+URL of a proxy server used for downloading Java archives.
 
 #####`proxy_type`
-
-Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Optional. Default determined by the scheme used in `proxy_server`
+Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Default determined by the scheme used in `proxy_server`
 
 ##Limitations
 

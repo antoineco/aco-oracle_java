@@ -1,6 +1,6 @@
 # == Class: oracle_java::javalist
 #
-# This class associates a Java version number with its build number
+# This class associates a Java version number to its expected build number
 #
 class oracle_java::javalist {
   # The base class must be included first
@@ -12,68 +12,68 @@ class oracle_java::javalist {
   case $oracle_java::maj_version {
     '8'     : {
       case $oracle_java::min_version {
-        '121'   : { $build = '-b13' }
-        '112'   : { $build = '-b15' }
-        '111'   : { $build = '-b14' }
-        '102'   : { $build = '-b14' }
-        '101'   : { $build = '-b13' }
-        '92'    : { $build = '-b14' }
-        '91'    : { $build = '-b14' }
-        '77'    : { $build = '-b03' }
-        '72'    : { $build = '-b15' }
-        '71'    : { $build = '-b15' }
-        '66'    : { $build = '-b17' }
-        '65'    : { $build = '-b17' }
-        '60'    : { $build = '-b27' }
-        '51'    : { $build = '-b16' }
-        '45'    : { $build = '-b14' }
-        '40'    : { $build = '-b25' }
-        '31'    : { $build = '-b13' }
-        '25'    : { $build = '-b17' }
-        '20'    : { $build = '-b26' }
-        '11'    : { $build = '-b12' }
-        '5'     : { $build = '-b13' }
-        '0'     : { $build = '-b132' }
+        '121'   : { $buildnumber = '-b13' }
+        '112'   : { $buildnumber = '-b15' }
+        '111'   : { $buildnumber = '-b14' }
+        '102'   : { $buildnumber = '-b14' }
+        '101'   : { $buildnumber = '-b13' }
+        '92'    : { $buildnumber = '-b14' }
+        '91'    : { $buildnumber = '-b14' }
+        '77'    : { $buildnumber = '-b03' }
+        '72'    : { $buildnumber = '-b15' }
+        '71'    : { $buildnumber = '-b15' }
+        '66'    : { $buildnumber = '-b17' }
+        '65'    : { $buildnumber = '-b17' }
+        '60'    : { $buildnumber = '-b27' }
+        '51'    : { $buildnumber = '-b16' }
+        '45'    : { $buildnumber = '-b14' }
+        '40'    : { $buildnumber = '-b25' }
+        '31'    : { $buildnumber = '-b13' }
+        '25'    : { $buildnumber = '-b17' }
+        '20'    : { $buildnumber = '-b26' }
+        '11'    : { $buildnumber = '-b12' }
+        '5'     : { $buildnumber = '-b13' }
+        '0'     : { $buildnumber = '-b132' }
         default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
       }
     }
     '7'     : {
       case $oracle_java::min_version {
-        '80'    : { $build = '-b15' }
-        '79'    : { $build = '-b15' }
-        '76'    : { $build = '-b13' }
-        '75'    : { $build = '-b13' }
-        '72'    : { $build = '-b14' }
-        '71'    : { $build = '-b14' }
-        '67'    : { $build = '-b01' }
-        '65'    : { $build = '-b17' }
-        '60'    : { $build = '-b19' }
-        '55'    : { $build = '-b13' }
-        '51'    : { $build = '-b13' }
-        '45'    : { $build = '-b18' }
-        '40'    : { $build = '-b43' }
-        '25'    : { $build = '-b15' }
-        '21'    : { $build = '-b11' }
-        '17'    : { $build = '-b02' }
-        '15'    : { $build = '-b03' }
-        '13'    : { $build = '-b20' }
-        '11'    : { $build = '-b21' }
-        '10'    : { $build = '-b18' }
-        '9'     : { $build = '-b05' }
-        '7'     : { $build = '-b10' }
-        '6'     : { $build = '-b24' }
-        '5'     : { $build = '-b06' }
-        '4'     : { $build = '-b20' }
-        '3'     : { $build = '-b04' }
-        '2'     : { $build = '-b13' }
-        '1'     : { $build = '-b08' }
-        '0'     : { $build = '' }
+        '80'    : { $buildnumber = '-b15' }
+        '79'    : { $buildnumber = '-b15' }
+        '76'    : { $buildnumber = '-b13' }
+        '75'    : { $buildnumber = '-b13' }
+        '72'    : { $buildnumber = '-b14' }
+        '71'    : { $buildnumber = '-b14' }
+        '67'    : { $buildnumber = '-b01' }
+        '65'    : { $buildnumber = '-b17' }
+        '60'    : { $buildnumber = '-b19' }
+        '55'    : { $buildnumber = '-b13' }
+        '51'    : { $buildnumber = '-b13' }
+        '45'    : { $buildnumber = '-b18' }
+        '40'    : { $buildnumber = '-b43' }
+        '25'    : { $buildnumber = '-b15' }
+        '21'    : { $buildnumber = '-b11' }
+        '17'    : { $buildnumber = '-b02' }
+        '15'    : { $buildnumber = '-b03' }
+        '13'    : { $buildnumber = '-b20' }
+        '11'    : { $buildnumber = '-b21' }
+        '10'    : { $buildnumber = '-b18' }
+        '9'     : { $buildnumber = '-b05' }
+        '7'     : { $buildnumber = '-b10' }
+        '6'     : { $buildnumber = '-b24' }
+        '5'     : { $buildnumber = '-b06' }
+        '4'     : { $buildnumber = '-b20' }
+        '3'     : { $buildnumber = '-b04' }
+        '2'     : { $buildnumber = '-b13' }
+        '1'     : { $buildnumber = '-b08' }
+        '0'     : { $buildnumber = '' }
         default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
       }
     }
     '6'     : {
       case $oracle_java::min_version {
-        '45'    : { $build = '-b06' }
+        '45'    : { $buildnumber = '-b06' }
         default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
       }
     }
