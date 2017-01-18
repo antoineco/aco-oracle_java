@@ -92,7 +92,8 @@ class { 'oracle_java':
   …
   version  => '8u122',
   build    => '-b04',
-  checksum => '436fc6772eb961b07b7b3414ab111857'
+  checksum => '436fc6772eb961b07b7b3414ab111857',
+  urlcode  => '/e9e7ea248e2c4826b92b3f075a80e441'
 }
 ```
 
@@ -182,6 +183,9 @@ URL of a proxy server used for downloading Java archives.
 
 #####`proxy_type`
 Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Default determined by the scheme used in `proxy_server`
+
+#####`urlcode`
+Complex code Oracle adds to the download URL since Java SE 8u121. Default determined automatically.
 
 ##Limitations
 

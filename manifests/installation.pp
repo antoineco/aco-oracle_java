@@ -24,6 +24,8 @@
 #   proxy server url
 # [*proxy_type*]
 #   proxy server type (valid: 'none'|'http'|'https'|'ftp')
+# [*urlcode*]
+#   complex code oracle started adding to the 'download_url' starting from java 8u121
 #
 # === Actions:
 #
@@ -50,8 +52,8 @@ define oracle_java::installation (
   $download_url    = undef,
   $filename        = undef,
   $proxy_server    = undef,
-  $proxy_type      = undef
-  ) {
+  $proxy_type      = undef,
+  $urlcode         = undef) {
 
   # The base class must be included first
   if !defined(Class['oracle_java']) {
@@ -110,14 +112,15 @@ define oracle_java::installation (
     $filename_real = $filename
   }
 
-  # define build number
+  # define build number and url code
   if !$build {
     #-- start javalist --#
     # associate build number to release version
     case $maj_version {
       '8'     : {
         case $min_version {
-          '121'   : { $buildnumber = '-b13' }
+          '121'   : { $buildnumber = '-b13'
+                      $urlcodeoracle = '/e9e7ea248e2c4826b92b3f075a80e441' }
           '112'   : { $buildnumber = '-b15' }
           '111'   : { $buildnumber = '-b14' }
           '102'   : { $buildnumber = '-b14' }
@@ -186,15 +189,22 @@ define oracle_java::installation (
         fail("oracle_java module does not support Java SE version ${maj_version} (yet)")
       }
     }
+
+    #set url code
+    $urlcode_real = defined('$urlcodeoracle') ? {
+      true    => $urlcodeoracle,
+      default => ''
+    }
     #-- end javalist --#
     $build_real = $buildnumber
   } else {
     $build_real = $build
+    $urlcode_real = $urlcode
   }
 
   # define download URL
   if !$download_url {
-    $download_url_real = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build_real}"
+    $download_url_real = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build_real}${urlcode_real}"
   } else {
     $download_url_real = $download_url
   }

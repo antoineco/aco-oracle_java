@@ -30,6 +30,8 @@
 #   proxy server url
 # [*proxy_type*]
 #   proxy server type (valid: 'none'|'http'|'https'|'ftp')
+# [*urlcode*]
+#   complex code oracle started adding to the 'download_url' starting from java 8u121
 #
 # === Actions:
 #
@@ -62,8 +64,8 @@ class oracle_java (
   $download_url    = undef,
   $filename        = undef,
   $proxy_server    = undef,
-  $proxy_type      = undef
-  ) {
+  $proxy_type      = undef,
+  $urlcode         = undef) {
   if !$format {
     if $::osfamily =~ /RedHat|Suse/ or $::operatingsystem == 'Mageia' {
       case $install_path {
@@ -146,12 +148,14 @@ class oracle_java (
     }
   }
 
-  # define build number
+  # define build number and url code
   if !$build {
-    contain oracle_java::javalist # get build numbers
+    contain oracle_java::javalist # get build numbers, url codes
     $build_real = $oracle_java::javalist::buildnumber
+    $urlcode_real = $oracle_java::javalist::urlcode
   } else {
     $build_real = $build
+    $urlcode_real = $urlcode
   }
 
   # define checksum
@@ -166,13 +170,13 @@ class oracle_java (
 
   # define download URL
   if !$download_url {
-    $download_url_real = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build_real}"
+    $download_url_real = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build_real}${urlcode_real}"
   } else {
     $download_url_real = $download_url
   }
 
   # define package name
-  if versioncmp("$version_final", '8u20') >= 0 {
+  if versioncmp("${version_final}", '8u20') >= 0 {
     $packagename = $longversion
   } else {
     $packagename = $type

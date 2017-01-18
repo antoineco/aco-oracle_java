@@ -1,6 +1,6 @@
 # == Class: oracle_java::javalist
 #
-# This class associates a Java version number to its expected build number
+# This class associates a Java version number to its expected build number and URL code (Java 8u121 onwards)
 #
 class oracle_java::javalist {
   # The base class must be included first
@@ -12,7 +12,8 @@ class oracle_java::javalist {
   case $oracle_java::maj_version {
     '8'     : {
       case $oracle_java::min_version {
-        '121'   : { $buildnumber = '-b13' }
+        '121'   : { $buildnumber = '-b13'
+                    $urlcodeoracle = '/e9e7ea248e2c4826b92b3f075a80e441' }
         '112'   : { $buildnumber = '-b15' }
         '111'   : { $buildnumber = '-b14' }
         '102'   : { $buildnumber = '-b14' }
@@ -80,5 +81,11 @@ class oracle_java::javalist {
     default : {
       fail("oracle_java module does not support Java SE version ${oracle_java::maj_version} (yet)")
     }
+  }
+
+  #set url code
+  $urlcode = defined('$urlcodeoracle') ? {
+    true    => $urlcodeoracle,
+    default => ''
   }
 }
