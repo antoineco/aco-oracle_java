@@ -176,7 +176,7 @@ class oracle_java (
   }
 
   # define package name
-  if versioncmp("${version_final}", '8u20') >= 0 {
+  if versioncmp($version_final, '8u20') >= 0 {
     $packagename = $longversion
   } else {
     $packagename = $type

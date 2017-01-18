@@ -1,3 +1,13 @@
+###2.8.0
+
+* Add support for Java '8u121'
+* Ease the installation of new Java SE releases using optional parameters (without updating the module)
+ - `build`
+ - `urlcode`
+* **Warning** the following parameters were replaced:
+ - `custom_download_url`: renamed to `download_url` and complemented by a new `filename` parameter
+ - `custom_checksum`: renamed to `checksum`
+
 ###2.7.4
 
 * Add proxy support via new parameters `proxy_server` and `proxy_type`

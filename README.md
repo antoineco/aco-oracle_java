@@ -158,7 +158,8 @@ See also [Common parameters](#common-parameters)
 Parameters common to both `oracle_java` and `oracle_java::installation`
 
 #####`build`
-Build number associated to the requested Java SE version, formatted as `-b##`. Default determined automatically.
+Build number associated to the requested Java SE version, formatted as `-b##`. Default determined automatically.  
+*Note*: this parameter is mandatory when installing a Java SE release which is not currently supported by this module.
 
 #####`type`
 What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `jre`
