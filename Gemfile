@@ -18,6 +18,7 @@ platforms :ruby_18 do
 end
 
 platforms :ruby_18, :ruby_19 do
-  gem 'json',      '< 2.0.0', :require => false
-  gem 'json_pure', '< 2.0.0', :require => false
+  gem 'json',           '< 2.0.0',  :require => false
+  gem 'json_pure',      '< 2.0.0',  :require => false
+  gem 'parallel_tests', '< 2.10.0', :require => false
 end
