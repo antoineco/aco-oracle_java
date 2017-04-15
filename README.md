@@ -1,14 +1,14 @@
-#oracle_java
+# oracle_java
 [![Build Status](https://travis-ci.org/antoineco/aco-oracle_java.svg?branch=master)](https://travis-ci.org/antoineco/aco-oracle_java)
 
 *By using this module you acknowledge that you have read and accepted the terms of the [Oracle Binary Code License Agreement for Java SE](http://www.oracle.com/technetwork/java/javase/terms/license/)*
 
-####Table of Contents
+#### Table of Contents
 
-1. [Overview](#overview)
-2. [Module Description](#module-description)
-3. [Setup](#setup)
-4. [Usage](#usage)
+1. [Overview - What is the oracle_java module?](#overview)
+2. [Module Description - What does the module do?](#module-description)
+3. [Setup - The basics of getting started with tomcat](#setup)
+4. [Usage - The classes and defined types available for configuration](#usage)
   * [Classes and Defined Types](#classes-and-defined-types)
     * [Class: oracle_java](#class-oracle_java)
     * [Define: oracle_java::installation](#define-oracle_javainstallation)
@@ -17,11 +17,11 @@
 6. [Contributors](#contributors)
 7. [Credits](#credits)
 
-##Overview
+## Overview
 
 The oracle_java module allows you to install the Oracle JRE or JDK of your choice from the official archives provided by Oracle.
 
-##Module description
+## Module description
 
 This module downloads the desired Java version from Oracle's website and installs it on the target system. On [RPM-based distributions](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RPM-based) the RPM version will be used by default. On all other platforms a tar.gz archive will be retrieved and extracted. Multiple versions of Oracle Java can be installed on the same system using a defined type.
 
@@ -29,7 +29,7 @@ Java SE archives are available from the Oracle [Java SE Downloads](http://www.or
 
 This module is suitable for pretty much any Linux system. It currently supports all released Java SE versions from JSE 7 on.
 
-##Setup
+## Setup
 
 oracle_java will affect the following parts of your system:
 
@@ -42,7 +42,7 @@ Including the main class is enough to install the latest version of the Oracle J
 include oracle_java
 ```
 
-####A couple of examples
+#### A couple of examples
 
 Install a specific version of the JDK
 
@@ -117,88 +117,88 @@ class { 'oracle_java':
 }
 ```
 
-##Usage
+## Usage
 
-###Classes and Defined Types
+### Classes and Defined Types
 
-####Class: `oracle_java`
+#### Class: `oracle_java`
 
 Primary class and entry point of the module. Installs Java in `/usr/java`
 
 **Parameters within `oracle_java`:**
 
-#####`version`
+##### `version`
 Java version to install, formatted as '*major_version*'u'*minor_version*' or simply '*major_version*' for the latest available release in the selected Java SE series. Defaults to `8`  
 *Note*: a minor version of '0' (for example `8u0`) matches the initial release of the selected Java SE series. 
 
-#####`format`
-What format of installation archive to retrieve. Valid values are `rpm` and `tar.gz`. Default depends on the platform
+##### `format`
+What format of installation archive to retrieve. Valid values are `rpm` and `tar.gz`. Default depends on the platform.
 
-#####`install_path`
-Absolute root path where the Oracle Java archives are extracted. Requires `format` set to `tar.gz`. Defaults to `/usr/java`
+##### `install_path`
+Absolute root path where the Oracle Java archives are extracted. Requires `format` set to `tar.gz`. Defaults to `/usr/java`.
 
-#####`add_system_env`
-Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`
+##### `add_system_env`
+Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`.
 
 See also [Common parameters](#common-parameters)
 
-####Define: `oracle_java::installation`
-Installs an extra version of Oracle Java in `install_path`
+#### Define: `oracle_java::installation`
+Installs an extra version of Oracle Java in `install_path`.
 
 **Parameters within `oracle_java::installation`:**
 
-#####`version`
+##### `version`
 
 Namevar. See [oracle_java::version](#version)
 
 See also [Common parameters](#common-parameters)
 
-####Common parameters
+#### Common parameters
 
-Parameters common to both `oracle_java` and `oracle_java::installation`
+Parameters common to both `oracle_java` and `oracle_java::installation`.
 
-#####`build`
-Build number associated to the requested Java SE version, formatted as `-b##`. Default determined automatically.  
+##### `build`
+Build number associated to the requested Java SE version, formatted as `-b## `. Default determined automatically.  
 *Note*: this parameter is mandatory when installing a Java SE release which is not currently supported by this module.
 
-#####`type`
-What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `jre`
+##### `type`
+What envionment type to install. Valid values are `jre` and `jdk`. Defaults to `jre`.
 
-#####`check_checksum`
-Enable checksum validation on downloaded archives. Boolean value. Defaults to `true`
+##### `check_checksum`
+Enable checksum validation on downloaded archives. Boolean value. Defaults to `true`.
 
-#####`checksum`
+##### `checksum`
 MD5 checksum used to verify the archive integrity. Defaults to the checksum provided by Oracle.
 
-#####`add_alternative`
-Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/SuSE families). Boolean value. Defaults to `false`
+##### `add_alternative`
+Add Oracle Java to the system alternatives on compatible platforms (Debian/RHEL/SuSE families). Boolean value. Defaults to `false`.
 
-#####`download_url`
+##### `download_url`
 Base URL of an alternative location to download the Java archive from. Defaults to Oracle servers.
 
-#####`filename`
+##### `filename`
 File name of the installation package to retrieve at `${download_url}`. Defaults to the file name provided by Oracle.
 
-#####`proxy_server`
+##### `proxy_server`
 URL of a proxy server used for downloading Java archives.
 
-#####`proxy_type`
-Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Default determined by the scheme used in `proxy_server`
+##### `proxy_type`
+Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Default determined by the scheme used in `proxy_server`.
 
-#####`urlcode`
+##### `urlcode`
 Complex code Oracle adds to the download URL since Java SE 8u121. Default determined automatically.
 
-##Limitations
+## Limitations
 
 Prior to Java 8u20, two different releases of the same Java series could not cohabit on the same system when installed from RPM. Each new version would override the previous one. This does not happen with tar.gz archives.
 
-##Contributors
+## Contributors
 
 * [Martin Zehetmayer](https://github.com/angrox)
 * [Clayton O'Neill](https://github.com/claytononeill)
 * [Michael Hoertnagl](https://github.com/mtron)
 
-##Credits
+## Credits
 
 The cookie manipulation used by this module to download installation packages directly from Oracle's page was found on [Ivan Dyedov's Blog](https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/)
 
