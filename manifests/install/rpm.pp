@@ -24,11 +24,13 @@ class oracle_java::install::rpm {
       cwd     => $oracle_java::install_path,
       creates => "${oracle_java::install_path}/${oracle_java::filename_extracted}",
       command => "chmod +x ${oracle_java::filename_real}; ./${oracle_java::filename_real}"
-    } ->
+    }
+
     package { $oracle_java::packagename:
       ensure   => latest,
       source   => "${oracle_java::install_path}/${oracle_java::filename_extracted}",
-      provider => rpm
+      provider => rpm,
+      require  => Exec['unpack java RPM']
     }
   }
 }

@@ -59,7 +59,7 @@ Install multiple Java versions
 class { 'oracle_java':
   version => '8u45',
   type    => 'jdk'
-} ->
+}
 oracle_java::installation { '7u65':
   type => 'jdk'
 }
