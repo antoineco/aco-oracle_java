@@ -10,6 +10,15 @@ class oracle_java::checksums {
 
   if !$oracle_java::checksum {
     case $oracle_java::filename_real {
+      # 8u141
+      'jdk-8u141-linux-i586.rpm'    : { $md5checksum = '827d5757ca23e32f071af38debc05bdc' }
+      'jdk-8u141-linux-i586.tar.gz' : { $md5checksum = '016e3389363cce74b2d756b626e949c6' }
+      'jdk-8u141-linux-x64.rpm'     : { $md5checksum = '336e6a9c298416ff4422e30420622e08' }
+      'jdk-8u141-linux-x64.tar.gz'  : { $md5checksum = '8cf4c4e00744bfafc023d770cb65328c' }
+      'jre-8u141-linux-i586.rpm'    : { $md5checksum = '31dd9203bfbadc0a9203b3ddd92bf5c0' }
+      'jre-8u141-linux-i586.tar.gz' : { $md5checksum = 'a66f26ee7665a499a2511fb470b60140' }
+      'jre-8u141-linux-x64.rpm'     : { $md5checksum = 'd2af8822f0264aa745bb546e4a6253de' }
+      'jre-8u141-linux-x64.tar.gz'  : { $md5checksum = 'dfa2de5305b7b7519cf8a581c8d82fb9' }
       # 8u131
       'jdk-8u131-linux-i586.rpm'    : { $md5checksum = 'ad0ced8cae343a31c55aef3615bc6143' }
       'jdk-8u131-linux-i586.tar.gz' : { $md5checksum = 'a6741fd674372366546bd8480be735c7' }
