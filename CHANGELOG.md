@@ -1,3 +1,7 @@
+### 2.8.2 (unreleased)
+
+* Add support for Java '8u141'
+
 ### 2.8.1
 
 * Add support for Java '8u131'
