@@ -1,6 +1,7 @@
-### 2.8.2 (unreleased)
+### 2.8.2
 
-* Add support for Java '8u141'
+* Add support for Java '8u141' ([mtron](https://github.com/mtron))
+* Tested on Debian 9, Ubuntu 17.10 and Mageia 6
 
 ### 2.8.1
 
