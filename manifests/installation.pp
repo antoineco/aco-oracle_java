@@ -73,7 +73,7 @@ define oracle_java::installation (
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u141'
+    $version_real = '8u144'
   } elsif $version == '7' {
     $version_real = '7u80'
   } elsif $version == '6' {
@@ -119,6 +119,8 @@ define oracle_java::installation (
     case $maj_version {
       '8'     : {
         case $min_version {
+          '144'   : { $buildnumber = '-b01'
+                      $urlcodeoracle = '/090f390dda5b47b9b721c7dfaa008135' }
           '141'   : { $buildnumber = '-b15'
                       $urlcodeoracle = '/336fa29ff2bb4ef291e347e091f7f4a7' }
           '131'   : { $buildnumber = '-b11'
@@ -227,6 +229,15 @@ define oracle_java::installation (
     if !$checksum {
       #-- start checksum --#
       case $filename_real {
+        # 8u144
+        'jdk-8u144-linux-i586.rpm'    : { $md5checksum = 'eb35a77bcbd2466d9c96142e5a0d9b87' }
+        'jdk-8u144-linux-i586.tar.gz' : { $md5checksum = '13d771707f326b02e2497c99e0a2ca37' }
+        'jdk-8u144-linux-x64.rpm'     : { $md5checksum = 'dcc4c903506766ec4c50a969babdd856' }
+        'jdk-8u144-linux-x64.tar.gz'  : { $md5checksum = '2d59a3add1f213cd249a67684d4aeb83' }
+        'jre-8u144-linux-i586.rpm'    : { $md5checksum = 'b9798f6a9fa9bcf5a9828173185dbe55' }
+        'jre-8u144-linux-i586.tar.gz' : { $md5checksum = '794e74d0395124337809dcc225c80411' }
+        'jre-8u144-linux-x64.rpm'     : { $md5checksum = '5f4b98cbe19862a969494ce878377298' }
+        'jre-8u144-linux-x64.tar.gz'  : { $md5checksum = 'e3808f24d0f588b0c313fa18b50683c6' }
         # 8u141
         'jdk-8u141-linux-i586.rpm'    : { $md5checksum = '827d5757ca23e32f071af38debc05bdc' }
         'jdk-8u141-linux-i586.tar.gz' : { $md5checksum = '016e3389363cce74b2d756b626e949c6' }
