@@ -72,7 +72,9 @@ define oracle_java::installation (
   }
 
   # set to latest release if no minor version was provided
-  if $version == '8' {
+  if $version == '9' {
+    $version_real = '9u0'
+  } elsif $version == '8' {
     $version_real = '8u144'
   } elsif $version == '7' {
     $version_real = '7u80'
@@ -96,16 +98,21 @@ define oracle_java::installation (
 
   # remove extra particle if minor version is 0
   $version_final = delete($version_real, 'u0')
-  $longversion = $min_version ? {
-    '0'       => "${type}1.${maj_version}.0",
-    /^[0-9]$/ => "${type}1.${maj_version}.0_0${min_version}",
-    default   => "${type}1.${maj_version}.0_${min_version}"
+  if $version_final == '9' {
+    $longversion = "${type}-9"
+  } else {
+    $longversion = $min_version ? {
+      '0'       => "${type}1.${maj_version}.0",
+      /^[0-9]$/ => "${type}1.${maj_version}.0_0${min_version}",
+      default   => "${type}1.${maj_version}.0_${min_version}"
+    }
   }
 
   # define installer filename
   if !$filename {
     case $maj_version {
       '6'     : { $filename_real = "${type}-${version_final}-linux-${arch}.bin" }
+      '9'     : { $filename_real = "${type}-${version_final}_linux-${arch}_bin.tar.gz" }
       default : { $filename_real = "${type}-${version_final}-linux-${arch}.tar.gz" }
     }
   } else {
@@ -117,6 +124,12 @@ define oracle_java::installation (
     #-- start javalist --#
     # associate build number to release version
     case $maj_version {
+      '9'     : {
+        case $oracle_java::min_version {
+          '0'     : { $buildnumber = '+181' }
+          default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
+        }
+      }
       '8'     : {
         case $min_version {
           '144'   : { $buildnumber = '-b01'
@@ -229,6 +242,11 @@ define oracle_java::installation (
     if !$checksum {
       #-- start checksum --#
       case $filename_real {
+        # 9
+        'jdk-9_linux-x64_bin.rpm'     : { $md5checksum = '5f2c490f08d6da7ce8807cdeea2f282d' }
+        'jdk-9_linux-x64_bin.tar.gz'  : { $md5checksum = 'abe68b8ba280d11cb8f937410543750c' }
+        'jre-9_linux-x64_bin.rpm'     : { $md5checksum = '3d0bd97925fa3d68746c2849c6aa1d2b' }
+        'jre-9_linux-x64_bin.tar.gz'  : { $md5checksum = '113a784957235eb78ef418f89e3e6b88' }
         # 8u144
         'jdk-8u144-linux-i586.rpm'    : { $md5checksum = 'eb35a77bcbd2466d9c96142e5a0d9b87' }
         'jdk-8u144-linux-i586.tar.gz' : { $md5checksum = '13d771707f326b02e2497c99e0a2ca37' }
@@ -599,6 +617,7 @@ define oracle_java::installation (
                          --slave /usr/bin/appletviewer appletviewer ${install_path}/${longversion}/bin/appletviewer \
                          --slave /usr/bin/extcheck extcheck ${install_path}/${longversion}/bin/extcheck \
                          --slave /usr/bin/idlj idlj ${install_path}/${longversion}/bin/idlj \
+                         --slave /usr/bin/jaotc jaotc ${install_path}/${longversion}/bin/jaotc \
                          --slave /usr/bin/jar jar ${install_path}/${longversion}/bin/jar \
                          --slave /usr/bin/jarsigner jarsigner ${install_path}/${longversion}/bin/jarsigner \
                          --slave /usr/bin/javac javac ${install_path}/${longversion}/bin/javac \
@@ -613,19 +632,26 @@ define oracle_java::installation (
                          --slave /usr/bin/jconsole jconsole ${install_path}/${longversion}/bin/jconsole \
                          --slave /usr/bin/jcontrol jcontrol ${install_path}/${longversion}/bin/jcontrol \
                          --slave /usr/bin/jdb jdb ${install_path}/${longversion}/bin/jdb \
+                         --slave /usr/bin/jdeprscan jdeprscan ${install_path}/${longversion}/bin/jdeprscan \
                          --slave /usr/bin/jdeps jdeps ${install_path}/${longversion}/bin/jdeps \
                          --slave /usr/bin/jhat jhat ${install_path}/${longversion}/bin/jhat \
+                         --slave /usr/bin/jhsdb jhsdb ${install_path}/${longversion}/bin/jhsdb \
+                         --slave /usr/bin/jimage jimage ${install_path}/${longversion}/bin/jimage \
                          --slave /usr/bin/jinfo jinfo ${install_path}/${longversion}/bin/jinfo \
                          --slave /usr/bin/jjs jjs ${install_path}/${longversion}/bin/jjs \
+                         --slave /usr/bin/jlink jlink ${install_path}/${longversion}/bin/jlink \
                          --slave /usr/bin/jmap jmap ${install_path}/${longversion}/bin/jmap \
                          --slave /usr/bin/jmc jmc ${install_path}/${longversion}/bin/jmc \
+                         --slave /usr/bin/jmod jmod ${install_path}/${longversion}/bin/jmod \
                          --slave /usr/bin/jps jps ${install_path}/${longversion}/bin/jps \
                          --slave /usr/bin/jrunscript jrunscript ${install_path}/${longversion}/bin/jrunscript \
                          --slave /usr/bin/jsadebugd jsadebugd ${install_path}/${longversion}/bin/jsadebugd \
+                         --slave /usr/bin/jshell jshell ${install_path}/${longversion}/bin/jshell \
                          --slave /usr/bin/jstack jstack ${install_path}/${longversion}/bin/jstack \
                          --slave /usr/bin/jstat jstat ${install_path}/${longversion}/bin/jstat \
                          --slave /usr/bin/jstatd jstatd ${install_path}/${longversion}/bin/jstatd \
                          --slave /usr/bin/jvisualvm jvisualvm ${install_path}/${longversion}/bin/jvisualvm \
+                         --slave /usr/bin/jweblauncher jweblauncher ${install_path}/${longversion}/bin/jweblauncher \
                          --slave /usr/bin/keytool keytool ${install_path}/${longversion}/bin/keytool \
                          --slave /usr/bin/native2ascii native2ascii ${install_path}/${longversion}/bin/native2ascii \
                          --slave /usr/bin/orbd orbd ${install_path}/${longversion}/bin/orbd \
@@ -645,6 +671,7 @@ define oracle_java::installation (
                          --slave /usr/share/man/man1/appletviewer.1 appletviewer.1 ${install_path}/${longversion}/man/man1/appletviewer.1 \
                          --slave /usr/share/man/man1/extcheck.1 extcheck.1 ${install_path}/${longversion}/man/man1/extcheck.1 \
                          --slave /usr/share/man/man1/idlj.1 idlj.1 ${install_path}/${longversion}/man/man1/idlj.1 \
+                         --slave /usr/share/man/man1/jaotc.1 jaotc.1 ${install_path}/${longversion}/man/man1/jaotc.1 \
                          --slave /usr/share/man/man1/jar.1 jar.1 ${install_path}/${longversion}/man/man1/jar.1 \
                          --slave /usr/share/man/man1/jarsigner.1 jarsigner.1 ${install_path}/${longversion}/man/man1/jarsigner.1 \
                          --slave /usr/share/man/man1/java.1 java.1 ${install_path}/${longversion}/man/man1/java.1 \
@@ -658,19 +685,26 @@ define oracle_java::installation (
                          --slave /usr/share/man/man1/jcmd.1 jcmd.1 ${install_path}/${longversion}/man/man1/jcmd.1 \
                          --slave /usr/share/man/man1/jconsole.1 jconsole.1 ${install_path}/${longversion}/man/man1/jconsole.1 \
                          --slave /usr/share/man/man1/jdb.1 jdb.1 ${install_path}/${longversion}/man/man1/jdb.1 \
+                         --slave /usr/share/man/man1/jdeprscan.1 jdeprscan.1 ${install_path}/${longversion}/man/man1/jdeprscan.1 \
                          --slave /usr/share/man/man1/jdeps.1 jdeps.1 ${install_path}/${longversion}/man/man1/jdeps.1 \
                          --slave /usr/share/man/man1/jhat.1 jhat.1 ${install_path}/${longversion}/man/man1/jhat.1 \
+                         --slave /usr/share/man/man1/jhsdb.1 jhsdb.1 ${install_path}/${longversion}/man/man1/jhsdb.1 \
+                         --slave /usr/share/man/man1/jimage.1 jimage.1 ${install_path}/${longversion}/man/man1/jimage.1 \
                          --slave /usr/share/man/man1/jinfo.1 jinfo.1 ${install_path}/${longversion}/man/man1/jinfo.1 \
                          --slave /usr/share/man/man1/jjs.1 jjs.1 ${install_path}/${longversion}/man/man1/jjs.1 \
+                         --slave /usr/share/man/man1/jlink.1 jlink.1 ${install_path}/${longversion}/man/man1/jlink.1 \
                          --slave /usr/share/man/man1/jmap.1 jmap.1 ${install_path}/${longversion}/man/man1/jmap.1 \
                          --slave /usr/share/man/man1/jmc.1 jmc.1 ${install_path}/${longversion}/man/man1/jmc.1 \
+                         --slave /usr/share/man/man1/jmod.1 jmod.1 ${install_path}/${longversion}/man/man1/jmod.1 \
                          --slave /usr/share/man/man1/jps.1 jps.1 ${install_path}/${longversion}/man/man1/jps.1 \
                          --slave /usr/share/man/man1/jrunscript.1 jrunscript.1 ${install_path}/${longversion}/man/man1/jrunscript.1 \
                          --slave /usr/share/man/man1/jsadebugd.1 jsadebugd.1 ${install_path}/${longversion}/man/man1/jsadebugd.1 \
+                         --slave /usr/share/man/man1/jshell.1 jshell.1 ${install_path}/${longversion}/man/man1/jshell.1 \
                          --slave /usr/share/man/man1/jstack.1 jstack.1 ${install_path}/${longversion}/man/man1/jstack.1 \
                          --slave /usr/share/man/man1/jstat.1 jstat.1 ${install_path}/${longversion}/man/man1/jstat.1 \
                          --slave /usr/share/man/man1/jstatd.1 jstatd.1 ${install_path}/${longversion}/man/man1/jstatd.1 \
                          --slave /usr/share/man/man1/jvisualvm.1 jvisualvm.1 ${install_path}/${longversion}/man/man1/jvisualvm.1 \
+                         --slave /usr/share/man/man1/jweblauncher.1 jweblauncher.1 ${install_path}/${longversion}/man/man1/jweblauncher.1 \
                          --slave /usr/share/man/man1/keytool.1 keytool.1 ${install_path}/${longversion}/man/man1/keytool.1 \
                          --slave /usr/share/man/man1/native2ascii.1 native2ascii.1 ${install_path}/${longversion}/man/man1/native2ascii.1 \
                          --slave /usr/share/man/man1/orbd.1 orbd.1 ${install_path}/${longversion}/man/man1/orbd.1 \
@@ -692,9 +726,13 @@ define oracle_java::installation (
           default : {
             exec { "add java alternative ${version_final}":
               command => "update-alternatives --install /usr/bin/java java ${install_path}/${longversion}/bin/java ${priority} \
+                         --slave /usr/bin/appletviewer appletviewer ${install_path}/${longversion}/bin/appletviewer \
+                         --slave /usr/bin/idlj idlj ${install_path}/${longversion}/bin/idlj \
                          --slave /usr/bin/javaws javaws ${install_path}/${longversion}/bin/javaws \
                          --slave /usr/bin/jcontrol jcontrol ${install_path}/${longversion}/bin/jcontrol \
                          --slave /usr/bin/jjs jjs ${install_path}/${longversion}/bin/jjs \
+                         --slave /usr/bin/jrunscript jrunscript ${install_path}/${longversion}/bin/jrunscript \
+                         --slave /usr/bin/jweblauncher jweblauncher ${install_path}/${longversion}/bin/jweblauncher \
                          --slave /usr/bin/keytool keytool ${install_path}/${longversion}/bin/keytool \
                          --slave /usr/bin/orbd orbd ${install_path}/${longversion}/bin/orbd \
                          --slave /usr/bin/pack200 pack200 ${install_path}/${longversion}/bin/pack200 \
@@ -704,9 +742,13 @@ define oracle_java::installation (
                          --slave /usr/bin/servertool servertool ${install_path}/${longversion}/bin/servertool \
                          --slave /usr/bin/tnameserv tnameserv ${install_path}/${longversion}/bin/tnameserv \
                          --slave /usr/bin/unpack200 unpack200 ${install_path}/${longversion}/bin/unpack200 \
+                         --slave /usr/share/man/man1/appletviewer.1 appletviewer.1 ${install_path}/${longversion}/man/man1/appletviewer.1 \
+                         --slave /usr/share/man/man1/idlj.1 idlj.1 ${install_path}/${longversion}/man/man1/idlj.1 \
                          --slave /usr/share/man/man1/java.1 java.1 ${install_path}/${longversion}/man/man1/java.1 \
                          --slave /usr/share/man/man1/javaws.1 javaws.1 ${install_path}/${longversion}/man/man1/javaws.1 \
                          --slave /usr/share/man/man1/jjs.1 jjs.1 ${install_path}/${longversion}/man/man1/jjs.1 \
+                         --slave /usr/share/man/man1/jrunscript.1 jrunscript.1 ${install_path}/${longversion}/man/man1/jrunscript.1 \
+                         --slave /usr/share/man/man1/jweblauncher.1 jweblauncher.1 ${install_path}/${longversion}/man/man1/jweblauncher.1 \
                          --slave /usr/share/man/man1/keytool.1 keytool.1 ${install_path}/${longversion}/man/man1/keytool.1 \
                          --slave /usr/share/man/man1/orbd.1 orbd.1 ${install_path}/${longversion}/man/man1/orbd.1 \
                          --slave /usr/share/man/man1/pack200.1 pack200.1 ${install_path}/${longversion}/man/man1/pack200.1 \
@@ -731,6 +773,8 @@ define oracle_java::installation (
                           update-alternatives --install /usr/bin/jcontrol jcontrol ${install_path}/${longversion}/bin/jcontrol ${priority};
                           update-alternatives --install /usr/bin/jjs jjs ${install_path}/${longversion}/bin/jjs ${priority} \
                            --slave /usr/share/man/man1/jjs.1 jjs.1 ${install_path}/${longversion}/man/man1/jjs.1;
+                          update-alternatives --install /usr/bin/jlink jlink ${install_path}/${longversion}/bin/jlink ${priority} \
+                           --slave /usr/share/man/man1/jlink.1 jlink.1 ${install_path}/${longversion}/man/man1/jlink.1;
                           update-alternatives --install /usr/bin/keytool keytool ${install_path}/${longversion}/bin/keytool ${priority} \
                            --slave /usr/share/man/man1/keytool.1 keytool.1 ${install_path}/${longversion}/man/man1/keytool.1;
                           update-alternatives --install /usr/bin/orbd orbd ${install_path}/${longversion}/bin/orbd ${priority} \
@@ -755,6 +799,8 @@ define oracle_java::installation (
                            --slave /usr/share/man/man1/extcheck.1 extcheck.1 ${install_path}/${longversion}/man/man1/extcheck.1;
                           update-alternatives --install /usr/bin/idlj idlj ${install_path}/${longversion}/bin/idlj ${priority} \
                            --slave /usr/share/man/man1/idlj.1 idlj.1 ${install_path}/${longversion}/man/man1/idlj.1;
+                          update-alternatives --install /usr/bin/jaotc jaotc ${install_path}/${longversion}/bin/jaotc ${priority} \
+                           --slave /usr/share/man/man1/jaotc.1 jaotc.1 ${install_path}/${longversion}/man/man1/jaotc.1;
                           update-alternatives --install /usr/bin/jar jar ${install_path}/${longversion}/bin/jar ${priority} \
                            --slave /usr/share/man/man1/jar.1 jar.1 ${install_path}/${longversion}/man/man1/jar.1;
                           update-alternatives --install /usr/bin/jarsigner jarsigner ${install_path}/${longversion}/bin/jarsigner ${priority} \
@@ -782,18 +828,26 @@ define oracle_java::installation (
                            --slave /usr/share/man/man1/jdeps.1 jdeps.1 ${install_path}/${longversion}/man/man1/jdeps.1;
                           update-alternatives --install /usr/bin/jhat jhat ${install_path}/${longversion}/bin/jhat ${priority} \
                            --slave /usr/share/man/man1/jhat.1 jhat.1 ${install_path}/${longversion}/man/man1/jhat.1;
+                          update-alternatives --install /usr/bin/jhsdb jhsdb ${install_path}/${longversion}/bin/jhsdb ${priority} \
+                           --slave /usr/share/man/man1/jhsdb.1 jhsdb.1 ${install_path}/${longversion}/man/man1/jhsdb.1;
+                          update-alternatives --install /usr/bin/jimage jimage ${install_path}/${longversion}/bin/jimage ${priority} \
+                           --slave /usr/share/man/man1/jimage.1 jimage.1 ${install_path}/${longversion}/man/man1/jimage.1;
                           update-alternatives --install /usr/bin/jinfo jinfo ${install_path}/${longversion}/bin/jinfo ${priority} \
                            --slave /usr/share/man/man1/jinfo.1 jinfo.1 ${install_path}/${longversion}/man/man1/jinfo.1;
                           update-alternatives --install /usr/bin/jmap jmap ${install_path}/${longversion}/bin/jmap ${priority} \
                            --slave /usr/share/man/man1/jmap.1 jmap.1 ${install_path}/${longversion}/man/man1/jmap.1;
                           update-alternatives --install /usr/bin/jmc jmc ${install_path}/${longversion}/bin/jmc ${priority} \
                            --slave /usr/share/man/man1/jmc.1 jmc.1 ${install_path}/${longversion}/man/man1/jmc.1;
+                          update-alternatives --install /usr/bin/jmod jmod ${install_path}/${longversion}/bin/jmod ${priority} \
+                           --slave /usr/share/man/man1/jmod.1 jmod.1 ${install_path}/${longversion}/man/man1/jmod.1;
                           update-alternatives --install /usr/bin/jps jps ${install_path}/${longversion}/bin/jps ${priority} \
                            --slave /usr/share/man/man1/jps.1 jps.1 ${install_path}/${longversion}/man/man1/jps.1;
                           update-alternatives --install /usr/bin/jrunscript jrunscript ${install_path}/${longversion}/bin/jrunscript ${priority} \
                            --slave /usr/share/man/man1/jrunscript.1 jrunscript.1 ${install_path}/${longversion}/man/man1/jrunscript.1;
                           update-alternatives --install /usr/bin/jsadebugd jsadebugd ${install_path}/${longversion}/bin/jsadebugd ${priority} \
                            --slave /usr/share/man/man1/jsadebugd.1 jsadebugd.1 ${install_path}/${longversion}/man/man1/jsadebugd.1;
+                          update-alternatives --install /usr/bin/jshell jshell ${install_path}/${longversion}/bin/jshell ${priority} \
+                           --slave /usr/share/man/man1/jshell.1 jshell.1 ${install_path}/${longversion}/man/man1/jshell.1;
                           update-alternatives --install /usr/bin/jstack jstack ${install_path}/${longversion}/bin/jstack ${priority} \
                            --slave /usr/share/man/man1/jstack.1 jstack.1 ${install_path}/${longversion}/man/man1/jstack.1;
                           update-alternatives --install /usr/bin/jstat jstat ${install_path}/${longversion}/bin/jstat ${priority} \
@@ -802,6 +856,8 @@ define oracle_java::installation (
                            --slave /usr/share/man/man1/jstatd.1 jstatd.1 ${install_path}/${longversion}/man/man1/jstatd.1;
                           update-alternatives --install /usr/bin/jvisualvm jvisualvm ${install_path}/${longversion}/bin/jvisualvm ${priority} \
                            --slave /usr/share/man/man1/jvisualvm.1 jvisualvm.1 ${install_path}/${longversion}/man/man1/jvisualvm.1;
+                          update-alternatives --install /usr/bin/jweblauncher jweblauncher ${install_path}/${longversion}/bin/jweblauncher ${priority} \
+                           --slave /usr/share/man/man1/jweblauncher.1 jweblauncher.1 ${install_path}/${longversion}/man/man1/jweblauncher.1;
                           update-alternatives --install /usr/bin/native2ascii native2ascii ${install_path}/${longversion}/bin/native2ascii ${priority} \
                            --slave /usr/share/man/man1/native2ascii.1 native2ascii.1 ${install_path}/${longversion}/man/man1/native2ascii.1;
                           update-alternatives --install /usr/bin/rmic rmic ${install_path}/${longversion}/bin/rmic ${priority} \
@@ -821,12 +877,20 @@ define oracle_java::installation (
           default : {
             exec { "add java alternative ${version_final}":
               command => "update-alternatives --install /usr/bin/java java ${install_path}/${longversion}/bin/java ${priority} \
-                         --slave /usr/share/man/man1/java.1 java.1 ${install_path}/${longversion}/man/man1/java.1;
+                           --slave /usr/share/man/man1/java.1 java.1 ${install_path}/${longversion}/man/man1/java.1;
+                          update-alternatives --install /usr/bin/appletviewer appletviewer ${install_path}/${longversion}/bin/appletviewer ${priority} \
+                           --slave /usr/share/man/man1/appletviewer.1 appletviewer.1 ${install_path}/${longversion}/man/man1/appletviewer.1;
                           update-alternatives --install /usr/bin/javaws javaws ${install_path}/${longversion}/bin/javaws ${priority} \
                            --slave /usr/share/man/man1/javaws.1 javaws.1 ${install_path}/${longversion}/man/man1/javaws.1;
                           update-alternatives --install /usr/bin/jcontrol jcontrol ${install_path}/${longversion}/bin/jcontrol ${priority};
+                          update-alternatives --install /usr/bin/idlj idlj ${install_path}/${longversion}/bin/idlj ${priority} \
+                           --slave /usr/share/man/man1/idlj.1 idlj.1 ${install_path}/${longversion}/man/man1/idlj.1;
                           update-alternatives --install /usr/bin/jjs jjs ${install_path}/${longversion}/bin/jjs${priority} \
                            --slave /usr/share/man/man1/jjs.1 jjs.1 ${install_path}/${longversion}/man/man1/jjs.1;
+                          update-alternatives --install /usr/bin/jrunscript jrunscript ${install_path}/${longversion}/bin/jrunscript ${priority} \
+                           --slave /usr/share/man/man1/jrunscript.1 jrunscript.1 ${install_path}/${longversion}/man/man1/jrunscript.1;
+                          update-alternatives --install /usr/bin/jweblauncher jweblauncher ${install_path}/${longversion}/bin/jweblauncher ${priority} \
+                           --slave /usr/share/man/man1/jweblauncher.1 jweblauncher.1 ${install_path}/${longversion}/man/man1/jweblauncher.1;
                           update-alternatives --install /usr/bin/keytool keytool ${install_path}/${longversion}/bin/keytool ${priority} \
                            --slave /usr/share/man/man1/keytool.1 keytool.1 ${install_path}/${longversion}/man/man1/keytool.1;
                           update-alternatives --install /usr/bin/orbd orbd ${install_path}/${longversion}/bin/orbd ${priority} \

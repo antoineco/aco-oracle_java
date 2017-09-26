@@ -10,6 +10,12 @@ class oracle_java::javalist {
 
   # associate build number to release version
   case $oracle_java::maj_version {
+    '9'     : {
+      case $oracle_java::min_version {
+        '0'     : { $buildnumber = '+181' }
+        default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
+      }
+    }
     '8'     : {
       case $oracle_java::min_version {
         '144'   : { $buildnumber   = '-b01'

@@ -94,7 +94,9 @@ class oracle_java (
   }
 
   # set to latest release if no minor version was provided
-  if $version == '8' {
+  if $version == '9' {
+    $version_real = '9u0'
+  } elsif $version == '8' {
     $version_real = '8u144'
   } elsif $version == '7' {
     $version_real = '7u80'
@@ -117,11 +119,15 @@ class oracle_java (
   $min_version = $array_version[1]
 
   # remove extra particle if minor version is 0
-  $version_final = delete($oracle_java::version_real, 'u0')
-  $longversion = $min_version ? {
-    '0'       => "${oracle_java::type}1.${maj_version}.0",
-    /^[0-9]$/ => "${oracle_java::type}1.${maj_version}.0_0${min_version}",
-    default   => "${oracle_java::type}1.${maj_version}.0_${min_version}"
+  $version_final = delete($version_real, 'u0')
+  if $version_final == '9' {
+    $longversion = "${type}-9"
+  } else {
+    $longversion = $min_version ? {
+      '0'       => "${type}1.${maj_version}.0",
+      /^[0-9]$/ => "${type}1.${maj_version}.0_0${min_version}",
+      default   => "${type}1.${maj_version}.0_${min_version}"
+    }
   }
 
   # define installer filename
@@ -133,6 +139,7 @@ class oracle_java (
           default : { $filename_real = "${type}-${version_final}-linux-${arch}.bin" }
         }
       }
+      '9'     : { $filename_real = "${type}-${version_final}_linux-${arch}_bin.${format_real}" }
       default : { $filename_real = "${type}-${version_final}-linux-${arch}.${format_real}" }
     }
   } else {
@@ -176,7 +183,9 @@ class oracle_java (
   }
 
   # define package name
-  if versioncmp($version_final, '8u20') >= 0 {
+  if $version_final == '9' {
+    $packagename = "${longversion}-9-ga"
+  } elsif versioncmp($version_final, '8u20') >= 0 {
     $packagename = $longversion
   } else {
     $packagename = $type
