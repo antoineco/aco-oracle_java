@@ -2,38 +2,12 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.0.0
   - 2.1.10
-  - 2.2.5
-  - 2.3.1
+  - 2.2.8
+  - 2.3.5
 env:
-  - PUPPET_GEM_VERSION="~> 3.4.0"
-  - PUPPET_GEM_VERSION="~> 3.5.0"
-  - PUPPET_GEM_VERSION="~> 3.6.0"
-  - PUPPET_GEM_VERSION="~> 3.7.0"
-  - PUPPET_GEM_VERSION="~> 3.8.0"
-  - PUPPET_GEM_VERSION="~> 4.4.0"
-  - PUPPET_GEM_VERSION="~> 4.6.0"
+  - PUPPET_GEM_VERSION="~> 4.7.0"
+  - PUPPET_GEM_VERSION="~> 4.9.0"
+  - PUPPET_GEM_VERSION="~> 4.10.0"
 matrix:
-  exclude:
-    - rvm: 2.2.5
-      env: PUPPET_GEM_VERSION="~> 3.4.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.4.0"
-    - rvm: 2.2.5
-      env: PUPPET_GEM_VERSION="~> 3.5.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.5.0"
-    - rvm: 2.2.5
-      env: PUPPET_GEM_VERSION="~> 3.6.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.6.0"
-    - rvm: 2.2.5
-      env: PUPPET_GEM_VERSION="~> 3.7.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.7.0"
-    - rvm: 2.2.5
-      env: PUPPET_GEM_VERSION="~> 3.8.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.8.0"
   fast_finish: true
