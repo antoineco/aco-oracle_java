@@ -95,7 +95,7 @@ class oracle_java (
 
   # set to latest release if no minor version was provided
   if $version == '8' {
-    $version_real = '8u141'
+    $version_real = '8u144'
   } elsif $version == '7' {
     $version_real = '7u80'
   } elsif $version == '6' {
