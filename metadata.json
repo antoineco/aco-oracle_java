@@ -5,7 +5,7 @@
   "project_page": "https://github.com/antoineco/aco-oracle_java",
   "source": "git://github.com/antoineco/aco-oracle_java.git",
   "summary": "Puppet module to install Oracle Java on Linux systems",
-  "version": "2.8.2",
+  "version": "2.8.3",
   "tags": ["jre","jdk","oracle","java"],
   "dependencies": [
     {
@@ -14,7 +14,7 @@
     },
     {
       "name": "puppet/archive",
-      "version_requirement": ">= 0.4.4 < 2.0.0"
+      "version_requirement": ">= 0.4.4 < 3.0.0"
     }
   ],
   "requirements": [
@@ -89,7 +89,8 @@
         "13.1",
         "13.2",
         "42.1",
-        "42.2"
+        "42.2",
+        "42.3"
       ]
     },
     {

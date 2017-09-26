@@ -1,3 +1,8 @@
+### 2.8.3
+
+* Add support for Java '8u144' ([mtron](https://github.com/mtron))
+* Add support for Java 9
+
 ### 2.8.2
 
 * Add support for Java '8u141' ([mtron](https://github.com/mtron))
