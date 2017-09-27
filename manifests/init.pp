@@ -12,6 +12,10 @@
 #   envionment type to install (valid: 'jre'|'jdk')
 # [*format*]
 #   archive format (valid: 'rpm'|'tar.gz')
+# [*ssousername*]
+#   user name of oracle.com account
+# [*ssopassword*]
+#   password of oracle.com account
 # [*install_path*]
 #   defines the root path where the Java archives are extracted. Requires 'tar.gz' format
 # [*check_checksum*]
@@ -56,6 +60,8 @@ class oracle_java (
   $build           = undef,
   $type            = 'jre',
   $format          = undef,
+  $ssousername     = undef,
+  $ssopassword     = undef,
   $check_checksum  = true,
   $checksum        = undef,
   $add_alternative = false,
@@ -178,8 +184,10 @@ class oracle_java (
   # define download URL
   if !$download_url {
     $download_url_real = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build_real}${urlcode_real}"
+    $oracle_url = true
   } else {
     $download_url_real = $download_url
+    $oracle_url = false
   }
 
   # define package name

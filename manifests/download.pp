@@ -22,11 +22,20 @@ class oracle_java::download {
   }
 
   Archive {
-    cookie       => 'oraclelicense=accept-securebackup-cookie',
-    source       => "${oracle_java::download_url_real}/${oracle_java::filename_real}",
     proxy_server => $oracle_java::proxy_server,
     proxy_type   => $oracle_java::proxy_type,
     require      => File[$oracle_java::install_path]
+  }
+
+  # pass credentials to Oracle SSO for authenticated downloads
+  if $oracle_java::oracle_url {
+    Archive {
+      source => oracle_sso("${oracle_java::download_url_real}/${oracle_java::filename_real}", $oracle_java::ssousername, $oracle_java::ssopassword)
+    }
+  } else {
+    Archive {
+      source => "${oracle_java::download_url_real}/${oracle_java::filename_real}"
+    }
   }
 
   # with checksum check
