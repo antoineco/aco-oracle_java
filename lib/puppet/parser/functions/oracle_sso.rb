@@ -18,16 +18,16 @@ module Puppet::Parser::Functions
     begin
       response, _ = PuppetX::Util.request(fileuri, 'HEAD', cookies)
       if response.uri.host == 'login.oracle.com'
-        info("Authentication required for #{fileuri}")
+        debug("Authentication required for #{fileuri}")
       elsif response.uri.request_uri.include?('AuthParam=')
-        info("Authentication not required for #{fileuri}")
+        debug("Authentication not required for #{fileuri}")
         return response.uri.to_s
       else
         raise "Unknown failure while fetching #{fileuri}"
       end
     rescue Net::HTTPServerException => e
-      info("File not found at #{fileuri}")
-      info('Trying authenticated download...')
+      debug("File not found at #{fileuri}")
+      debug('Trying authenticated download...')
       auth_required = true
       fileuri = fileuri.gsub!('otn-pub', 'otn')
     end
@@ -39,18 +39,18 @@ module Puppet::Parser::Functions
     #
 
     # retrieve SSO form and read OAM_REQ parameter value
-    info('Retrieving Oracle.com SSO form.')
+    debug('Retrieving Oracle.com SSO form.')
     response, cookies = PuppetX::Util.request(fileuri, 'GET', cookies)
     matchdata = /name="OAM_REQ" value="(.+?)"/.match(response.body)
     if matchdata and !matchdata.captures.nil?
       oamreq = matchdata[1]
-      info('Found OAM_REQ parameter from Oracle.com SSO form.')
+      debug('Found OAM_REQ parameter from Oracle.com SSO form.')
     else
       raise 'Could not retrieve OAM_REQ parameter from Oracle.com SSO form.'
     end
 
     # submit authentication form
-    info('Submitting Oracle.com SSO form.')
+    debug('Submitting Oracle.com SSO form.')
     ssouri = URI('https://login.oracle.com/oam/server/sso/auth_cred_submit')
     cookies.push('s_cc=true')
 
@@ -63,7 +63,7 @@ module Puppet::Parser::Functions
     when Net::HTTPRedirection
       location = response['location']
       if URI(location).request_uri.start_with?('/osso_login_success')
-        info('Sign-on success.')
+        debug('Sign-on success.')
         response.get_fields('set-cookie').each { |c| cookies.push(c.split('; ')[0]) }
       else
         raise 'Sign-on failed. Check your Oracle.com credentials.'
