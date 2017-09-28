@@ -1,7 +1,9 @@
 # oracle_java
 [![Build Status](https://travis-ci.org/antoineco/aco-oracle_java.svg?branch=master)](https://travis-ci.org/antoineco/aco-oracle_java)
 
-*By using this module you acknowledge that you have read and accepted the terms of the [Oracle Binary Code License Agreement for Java SE](http://www.oracle.com/technetwork/java/javase/terms/license/)*
+*By using this module you acknowledge that you have read and accepted the terms of the [Oracle Binary Code License Agreement for Java SE](http://www.oracle.com/technetwork/java/javase/terms/license/).*
+
+*Downloads from the Oracle Java Archive require an [Oracle.com account](https://login.oracle.com/mysso/signon.jsp).*
 
 #### Table of Contents
 
@@ -48,8 +50,10 @@ Install a specific version of the JDK
 
 ```puppet
 class { 'oracle_java':
-  version => '7u45',
-  type    => 'jdk'
+  version     => '7u45',
+  type        => 'jdk',
+  ssousername => 'me@example.com',	# only for packages from the Oracle Java Archive
+  ssopassword => 'mypassword'		#
 }
 ```
 
@@ -133,6 +137,12 @@ Java version to install, formatted as '*major_version*'u'*minor_version*' or sim
 
 ##### `format`
 What format of installation archive to retrieve. Valid values are `rpm` and `tar.gz`. Default depends on the platform.
+
+##### `ssousername`
+Oracle account username. Used to authenticate against Oracle.com Single Sign-on service and download packages from the Oracle Java Archive.
+
+##### `ssopassword`
+Oracle account password.
 
 ##### `install_path`
 Absolute root path where the Oracle Java archives are extracted. Requires `format` set to `tar.gz`. Defaults to `/usr/java`.

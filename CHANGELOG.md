@@ -1,3 +1,9 @@
+### 2.9.0
+
+* Add Oracle.com Single Sign-on authentication
+  - re-enables downloads from the Oracle Java Archive
+  - new parameters `ssousername`, `ssopassword`
+
 ### 2.8.3
 
 * Add support for Java '8u144' ([mtron](https://github.com/mtron))
@@ -17,11 +23,11 @@
 
 * Add support for Java '8u121'
 * Ease the installation of new Java SE releases using optional parameters (without updating the module)
- - `build`
- - `urlcode`
+  - `build`
+  - `urlcode`
 * **Warning** the following parameters were replaced:
- - `custom_download_url`: renamed to `download_url` and complemented by a new `filename` parameter
- - `custom_checksum`: renamed to `checksum`
+  - `custom_download_url`: renamed to `download_url` and complemented by a new `filename` parameter
+  - `custom_checksum`: renamed to `checksum`
 
 ### 2.7.4
 
@@ -31,8 +37,8 @@
 ### 2.7.3
 
 * Unset `provider` parameter on all `archive` resources (from `puppet-archive` module)
- - quick and dirty workaround until [SERVER-94](https://tickets.puppetlabs.com/browse/SERVER-94) gets fixed
- - **Warning:** may break behind a HTTP proxy (untested)
+  - quick and dirty workaround until [SERVER-94](https://tickets.puppetlabs.com/browse/SERVER-94) gets fixed
+  - **Warning:** may break behind a HTTP proxy (untested)
 * Tested on Fedora 25, Amazon Linux 2016.09
 
 ### 2.7.2
