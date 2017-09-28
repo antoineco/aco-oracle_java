@@ -125,9 +125,9 @@ define oracle_java::installation (
     # associate build number to release version
     case $maj_version {
       '9'     : {
-        case $oracle_java::min_version {
+        case $min_version {
           '0'     : { $buildnumber = '+181' }
-          default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
+          default : { fail("Unreleased Java SE version ${version_real}") }
         }
       }
       '8'     : {
@@ -224,8 +224,10 @@ define oracle_java::installation (
   # define download URL
   if !$download_url {
     $download_url_real = "http://download.oracle.com/otn-pub/java/jdk/${version_final}${build_real}${urlcode_real}"
+    $oracle_url = true
   } else {
     $download_url_real = $download_url
+    $oracle_url = false
   }
 
   # -------------#
@@ -552,11 +554,20 @@ define oracle_java::installation (
   }
 
   Archive {
-    cookie       => 'oraclelicense=accept-securebackup-cookie',
-    source       => "${download_url_real}/${filename_real}",
     proxy_server => $proxy_server,
     proxy_type   => $proxy_type,
     require      => File[$install_path]
+  }
+
+  # pass credentials to Oracle SSO for authenticated downloads
+  if $oracle_url {
+    Archive {
+      source => oracle_sso("${download_url_real}/${filename_real}", $oracle_java::ssousername, $oracle_java::ssopassword)
+    }
+  } else {
+    Archive {
+      source => "${download_url_real}/${filename_real}",
+    }
   }
 
   # download archive
