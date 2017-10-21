@@ -1,3 +1,8 @@
+### 2.9.1
+
+* Add support for Java '8u151/8u152'
+* Add support for Java 9.0.1
+
 ### 2.9.0
 
 * Add Oracle.com Single Sign-on authentication
