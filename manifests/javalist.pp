@@ -12,12 +12,17 @@ class oracle_java::javalist {
   case $oracle_java::maj_version {
     '9'     : {
       case $oracle_java::min_version {
+        '1'     : { $buildnumber = '+11' }
         '0'     : { $buildnumber = '+181' }
         default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
       }
     }
     '8'     : {
       case $oracle_java::min_version {
+        '152'   : { $buildnumber   = '-b16'
+                    $urlcodeoracle = '/aa0333dd3019491ca4f6ddbe78cdb6d0' }
+        '151'   : { $buildnumber   = '-b12'
+                    $urlcodeoracle = '/e758a0de34e24606bca991d704f6dcbf' }
         '144'   : { $buildnumber   = '-b01'
                     $urlcodeoracle = '/090f390dda5b47b9b721c7dfaa008135' }
         '141'   : { $buildnumber   = '-b15'

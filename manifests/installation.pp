@@ -73,9 +73,9 @@ define oracle_java::installation (
 
   # set to latest release if no minor version was provided
   if $version == '9' {
-    $version_real = '9u0'
+    $version_real = '9.0.1'
   } elsif $version == '8' {
-    $version_real = '8u144'
+    $version_real = '8u152'
   } elsif $version == '7' {
     $version_real = '7u80'
   } elsif $version == '6' {
@@ -92,14 +92,20 @@ define oracle_java::installation (
   }
 
   # get major/minor version numbers
-  $array_version = split($version_real, 'u')
-  $maj_version = $array_version[0]
-  $min_version = $array_version[1]
+  if versioncmp($version_real, '9') >= 0 {
+    $array_version = split($version_real, '\.')
+    $maj_version = $array_version[0]
+    $min_version = $array_version[2]
+  } else {
+    $array_version = split($version_real, 'u')
+    $maj_version = $array_version[0]
+    $min_version = $array_version[1]
+  }
 
   # remove extra particle if minor version is 0
   $version_final = delete($version_real, 'u0')
-  if $version_final == '9' {
-    $longversion = "${type}-9"
+  if versioncmp($version_final, '9') >= 0 {
+    $longversion = "${type}-${version_final}"
   } else {
     $longversion = $min_version ? {
       '0'       => "${type}1.${maj_version}.0",
@@ -126,12 +132,17 @@ define oracle_java::installation (
     case $maj_version {
       '9'     : {
         case $min_version {
+          '1'     : { $buildnumber = '+11' }
           '0'     : { $buildnumber = '+181' }
           default : { fail("Unreleased Java SE version ${version_real}") }
         }
       }
       '8'     : {
         case $min_version {
+          '152'   : { $buildnumber = '-b16'
+                      $urlcodeoracle = '/aa0333dd3019491ca4f6ddbe78cdb6d0' }
+          '151'   : { $buildnumber = '-b12'
+                      $urlcodeoracle = '/e758a0de34e24606bca991d704f6dcbf' }
           '144'   : { $buildnumber = '-b01'
                       $urlcodeoracle = '/090f390dda5b47b9b721c7dfaa008135' }
           '141'   : { $buildnumber = '-b15'
@@ -244,11 +255,34 @@ define oracle_java::installation (
     if !$checksum {
       #-- start checksum --#
       case $filename_real {
+        # 9.0.1
+        'jdk-9.0.1_linux-x64_bin.rpm'    : { $md5checksum = '86cce47a74dfff3e224abe7a35ee7420' }
+        'jdk-9.0.1_linux-x64_bin.tar.gz' : { $md5checksum = 'f6a5d86a9d371e9c416c1f82213b326f' }
+        'jre-9.0.1_linux-x64_bin.rpm'    : { $md5checksum = '72af66d314fce1d81fc399ea7c6cdf29' }
+        'jre-9.0.1_linux-x64_bin.tar.gz' : { $md5checksum = '008913963c0c053d3c52bd6e3473010d' }
         # 9
         'jdk-9_linux-x64_bin.rpm'     : { $md5checksum = '5f2c490f08d6da7ce8807cdeea2f282d' }
         'jdk-9_linux-x64_bin.tar.gz'  : { $md5checksum = 'abe68b8ba280d11cb8f937410543750c' }
         'jre-9_linux-x64_bin.rpm'     : { $md5checksum = '3d0bd97925fa3d68746c2849c6aa1d2b' }
         'jre-9_linux-x64_bin.tar.gz'  : { $md5checksum = '113a784957235eb78ef418f89e3e6b88' }
+        # 8u152
+        'jdk-8u152-linux-i586.rpm'    : { $md5checksum = '953f8cbdd09615c44545860d969d0937' }
+        'jdk-8u152-linux-i586.tar.gz' : { $md5checksum = '0c70ea43ad5baf0349a16c734bc2fb41' }
+        'jdk-8u152-linux-x64.rpm'     : { $md5checksum = 'b6979be30bdc4077dc93cd99134ad84d' }
+        'jdk-8u152-linux-x64.tar.gz'  : { $md5checksum = '20dddd28ced3179685a5f58d3fcbecd8' }
+        'jre-8u152-linux-i586.rpm'    : { $md5checksum = '52b57d4cec8d8f3e6bc7c82e87d18973' }
+        'jre-8u152-linux-i586.tar.gz' : { $md5checksum = '1ea9344c8d223694e05865e32edc3656' }
+        'jre-8u152-linux-x64.rpm'     : { $md5checksum = '865f94da68cb41faeddad894ffa01b49' }
+        'jre-8u152-linux-x64.tar.gz'  : { $md5checksum = '32c9a36d3869b13db18e8bd5bfc14dcb' }
+        # 8u151
+        'jdk-8u151-linux-i586.rpm'    : { $md5checksum = '47116151056e99506e103c2fd84c2da4' }
+        'jdk-8u151-linux-i586.tar.gz' : { $md5checksum = 'ecff0de91938a43b6efb312f6b2994f2' }
+        'jdk-8u151-linux-x64.rpm'     : { $md5checksum = '7f09893e12aadef39e0751ec657cc7d8' }
+        'jdk-8u151-linux-x64.tar.gz'  : { $md5checksum = '774d8cb584d9ebedef8eba9ee2dfe113' }
+        'jre-8u151-linux-i586.rpm'    : { $md5checksum = '3ee20326ff2fb9ae5cd344689d3fcbdf' }
+        'jre-8u151-linux-i586.tar.gz' : { $md5checksum = '6adfa27e4eb8e4acc355e598139b46e7' }
+        'jre-8u151-linux-x64.rpm'     : { $md5checksum = 'a540c278bc158c4abf263f883ec3d207' }
+        'jre-8u151-linux-x64.tar.gz'  : { $md5checksum = '47ada926885c43f4ee2a8426a44af634' }
         # 8u144
         'jdk-8u144-linux-i586.rpm'    : { $md5checksum = 'eb35a77bcbd2466d9c96142e5a0d9b87' }
         'jdk-8u144-linux-i586.tar.gz' : { $md5checksum = '13d771707f326b02e2497c99e0a2ca37' }

@@ -101,9 +101,9 @@ class oracle_java (
 
   # set to latest release if no minor version was provided
   if $version == '9' {
-    $version_real = '9u0'
+    $version_real = '9.0.1'
   } elsif $version == '8' {
-    $version_real = '8u144'
+    $version_real = '8u152'
   } elsif $version == '7' {
     $version_real = '7u80'
   } elsif $version == '6' {
@@ -120,14 +120,20 @@ class oracle_java (
   }
 
   # get major/minor version numbers
-  $array_version = split($version_real, 'u')
-  $maj_version = $array_version[0]
-  $min_version = $array_version[1]
+  if versioncmp($version_real, '9') >= 0 {
+    $array_version = split($version_real, '\.')
+    $maj_version = $array_version[0]
+    $min_version = $array_version[2]
+  } else {
+    $array_version = split($version_real, 'u')
+    $maj_version = $array_version[0]
+    $min_version = $array_version[1]
+  }
 
   # remove extra particle if minor version is 0
   $version_final = delete($version_real, 'u0')
-  if $version_final == '9' {
-    $longversion = "${type}-9"
+  if versioncmp($version_final, '9') >= 0 {
+    $longversion = "${type}-${version_final}"
   } else {
     $longversion = $min_version ? {
       '0'       => "${type}1.${maj_version}.0",
@@ -191,8 +197,8 @@ class oracle_java (
   }
 
   # define package name
-  if $version_final == '9' {
-    $packagename = "${longversion}-9-ga"
+  if versioncmp($version_final, '8u151') >= 0 and $maj_version != '9' {
+    $packagename = "${type}1.${maj_version}"
   } elsif versioncmp($version_final, '8u20') >= 0 {
     $packagename = $longversion
   } else {
