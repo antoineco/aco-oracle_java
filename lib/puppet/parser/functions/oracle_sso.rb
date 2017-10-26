@@ -1,5 +1,10 @@
 module Puppet::Parser::Functions
-  require 'puppet_x/util.rb'
+  begin
+    require 'puppet_x/aco/util'
+  rescue LoadError
+    mod = Puppet::Module.find('oracle_java', Puppet[:environment].to_s)
+    require File.join mod.path, 'lib/puppet_x/aco/util'
+  end
 
   newfunction(:oracle_sso, :type => :rvalue) do |args|
     fileuri = args[0]
@@ -16,7 +21,7 @@ module Puppet::Parser::Functions
     #
 
     begin
-      response, _ = PuppetX::Util.request(fileuri, 'HEAD', cookies)
+      response, _ = PuppetX::Aco::Util.request(fileuri, 'HEAD', cookies)
       if response.uri.host == 'login.oracle.com'
         debug("Authentication required for #{fileuri}")
       elsif response.uri.request_uri.include?('AuthParam=')
@@ -40,7 +45,7 @@ module Puppet::Parser::Functions
 
     # retrieve SSO form and read OAM_REQ parameter value
     debug('Retrieving Oracle.com SSO form.')
-    response, cookies = PuppetX::Util.request(fileuri, 'GET', cookies)
+    response, cookies = PuppetX::Aco::Util.request(fileuri, 'GET', cookies)
     matchdata = /name="OAM_REQ" value="(.+?)"/.match(response.body)
     if matchdata and !matchdata.captures.nil?
       oamreq = matchdata[1]
@@ -79,7 +84,7 @@ module Puppet::Parser::Functions
     #
 
     begin
-      response, _ = PuppetX::Util.request(location, 'HEAD', cookies)
+      response, _ = PuppetX::Aco::Util.request(location, 'HEAD', cookies)
       if response.uri.request_uri.include?('AuthParam=')
         return response.uri.to_s
       else
