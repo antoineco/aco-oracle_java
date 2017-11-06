@@ -12,7 +12,6 @@ module Puppet::Parser::Functions
     password = args[2]
 
     cookies = ['oraclelicense=accept-securebackup-cookie']
-    auth_required = false
 
     #
     # Step 1: try unauthenticated download from given URI
@@ -21,19 +20,18 @@ module Puppet::Parser::Functions
     #
 
     begin
-      response, _ = PuppetX::Aco::Util.request(fileuri, 'HEAD', cookies)
-      if response.uri.host == 'login.oracle.com'
+      uri, _, _ = PuppetX::Aco::Util.request(fileuri, 'HEAD', cookies)
+      if uri.host == 'login.oracle.com'
         debug("Authentication required for #{fileuri}")
-      elsif response.uri.request_uri.include?('AuthParam=')
+      elsif uri.query.include?('AuthParam=')
         debug("Authentication not required for #{fileuri}")
-        return response.uri.to_s
+        return uri.to_s
       else
         raise "Unknown failure while fetching #{fileuri}"
       end
     rescue Net::HTTPServerException => e
       debug("File not found at #{fileuri}")
       debug('Trying authenticated download...')
-      auth_required = true
       fileuri = fileuri.gsub!('otn-pub', 'otn')
     end
 
@@ -45,7 +43,7 @@ module Puppet::Parser::Functions
 
     # retrieve SSO form and read OAM_REQ parameter value
     debug('Retrieving Oracle.com SSO form.')
-    response, cookies = PuppetX::Aco::Util.request(fileuri, 'GET', cookies)
+    _, response, cookies = PuppetX::Aco::Util.request(fileuri, 'GET', cookies)
     matchdata = /name="OAM_REQ" value="(.+?)"/.match(response.body)
     if matchdata and !matchdata.captures.nil?
       oamreq = matchdata[1]
@@ -59,7 +57,7 @@ module Puppet::Parser::Functions
     ssouri = URI('https://login.oracle.com/oam/server/sso/auth_cred_submit')
     cookies.push('s_cc=true')
 
-    request = Net::HTTP::Post.new(ssouri, {'user-agent' => 'Mozilla/5.0 (Puppet)', 'cookie' => cookies.join('; ')})
+    request = Net::HTTP::Post.new(ssouri.request_uri, {'user-agent' => 'Mozilla/5.0 (Puppet)', 'cookie' => cookies.join('; ')})
     request.set_form_data('ssousername' => ssousername, 'password' => password)
     request.body += "&OAM_REQ=#{oamreq}"
 
@@ -84,9 +82,9 @@ module Puppet::Parser::Functions
     #
 
     begin
-      response, _ = PuppetX::Aco::Util.request(location, 'HEAD', cookies)
-      if response.uri.request_uri.include?('AuthParam=')
-        return response.uri.to_s
+      uri, _, _ = PuppetX::Aco::Util.request(location, 'HEAD', cookies)
+      if uri.query.include?('AuthParam=')
+        return uri.to_s
       else
         raise "Unknown failure while fetching #{fileuri}"
       end

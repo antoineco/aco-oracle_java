@@ -18,7 +18,7 @@ module PuppetX
         reqmethod = Net::HTTP::Get
         end
 
-        request = reqmethod.new(uri, {'user-agent' => 'Mozilla/5.0 (Puppet)', 'cookie' => cookies.join('; ')})
+        request = reqmethod.new(uri.request_uri, {'user-agent' => 'Mozilla/5.0 (Puppet)', 'cookie' => cookies.join('; ')})
         response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
           http.request(request)
         end
@@ -31,7 +31,7 @@ module PuppetX
 
         case response
         when Net::HTTPSuccess then
-          return response, cookies
+          return uri, response, cookies
         when Net::HTTPRedirection then
           location = response['location']
           request(location, method = method, cookies, limit - 1)
