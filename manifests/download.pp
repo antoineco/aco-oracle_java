@@ -30,7 +30,7 @@ class oracle_java::download {
   # pass credentials to Oracle SSO for authenticated downloads
   if $oracle_java::oracle_url {
     Archive {
-      source => oracle_sso("${oracle_java::download_url_real}/${oracle_java::filename_real}", $oracle_java::ssousername, $oracle_java::ssopassword)
+      source => oracle_sso("${oracle_java::download_url_real}/${oracle_java::filename_real}", $oracle_java::ssousername, $oracle_java::ssopassword, $oracle_java::proxy_server, $oracle_java::proxy_type)
     }
   } else {
     Archive {
