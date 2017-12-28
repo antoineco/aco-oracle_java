@@ -1,9 +1,9 @@
 module Puppet::Parser::Functions
   begin
-    require 'puppet_x/aco/util'
+    require 'puppet_x/aco/util.rb'
   rescue LoadError
     mod = Puppet::Module.find('oracle_java', Puppet[:environment].to_s)
-    require File.join mod.path, 'lib/puppet_x/aco/util'
+    require File.join mod.path, 'lib/puppet_x/aco/util.rb'
   end
 
   newfunction(:oracle_sso, :type => :rvalue) do |args|
