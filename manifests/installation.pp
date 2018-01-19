@@ -75,7 +75,7 @@ define oracle_java::installation (
   if $version == '9' {
     $version_real = '9.0.1'
   } elsif $version == '8' {
-    $version_real = '8u152'
+    $version_real = '8u162'
   } elsif $version == '7' {
     $version_real = '7u80'
   } elsif $version == '6' {
@@ -265,6 +265,24 @@ define oracle_java::installation (
         'jdk-9_linux-x64_bin.tar.gz'  : { $md5checksum = 'abe68b8ba280d11cb8f937410543750c' }
         'jre-9_linux-x64_bin.rpm'     : { $md5checksum = '3d0bd97925fa3d68746c2849c6aa1d2b' }
         'jre-9_linux-x64_bin.tar.gz'  : { $md5checksum = '113a784957235eb78ef418f89e3e6b88' }
+        # 8u162
+        'jdk-8u162-linux-i586.rpm'    : { $md5checksum = '9d988ab9a58b469b900a4dcd5620f51e' }
+        'jdk-8u162-linux-i586.tar.gz' : { $md5checksum = '94e3be6c990e2866b87fb1b71bca6428' }
+        'jdk-8u162-linux-x64.rpm'     : { $md5checksum = '822b097cdd85710b10074b8cf82f061f' }
+        'jdk-8u162-linux-x64.tar.gz'  : { $md5checksum = '781e3779f0c134fb548bde8b8e715e90' }
+        'jre-8u162-linux-i586.rpm'    : { $md5checksum = 'c79641b78f518dfcd63a9c32ed4d2cbc' }
+        'jre-8u162-linux-i586.tar.gz' : { $md5checksum = '0ca76906eaff4735c5f19c83c9f48c0a' }
+        'jre-8u162-linux-x64.rpm'     : { $md5checksum = '1daf54bd7bbb43fabceeed002f450462' }
+        'jre-8u162-linux-x64.tar.gz'  : { $md5checksum = 'f013f8c00d7bfe1e5f0b6b94fb660ea7' }
+        # 8u161
+        'jdk-8u161-linux-i586.rpm'    : { $md5checksum = 'fdc8dc6d7474a204c0353adf04ec2122' }
+        'jdk-8u161-linux-i586.tar.gz' : { $md5checksum = 'f3ab51b9c6b8d7c3aa7f816fccbb4e18' }
+        'jdk-8u161-linux-x64.rpm'     : { $md5checksum = 'f396f618b7c059089240563d2c46b5fc' }
+        'jdk-8u161-linux-x64.tar.gz'  : { $md5checksum = '99051574a0d90871ed24a91a5d321ed2' }
+        'jre-8u161-linux-i586.rpm'    : { $md5checksum = 'b34512f9f0026089707eb9690f2b597b' }
+        'jre-8u161-linux-i586.tar.gz' : { $md5checksum = '32db95dd417fd7949922206b2a61aa19' }
+        'jre-8u161-linux-x64.rpm'     : { $md5checksum = 'ea94f2c881e06c01d6ff5255c560416b' }
+        'jre-8u161-linux-x64.tar.gz'  : { $md5checksum = '4385bc121b085862be623f4a31e7e0b4' }
         # 8u152
         'jdk-8u152-linux-i586.rpm'    : { $md5checksum = '953f8cbdd09615c44545860d969d0937' }
         'jdk-8u152-linux-i586.tar.gz' : { $md5checksum = '0c70ea43ad5baf0349a16c734bc2fb41' }

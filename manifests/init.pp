@@ -103,7 +103,7 @@ class oracle_java (
   if $version == '9' {
     $version_real = '9.0.1'
   } elsif $version == '8' {
-    $version_real = '8u152'
+    $version_real = '8u162'
   } elsif $version == '7' {
     $version_real = '7u80'
   } elsif $version == '6' {
