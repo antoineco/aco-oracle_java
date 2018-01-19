@@ -103,7 +103,7 @@ class oracle_java (
   if $version == '9' {
     $version_real = '9.0.1'
   } elsif $version == '8' {
-    $version_real = '8u152'
+    $version_real = '8u162'
   } elsif $version == '7' {
     $version_real = '7u80'
   } elsif $version == '6' {
@@ -197,7 +197,7 @@ class oracle_java (
   }
 
   # define package name
-  if versioncmp($version_final, '8u151') >= 0 and $maj_version != '9' {
+  if versioncmp($version_final, '8u162') >= 0 and $maj_version != '9' {
     $packagename = "${type}1.${maj_version}"
   } elsif versioncmp($version_final, '8u20') >= 0 {
     $packagename = $longversion
