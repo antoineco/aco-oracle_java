@@ -1,3 +1,7 @@
+### 2.9.3
+
+* Add support for Java '8u161/8u162'
+
 ### 2.9.1
 
 * Add support for Java '8u151/8u152'
