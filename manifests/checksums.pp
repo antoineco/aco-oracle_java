@@ -10,6 +10,11 @@ class oracle_java::checksums {
 
   if !$oracle_java::checksum {
     case $oracle_java::filename_real {
+      # 9.0.4
+      'jdk-9.0.4_linux-x64_bin.rpm'    : { $md5checksum = 'ae42bc8183305172395d1ac1c41b215b' }
+      'jdk-9.0.4_linux-x64_bin.tar.gz' : { $md5checksum = '41de6337d523d365dc3d9c5f862f71cc' }
+      'jre-9.0.4_linux-x64_bin.rpm'    : { $md5checksum = '6db8cc5c5d62887590ca2816b48c8423' }
+      'jre-9.0.4_linux-x64_bin.tar.gz' : { $md5checksum = 'f894ae55b8405932f4b6a75e4bf40f52' }
       # 9.0.1
       'jdk-9.0.1_linux-x64_bin.rpm'    : { $md5checksum = '86cce47a74dfff3e224abe7a35ee7420' }
       'jdk-9.0.1_linux-x64_bin.tar.gz' : { $md5checksum = 'f6a5d86a9d371e9c416c1f82213b326f' }

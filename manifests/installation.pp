@@ -64,8 +64,8 @@ define oracle_java::installation (
   $install_path = $oracle_java::install_path
 
   # parameters validation
-  if $version !~ /^([0-9]|[0-9]u[0-9]{1,3})$/ {
-    fail('$version must be formated as \'major\'u\'minor\' or just \'major\'')
+  if $version !~ /^([6-9]|[6-9]u[0-9]{1,3}|9\.[0-9]{1}\.[0-9]{1,3})$/ {
+    fail('$version must be formated as \'major\', \'major\'u\'minor\' or \'major\'.\'minor\'.\'patch\' (Java 9)')
   }
   if $type !~ /^(jre|jdk)$/ {
     fail('$type must be either \'jre\' or \'jdk\'')
@@ -73,7 +73,7 @@ define oracle_java::installation (
 
   # set to latest release if no minor version was provided
   if $version == '9' {
-    $version_real = '9.0.1'
+    $version_real = '9.0.4'
   } elsif $version == '8' {
     $version_real = '8u162'
   } elsif $version == '7' {
@@ -132,6 +132,8 @@ define oracle_java::installation (
     case $maj_version {
       '9'     : {
         case $min_version {
+          '4'     : { $buildnumber   = '+11'
+                      $urlcodeoracle = '/c2514751926b4512b076cc82f959763f' }
           '1'     : { $buildnumber = '+11' }
           '0'     : { $buildnumber = '+181' }
           default : { fail("Unreleased Java SE version ${version_real}") }
@@ -259,6 +261,11 @@ define oracle_java::installation (
     if !$checksum {
       #-- start checksum --#
       case $filename_real {
+        # 9.0.4
+        'jdk-9.0.4_linux-x64_bin.rpm'    : { $md5checksum = 'ae42bc8183305172395d1ac1c41b215b' }
+        'jdk-9.0.4_linux-x64_bin.tar.gz' : { $md5checksum = '41de6337d523d365dc3d9c5f862f71cc' }
+        'jre-9.0.4_linux-x64_bin.rpm'    : { $md5checksum = '6db8cc5c5d62887590ca2816b48c8423' }
+        'jre-9.0.4_linux-x64_bin.tar.gz' : { $md5checksum = 'f894ae55b8405932f4b6a75e4bf40f52' }
         # 9.0.1
         'jdk-9.0.1_linux-x64_bin.rpm'    : { $md5checksum = '86cce47a74dfff3e224abe7a35ee7420' }
         'jdk-9.0.1_linux-x64_bin.tar.gz' : { $md5checksum = 'f6a5d86a9d371e9c416c1f82213b326f' }

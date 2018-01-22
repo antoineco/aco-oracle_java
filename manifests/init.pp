@@ -89,8 +89,8 @@ class oracle_java (
   }
 
   # parameters validation
-  if $version !~ /^([0-9]|[0-9]u[0-9]{1,3})$/ {
-    fail('$version must be formated as \'major\'u\'minor\' or just \'major\'')
+  if $version !~ /^([6-9]|[6-9]u[0-9]{1,3}|9\.[0-9]{1}\.[0-9]{1,3})$/ {
+    fail('$version must be formated as \'major\', \'major\'u\'minor\' or \'major\'.\'minor\'.\'patch\' (Java 9)')
   }
   if $type !~ /^(jre|jdk)$/ {
     fail('$type must be either \'jre\' or \'jdk\'')
@@ -101,7 +101,7 @@ class oracle_java (
 
   # set to latest release if no minor version was provided
   if $version == '9' {
-    $version_real = '9.0.1'
+    $version_real = '9.0.4'
   } elsif $version == '8' {
     $version_real = '8u162'
   } elsif $version == '7' {
@@ -197,7 +197,7 @@ class oracle_java (
   }
 
   # define package name
-  if versioncmp($version_final, '8u162') >= 0 and $maj_version != '9' {
+  if versioncmp($version_final, '8u151') >= 0 and $maj_version != '9' {
     $packagename = "${type}1.${maj_version}"
   } elsif versioncmp($version_final, '8u20') >= 0 {
     $packagename = $longversion

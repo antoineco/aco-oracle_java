@@ -12,6 +12,8 @@ class oracle_java::javalist {
   case $oracle_java::maj_version {
     '9'     : {
       case $oracle_java::min_version {
+        '4'     : { $buildnumber   = '+11'
+                    $urlcodeoracle = '/c2514751926b4512b076cc82f959763f' }
         '1'     : { $buildnumber = '+11' }
         '0'     : { $buildnumber = '+181' }
         default : { fail("Unreleased Java SE version ${oracle_java::version_real}") }
