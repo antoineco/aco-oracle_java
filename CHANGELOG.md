@@ -1,6 +1,12 @@
+### 2.9.3
+
+* Add support for Java 9.0.4
+* Fix "package is already installed" errors on RPM-based Linux distributions
+
 ### 2.9.2
 
-Add support for Java '8u161/8u162' ([mtron](https://github.com/mtron))
+* Add support for Java '8u161/8u162' ([mtron](https://github.com/mtron))
+* Fix Oracle SSO in client/server setups
 
 ### 2.9.1
 
