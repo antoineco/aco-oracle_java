@@ -21,6 +21,7 @@ class oracle_java::install::targz {
 
   # fix permissions
   file { "${oracle_java::install_path}/${oracle_java::longversion}":
+    ensure   => directory,
     recurse  => true,
     owner    => 'root',
     group    => 'root',
