@@ -4,7 +4,7 @@ module PuppetX
 
       require 'net/http'
 
-      def self.request(uri_str, method = nil, cookies = [], limit = 10)
+      def self.request(uri_str, method = nil, cookies = [], proxy_addr = nil, proxy_port = nil, limit = 10)
         raise ArgumentError, 'too many HTTP redirects' if limit == 0
 
         uri = URI(uri_str)
@@ -19,7 +19,7 @@ module PuppetX
         end
 
         request = reqmethod.new(uri.request_uri, {'user-agent' => 'Mozilla/5.0 (Puppet)', 'cookie' => cookies.join('; ')})
-        response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+        response = Net::HTTP.start(uri.host, uri.port, proxy_addr, proxy_port, :use_ssl => uri.scheme == 'https') do |http|
           http.request(request)
         end
 
@@ -34,7 +34,7 @@ module PuppetX
           return uri, response, cookies
         when Net::HTTPRedirection then
           location = response['location']
-          request(location, method = method, cookies, limit - 1)
+          request(location, method = method, cookies, proxy_addr, proxy_port, limit - 1)
         else
           return response.value, nil
         end

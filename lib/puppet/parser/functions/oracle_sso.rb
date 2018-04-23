@@ -10,6 +10,17 @@ module Puppet::Parser::Functions
     fileuri = args[0]
     ssousername = args[1]
     password = args[2]
+    proxy_server = args[3]
+    proxy_type = args[4]
+
+    if proxy_server
+      proxy_uri = URI(proxy_server)
+      unless proxy_uri.scheme
+        proxy_uri = URI("#{proxy_type}://#{proxy_server}")
+      end
+      proxy_addr = proxy_uri.hostname
+      proxy_port = proxy_uri.port
+    end
 
     cookies = ['oraclelicense=accept-securebackup-cookie']
 
@@ -23,7 +34,7 @@ module Puppet::Parser::Functions
       uri, _, _ = PuppetX::Aco::Util.request(fileuri, 'HEAD', cookies)
       if uri.host == 'login.oracle.com'
         debug("Authentication required for #{fileuri}")
-      elsif uri.query.include?('AuthParam=')
+      elsif uri.query and uri.query.include?('AuthParam=')
         debug("Authentication not required for #{fileuri}")
         return uri.to_s
       else
@@ -43,7 +54,7 @@ module Puppet::Parser::Functions
 
     # retrieve SSO form and read OAM_REQ parameter value
     debug('Retrieving Oracle.com SSO form.')
-    _, response, cookies = PuppetX::Aco::Util.request(fileuri, 'GET', cookies)
+    _, response, cookies = PuppetX::Aco::Util.request(fileuri, 'GET', cookies, proxy_addr, proxy_port)
     matchdata = /name="OAM_REQ" value="(.+?)"/.match(response.body)
     if matchdata and !matchdata.captures.nil?
       oamreq = matchdata[1]
@@ -57,11 +68,12 @@ module Puppet::Parser::Functions
     ssouri = URI('https://login.oracle.com/oam/server/sso/auth_cred_submit')
     cookies.push('s_cc=true')
 
+    # begin TODO: pass body to Util.request and enforce no redirect
     request = Net::HTTP::Post.new(ssouri.request_uri, {'user-agent' => 'Mozilla/5.0 (Puppet)', 'cookie' => cookies.join('; ')})
     request.set_form_data('ssousername' => ssousername, 'password' => password)
     request.body += "&OAM_REQ=#{oamreq}"
 
-    response = Net::HTTP.start(ssouri.host, ssouri.port, :use_ssl => true) { |http| http.request(request) }
+    response = Net::HTTP.start(ssouri.host, ssouri.port, proxy_addr, proxy_port, :use_ssl => true) { |http| http.request(request) }
     case response
     when Net::HTTPRedirection
       location = response['location']
@@ -74,6 +86,7 @@ module Puppet::Parser::Functions
     else
       raise 'Sign-on failed. Check your Oracle.com credentials.'
     end
+    # end TODO
 
     #
     # Step 3: try authenticated download from transformed URI
@@ -82,8 +95,8 @@ module Puppet::Parser::Functions
     #
 
     begin
-      uri, _, _ = PuppetX::Aco::Util.request(location, 'HEAD', cookies)
-      if uri.query.include?('AuthParam=')
+      uri, _, _ = PuppetX::Aco::Util.request(location, 'HEAD', cookies, proxy_addr, proxy_port)
+      if uri.query and uri.query.include?('AuthParam=')
         return uri.to_s
       else
         raise "Unknown failure while fetching #{fileuri}"

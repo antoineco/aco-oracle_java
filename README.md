@@ -147,6 +147,12 @@ Oracle account password.
 ##### `install_path`
 Absolute root path where the Oracle Java archives are extracted. Requires `format` set to `tar.gz`. Defaults to `/usr/java`.
 
+##### `proxy_server`
+URL of a proxy server used for downloading Java archives.
+
+##### `proxy_type`
+Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Default determined by the scheme used in `proxy_server`.
+
 ##### `add_system_env`
 Add `JAVA_HOME` environment variable to the `/etc/environment` file. Boolean value. Defaults to `false`.
 
@@ -188,12 +194,6 @@ Base URL of an alternative location to download the Java archive from. Defaults 
 
 ##### `filename`
 File name of the installation package to retrieve at `${download_url}`. Defaults to the file name provided by Oracle.
-
-##### `proxy_server`
-URL of a proxy server used for downloading Java archives.
-
-##### `proxy_type`
-Type of the proxy server. Valid values are `none`, `http`, `https` and `ftp`. Default determined by the scheme used in `proxy_server`.
 
 ##### `urlcode`
 Complex code Oracle adds to the download URL since Java SE 8u121. Default determined automatically.

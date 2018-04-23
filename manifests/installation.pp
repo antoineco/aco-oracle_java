@@ -20,10 +20,6 @@
 #   base url of a custom location to fetch the installation package from
 # [*filename*]
 #   custom file name to use when downloading the installation package
-# [*proxy_server*]
-#   proxy server url
-# [*proxy_type*]
-#   proxy server type (valid: 'none'|'http'|'https'|'ftp')
 # [*urlcode*]
 #   complex code oracle started adding to the 'download_url' starting from java 8u121
 #
@@ -51,8 +47,6 @@ define oracle_java::installation (
   $add_alternative = false,
   $download_url    = undef,
   $filename        = undef,
-  $proxy_server    = undef,
-  $proxy_type      = undef,
   $urlcode         = undef) {
 
   # The base class must be included first
@@ -639,15 +633,15 @@ define oracle_java::installation (
   }
 
   Archive {
-    proxy_server => $proxy_server,
-    proxy_type   => $proxy_type,
+    proxy_server => $oracle_java::proxy_server,
+    proxy_type   => $oracle_java::proxy_type,
     require      => File[$install_path]
   }
 
   # pass credentials to Oracle SSO for authenticated downloads
   if $oracle_url {
     Archive {
-      source => oracle_sso("${download_url_real}/${filename_real}", $oracle_java::ssousername, $oracle_java::ssopassword)
+      source => oracle_sso("${download_url_real}/${filename_real}", $oracle_java::ssousername, $oracle_java::ssopassword, $oracle_java::proxy_server, $oracle_java::proxy_type)
     }
   } else {
     Archive {
