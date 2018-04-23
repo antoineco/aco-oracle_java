@@ -1,6 +1,6 @@
-### 2.9.4 (unreleased)
+### 2.9.4
 
-* Add support for Java '8u171/8u172' ([mtron](https://github.com/mtron))
+Add support for Java '8u171/8u172' ([mtron](https://github.com/mtron))
 
 ### 2.9.3
 
